@@ -8,10 +8,16 @@ public class SpawnScript : MonoBehaviour {
     public Transform enemy;
     [Tooltip("The time (in seconds) between enemies spawning.")]
     public float enemySpawnInterval = 3;
-    private float timeUntilSpawn = 0;
-
+	[Tooltip("The maximum number of enemies that can spawn on this level.")]
+	public int maxEnemiesToSpawn;
+	[Tooltip("The minimum number of enemies that can spawn on this level.")]
+	public int minEnemiesToSpawn;
+    
+	private float timeUntilSpawn = 0;
     private GameObject[] spawners;
-    private bool addedSpawners = false;
+    //private bool addedSpawners = false;
+	private bool spawning = false;
+	
 
     // Use this for initialization
     void Start()
@@ -23,21 +29,27 @@ public class SpawnScript : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        timeUntilSpawn -= Time.deltaTime;
-        if (timeUntilSpawn <= 0)
-        {
-            Instantiate(enemy, transform.position, Quaternion.identity);
-            timeUntilSpawn = enemySpawnInterval;
-        }
-
-        PrepareSpawners();
+		if (spawning == false)
+		{
+			timeUntilSpawn -= Time.deltaTime;
+			
+			if (timeUntilSpawn <= 0)
+			{
+				spawning = true;				
+				StartCoroutine("SpawnEnemy");
+				timeUntilSpawn = enemySpawnInterval;
+			}
+		}       
     }
 
-    void PrepareSpawners()
+   private IEnumerator SpawnEnemy()
     {
-        if(addedSpawners == false)
+		private int randSpawn = Random.Range(0, spawners.length); // pick a random spawner index in the array
+		private int enemiesToSpawn = Random.Range(minEnemiesToSpawn, maxEnemiesToSpawn);
+        while (enemiesToSpawn > 0)
         {
-            //spawner.s
+			enemiesToSpawn--;
+			Instantiate(enemy, spawners[randSpawn].transform.position, Quaternion.identity);
+            yield return new WaitForSeconds(0.5);            
         }
     }
-}
