@@ -4,13 +4,17 @@ using UnityEngine;
 
 public class SpawnScript : MonoBehaviour {
 
+    [Tooltip("Add the enemy to be spawned.")]
     public Transform enemy;
-    //public Transform enemySpawner;
+    [Tooltip("The time (in seconds) between enemies spawning.")]
     public float enemySpawnInterval = 3;
     private float timeUntilSpawn = 0;
 
     // Use this for initialization
-    void Start(){ }
+    void Start()
+    {
+
+    }
 
     // Update is called once per frame
     void Update()
