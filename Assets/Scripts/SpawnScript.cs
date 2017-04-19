@@ -33,23 +33,25 @@ public class SpawnScript : MonoBehaviour {
 		{
 			timeUntilSpawn -= Time.deltaTime;
 			
+			// make coroutine
 			if (timeUntilSpawn <= 0)
 			{
-				spawning = true;				
-				StartCoroutine("SpawnEnemy");
+				spawning = true;		
+				Instantiate(enemy, transform.position, Quaternion.identity);				
+				// StartCoroutine("SpawnEnemy");
 				timeUntilSpawn = enemySpawnInterval;
 			}
 		}       
     }
 
-   private IEnumerator SpawnEnemy()
-    {
-		private int randSpawn = Random.Range(0, spawners.length); // pick a random spawner index in the array
-		private int enemiesToSpawn = Random.Range(minEnemiesToSpawn, maxEnemiesToSpawn);
-        while (enemiesToSpawn > 0)
-        {
-			enemiesToSpawn--;
-			Instantiate(enemy, spawners[randSpawn].transform.position, Quaternion.identity);
-            yield return new WaitForSeconds(0.5);            
-        }
-    }
+   // private IEnumerator SpawnEnemy()
+    // {
+		// private int randSpawn = Random.Range(0, spawners.length); // pick a random spawner index in the array
+		// private int enemiesToSpawn = Random.Range(minEnemiesToSpawn, maxEnemiesToSpawn);
+        // while (enemiesToSpawn > 0)
+        // {
+			// enemiesToSpawn--;
+			// Instantiate(enemy, spawners[randSpawn].transform.position, Quaternion.identity);
+            // yield return new WaitForSeconds(0.5);            
+        // }
+    // }
