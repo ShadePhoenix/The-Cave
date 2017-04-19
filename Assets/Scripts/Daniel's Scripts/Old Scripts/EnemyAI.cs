@@ -78,8 +78,8 @@ public class EnemyAI : MonoBehaviour {
         currentHealth = currentHealth - damage;
         if (currentHealth <= 0)
         {
-            UIManager.score += scoreWorth;
-            UIManager.money += moneyWorth;
+            //UIManager.score += scoreWorth;
+            //UIManager.money += moneyWorth;
             canvas.GetComponent<UIManager>().UpdateStats();
 //            EnemySpawner.defeatedEnemies++;
             Destroy(gameObject);
