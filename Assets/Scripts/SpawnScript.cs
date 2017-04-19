@@ -10,10 +10,14 @@ public class SpawnScript : MonoBehaviour {
     public float enemySpawnInterval = 3;
     private float timeUntilSpawn = 0;
 
+    private GameObject[] spawners;
+    private bool addedSpawners = false;
+
     // Use this for initialization
     void Start()
     {
-
+       // GameObject[] tempSpawners;
+        spawners = GameObject.FindGameObjectsWithTag("Spawners");
     }
 
     // Update is called once per frame
@@ -24,6 +28,16 @@ public class SpawnScript : MonoBehaviour {
         {
             Instantiate(enemy, transform.position, Quaternion.identity);
             timeUntilSpawn = enemySpawnInterval;
+        }
+
+        PrepareSpawners();
+    }
+
+    void PrepareSpawners()
+    {
+        if(addedSpawners == false)
+        {
+            //spawner.s
         }
     }
 }
