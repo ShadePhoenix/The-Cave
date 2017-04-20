@@ -13,9 +13,9 @@ public class playerController : MonoBehaviour {
     [Tooltip("Max running speed.")]
     public float maxRunSpeed = 14;
     [Tooltip("The players health.")]
-    public int health;
+    public int health = 2;
     [Tooltip("Damage player takes from normal enemies.")]
-    public int damageTakenNormal;
+    public int damageTakenNormal = 1;
     [Tooltip("How much of the global energy you use up while running per second.")]
     public int staminaDrain = 1;
     private float staminaDrainTimer = 1;
@@ -31,6 +31,7 @@ public class playerController : MonoBehaviour {
     {       
         if(health <= 0)
         {
+            Debug.Log("DEAD");
             Time.timeScale = 0;
         }
     }
@@ -71,9 +72,9 @@ public class playerController : MonoBehaviour {
     void OnCollisionEnter(Collision other)
     {
         if(other.gameObject.tag == "Enemy")
-        {
-            Debug.Log("OUCH");
-            health--;
+        {           
+            health -= damageTakenNormal;
+            Debug.Log("OUCH!");
         }
     }
 
