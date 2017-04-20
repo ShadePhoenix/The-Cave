@@ -6,10 +6,31 @@ ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:
     100000: //RootNode
+    100002: Tower1
+    100004: Tower2
+    100006: Tower3
+    100008: Tower4
     400000: //RootNode
+    400002: Tower1
+    400004: Tower2
+    400006: Tower3
+    400008: Tower4
     2300000: //RootNode
+    2300002: Tower1
+    2300004: Tower2
+    2300006: Tower3
+    2300008: Tower4
     3300000: //RootNode
+    3300002: Tower1
+    3300004: Tower2
+    3300006: Tower3
+    3300008: Tower4
     4300000: MainBase_MESH1
+    4300002: MainTower_GRP
+    4300004: Tower2
+    4300006: Tower1
+    4300008: Tower3
+    4300010: Tower4
     9500000: //RootNode
   materials:
     importMaterials: 1
