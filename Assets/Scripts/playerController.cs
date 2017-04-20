@@ -69,14 +69,14 @@ public class playerController : MonoBehaviour {
         }
     }
 
-    void OnCollisionEnter(Collision other)
-    {
-        if(other.gameObject.tag == "Enemy")
-        {           
-            health -= damageTakenNormal;
-            Debug.Log("OUCH!");
-        }
-    }
+    //void OnCollisionEnter(Collision other)
+    //{
+    //    if(other.gameObject.tag == "Enemy")
+    //    {           
+    //        health -= damageTakenNormal;
+    //        Debug.Log("OUCH!");
+    //    }
+    //}
 
     void OnTriggerEnter(Collider other)
     {

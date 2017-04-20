@@ -12,10 +12,13 @@ public class AIController : MonoBehaviour
     public int normalTurretDamageTaken = 1;
     [Tooltip("How much damage you take from the big player turret bullets.")]
     public int bigTurretDamageTaken = 5;
+    [Tooltip("How much damage you deal the player.")]
+    public int damageDealt = 1;
 
     private Animator anim;
 
-    private GameObject hero;   
+    private GameObject hero;
+    private playerController plController; 
     private GameObject target;
     private UnityEngine.AI.NavMeshAgent m_agent;
    
@@ -28,11 +31,14 @@ public class AIController : MonoBehaviour
     private bool playerTargetSet = false;
     private bool attacking = false;
 
+    private float animationTimeLeft = 1;
+
     void Start () 
 	{
         currentHealth = startHealth;
 		m_agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
-        hero = GameObject.FindGameObjectWithTag("Player");        
+        hero = GameObject.FindGameObjectWithTag("Player");
+        plController = hero.GetComponent<playerController>();
         structures = GameObject.FindGameObjectsWithTag("Base");
         anim = GetComponent<Animator>();
     }		
@@ -57,27 +63,26 @@ public class AIController : MonoBehaviour
         {
             gameObject.SetActive(false);
         }
-
-        if(attacking)
+        
+        if (anim.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
         {
-            anim.SetTrigger("Attack");
-            attacking = false;
-        }       
-    }
-
-    void OnCollisionEnter(Collision other)
-    {
-        if(other.gameObject.tag == "Player" )
-        {
-            attacking = true;
+            animationTimeLeft -= Time.deltaTime;
+            float dist = Vector3.Distance(transform.position, hero.transform.position);
+            if (animationTimeLeft <= 0 && (dist <= 1 && dist >= -1))
+            {
+                animationTimeLeft = 1;
+                plController.health -= damageDealt;
+            }
         }
     }
 
-    void OnCollisionExit(Collision other)
+    void OnCollisionStay(Collision other)
     {
-        if (other.gameObject.tag == "Player")
-            attacking = false;
-    }
+        if(other.gameObject.tag == "Player" )
+        {
+            anim.SetTrigger("Attack");           
+        }
+    }        
 
     void OnTriggerEnter(Collider other)
     {        
