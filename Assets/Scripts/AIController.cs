@@ -2,14 +2,17 @@
 using System.Collections;
 
 public class AIController : MonoBehaviour 
-{
-    // [Tooltip("Add the player as a target for nav mesh.")]
-    //public Transform player;
+{    
     [Tooltip("The range that it can target the players base from. There should always be some object in range or they will wander aimlessly.")]
     public float targetRange;
+    [Tooltip("Health of the enemy.")]
+    public int health = 10;
+    [Tooltip("How much damage you take from normal turret bullets.")]
+    public int normalTurretDamageTaken = 1;
+    [Tooltip("How much damage you take from the big player turret bullets.")]
+    public int bigTurretDamageTaken = 5;    
 
-    private GameObject hero;
-    private GameObject turret;
+    private GameObject hero;   
     private GameObject target;
     private UnityEngine.AI.NavMeshAgent m_agent;
     public LayerMask mask;
@@ -20,21 +23,18 @@ public class AIController : MonoBehaviour
     private GameObject[] structures;
 
     private bool targetStructureSet = false;
+    private bool playerTargetSet = false;
 
     void Start () 
 	{
 		m_agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
-        hero = GameObject.FindGameObjectWithTag("Player");
-        turret = GameObject.FindGameObjectWithTag("Base");
-        structures = GameObject.FindGameObjectsWithTag("Base");
-    }	
-	
+        hero = GameObject.FindGameObjectWithTag("Player");        
+        structures = GameObject.FindGameObjectsWithTag("Base");       
+    }		
 	void Update () 
-	{
-        //RangeMonitor();
-
+	{   
         if (playerController.playerAtBase == false)
-        {
+        {            
             targetStructureSet = false;
             m_agent.SetDestination(hero.transform.position);
         }
@@ -45,40 +45,21 @@ public class AIController : MonoBehaviour
                 targetStructureSet = true;
                 int rStruct = Random.Range(0, structures.Length);
                 m_agent.SetDestination(structures[rStruct].transform.position);
-            }
-            
+            }            
         }
-        
+
+        if(health <= 0)
+        {
+            gameObject.SetActive(false);
+        }        
 	}
-    //void RangeMonitor()
-    //{
-    //    currentTargetDis = Mathf.Infinity;
-    //    structuresInRange = Physics.OverlapSphere(transform.position, targetRange, mask);
-    //    if (structuresInRange.Length > 0)
-    //    {
-    //        float shortestDistance = 200000;
-    //        float currentDistance = 0;
-    //        foreach (Collider eCol in structuresInRange)
-    //        {
-    //            currentDistance = Vector3.Distance(transform.position, target.transform.position);
-    //            if(currentDistance < shortestDistance)
-    //            {
-    //                shortestDistance = currentDistance;
-    //            }
-    //        }
-    //        foreach (Collider eCol in structuresInRange)
-    //        {
-    //            currentDistance = Vector3.Distance(transform.position, target.transform.position);
-    //            if (currentDistance == shortestDistance)
-    //            {
-    //                target = eCol.gameObject;
-    //            }
-    //        }
-    //    }
-    //    else
-    //    {
-    //        target = null;
-    //        currentTargetDis = Mathf.Infinity;
-    //    }
-    //}
+
+    void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.tag == "Bullet")
+        {
+            other.gameObject.SetActive(false);
+            health -= normalTurretDamageTaken;            
+        }
+    }   
 }
