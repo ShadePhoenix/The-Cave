@@ -70,6 +70,7 @@ public class UIManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        UpdateStats();
         //Construction();
         //Enables uiMode if any of these are true
         if (isRemoving || isBuilding || isPaused || gameOver)
@@ -108,7 +109,6 @@ public class UIManager : MonoBehaviour
                     currentBuildNode = hit.collider.transform;
                     buildPanel.SetActive(true);
                     buildPanel.transform.position = m_Camera.WorldToScreenPoint(m_Camera.ScreenToWorldPoint(Input.mousePosition));
-
                 }
             }
         }
@@ -117,7 +117,9 @@ public class UIManager : MonoBehaviour
     //Grabs the turret prefab assigned to the button and sets it to a local variable so it can be placed, and turns on build mode
     public void BuildButton(GameObject turret)
     {
+        buildPanel.SetActive(false);
         Instantiate(turret, currentBuildNode.position, Quaternion.identity);
+        currentBuildNode = null;
     }
 
     //Activates build mode
