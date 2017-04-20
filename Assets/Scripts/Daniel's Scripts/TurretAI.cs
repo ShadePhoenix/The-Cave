@@ -17,7 +17,7 @@ public class TurretAI : MonoBehaviour
     public Transform projectileSpawn;
     [Tooltip("")]
     public GameObject projectile;
-    private int numProjectiles = 2; // number of projectiles to pool
+    private int numProjectiles = 400; // number of projectiles to pool
     
     private List<GameObject> bulletList = new List<GameObject>(); // pool of normal bullets   
     private List<Rigidbody> bulletBodies = new List<Rigidbody>(); // pool of bullet bodies
