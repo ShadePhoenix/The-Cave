@@ -4,15 +4,12 @@ using UnityEngine;
 
 public class SpawnEnemy : MonoBehaviour
 {
-
     [Tooltip("Add the enemy to be spawned.")]
     public Transform enemy;
     [Tooltip("The time (in seconds) between enemies spawning.")]
-    public float enemySpawnInterval = 3;
-    [Tooltip("The maximum number of enemies that can spawn on this level.")]
-    public int maxEnemiesToSpawn = 2;
-    [Tooltip("The minimum number of enemies that can spawn on this level.")]
-    public int minEnemiesToSpawn = 1;
+    public float enemySpawnInterval = 3;   
+    private int maxEnemiesToSpawn = 1;    
+    private int minEnemiesToSpawn = 1;
 
     private float timeUntilSpawn = 0;
     private GameObject[] spawners;   
@@ -39,7 +36,7 @@ public class SpawnEnemy : MonoBehaviour
    
     private IEnumerator SpawnNow(int i)
     {
-        int enemiesToSpawn = Random.Range(minEnemiesToSpawn, maxEnemiesToSpawn);        
+        int enemiesToSpawn = Random.Range(minEnemiesToSpawn, maxEnemiesToSpawn + (int)DayNight.nightNumber);        
         while (spawning == true)
         {            
             while (enemiesToSpawn > 0)
