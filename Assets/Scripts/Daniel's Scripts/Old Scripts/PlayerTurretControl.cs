@@ -95,7 +95,7 @@ public class PlayerTurretControl : MonoBehaviour {
         healthBarFill.fillAmount = currentHealth / health;
         if (currentHealth <= 0)
         {
-            GameObject.FindGameObjectWithTag("Canvas").GetComponent<UIManager>().GameOver();
+            //GameObject.FindGameObjectWithTag("Canvas").GetComponent<UIManager>().GameOver();
         }
     }
 }
