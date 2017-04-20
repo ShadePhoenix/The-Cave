@@ -110,7 +110,8 @@ public class UIManager : MonoBehaviour
                     currentBuildNode = hit.collider.gameObject;
                     buildPanelPos = hit.collider.transform;
                     buildPanel.SetActive(true);
-                    buildPanel.transform.position = m_Camera.WorldToScreenPoint(m_Camera.ScreenToWorldPoint(Input.mousePosition));
+                    buildPanel.transform.position = hit.collider.transform.position;
+                    //buildPanel.transform.position = m_Camera.WorldToScreenPoint(m_Camera.ScreenToWorldPoint(Input.mousePosition));
                     uiState = UIState.Build;
                 }
             }

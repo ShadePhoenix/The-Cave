@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class AIController : MonoBehaviour 
@@ -33,6 +34,8 @@ public class AIController : MonoBehaviour
 
     private float animationTimeLeft = 1;
 
+    public Image healthBarFill;
+
     void Start () 
 	{
         currentHealth = startHealth;
@@ -43,7 +46,8 @@ public class AIController : MonoBehaviour
         anim = GetComponent<Animator>();
     }		
 	void Update () 
-	{          
+	{
+        HealthUpdate();
         if (playerController.playerAtBase == false)
         {            
             targetStructureSet = false;
@@ -96,5 +100,15 @@ public class AIController : MonoBehaviour
             other.gameObject.SetActive(false);
             currentHealth -= bigTurretDamageTaken;            
         }
-    }  
+    }
+
+    void HealthUpdate()
+    {
+        healthBarFill.fillAmount = currentHealth / startHealth;
+        if (currentHealth <= 0)
+        {
+            //Destroy enemy and play particle effects/animation
+            //GameObject.FindGameObjectWithTag("Canvas").GetComponent<UIManager>().GameOver();
+        }
+    }
 }

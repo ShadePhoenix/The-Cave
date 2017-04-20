@@ -18,10 +18,12 @@ public class CastleController : MonoBehaviour {
     [Tooltip("The Object that the bullets will fire from. *Best to parent to Turret Head*")]
     public Transform projectileSpawn;
 
+    public GameObject projectile;
+
     [Tooltip("Damage dealt to enemies when hit")]
     public int damage;
 
-    public GameObject projectile;
+    public Transform playerArea;
 
     float fireWait = 1;
 
@@ -39,20 +41,28 @@ public class CastleController : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        Aim();
-        Fire();
+        if (!playerActive)
+        {
+            Aim();
+            Fire();
+        }
         HealthUpdate();
     }
-    bool playerActive;
+
+    bool playerActive = true;
     void OnTriggerStay(Collider other)
     {
         if (other.tag == "Player" && Input.GetKeyDown(KeyCode.E))
+        {
             playerActive = !playerActive;
+            //Move Player to PlayerArea in the castle
+            //Lerp Camera to new position : New to figure out what script should handle camera movement
+            //Deactivate player. Either SetActive(False) or disable all movement.
+        }
     }
 
     void Aim()
     {
-
             Vector2 posDif = Input.mousePosition - m_Camera.WorldToScreenPoint(transform.position);
             Vector3 playerRot = playerTurret.transform.rotation.eulerAngles;
             playerRot.y = Mathf.Atan2(posDif.x, posDif.y) * Mathf.Rad2Deg;
@@ -65,7 +75,7 @@ public class CastleController : MonoBehaviour {
         if (fire && Input.GetButtonDown("Fire1") && !EventSystem.current.IsPointerOverGameObject())
         {
             GameObject bullet = Instantiate(projectile, projectileSpawn.position, Quaternion.Euler(projectileSpawn.transform.eulerAngles));
-            bullet.GetComponent<Rigidbody>().AddForce(bullet.transform.forward * projectileSpeed, ForceMode.Impulse);
+            bullet.GetComponent<Rigidbody>().AddForce(bullet.transform.up * projectileSpeed, ForceMode.Impulse);
             StartCoroutine(FireWait(fireWait));
             fire = false;
         }
