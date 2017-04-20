@@ -37,7 +37,6 @@ public class playerController : MonoBehaviour {
             playerAtBase = true;
         }
     }
-
     void OnTriggerExit(Collider other)
     {
         if (other.gameObject.tag == "Base Trigger")

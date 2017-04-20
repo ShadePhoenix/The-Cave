@@ -94,7 +94,7 @@ public class TurretAI : MonoBehaviour
             if(Physics.Raycast(barrel.position, turretHead.transform.forward, out hit, fireRange, mask))
             {
                 //hit.collider.gameObject.GetComponent<EnemyAI>().TakeDamage(damage);
-                print(hit.collider.gameObject);
+                //print(hit.collider.gameObject);
             }
             StartCoroutine(FireWait(fireWait));
             fire = false;
