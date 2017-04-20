@@ -8,7 +8,7 @@ public class SpawnEnemy : MonoBehaviour
     public GameObject enemy;
     [Tooltip("The time (in seconds) between enemies spawning.")]
     public float enemySpawnInterval = 3;   
-    private int maxEnemiesToSpawn = 1;    
+    private int maxEnemiesToSpawn = 3;    
     private int minEnemiesToSpawn = 1;
     private List<GameObject> enemies = new List<GameObject>(); // pool of enemies
     private int enemiesToSpawn = 1000;
@@ -20,28 +20,30 @@ public class SpawnEnemy : MonoBehaviour
     
     void Start()
     {        
-        spawners = GameObject.FindGameObjectsWithTag("Spawner");        
+        spawners = GameObject.FindGameObjectsWithTag("Spawner");
+        StartCoroutine("Spawn");
     }
 
     void Update()
     {
-        if(genEnemies)
-        {
-            StartCoroutine("Spawn");
-        }
-        GenEnemies();
+        //GenEnemies();
+        //if (genEnemies)
+        //{
+        //    StartCoroutine("Spawn");
+        //}
+        
     }
 
     void GenEnemies()
     {
         if(genEnemies == false)
         {
-            genEnemies = true;
-            for (int i = 0; i < enemiesToSpawn; i++)
-            {
-                enemies.Add((GameObject)Instantiate(enemy, new Vector3(-10, -10, 0), Quaternion.identity));
-                enemies[i].gameObject.SetActive(false);
-            }
+            //genEnemies = true;
+            //for (int i = 0; i < enemiesToSpawn; i++)
+            //{
+            //    enemies.Add((GameObject)Instantiate(enemy, spawners[0].transform.position, Quaternion.identity));
+            //    enemies[i].gameObject.SetActive(false);
+            //}
         }
     }
 
@@ -64,18 +66,20 @@ public class SpawnEnemy : MonoBehaviour
             while (enemiesToSpawn > 0)
             {                
                 enemiesToSpawn--;
-                for (int x = 0; x < enemiesToSpawn; x++)
-                {
-                    //if (enemies[i].gameObject.activeSelf == false)
-                    //{
-                    //}
-                }
-                        //Instantiate(enemy, spawners[i].transform.position, Quaternion.identity);
-                        yield return new WaitForSeconds(0.5f);
+                //for (int x = 0; x < enemiesToSpawn; x++)
+                //{
+                //    if (enemies[x].gameObject.activeSelf == false)
+                //    {
+                //        enemies[x].gameObject.SetActive(true);
+                //        enemies[x].transform.position = spawners[x].transform.position;
+                //        break;
+                //    }
+                //}                     
+                Instantiate(enemy, spawners[0].transform.position, Quaternion.identity);
+                yield return new WaitForSeconds(0.5f);
             }
             spawning = false;
-        }
-        
+        }        
     }
 
 
