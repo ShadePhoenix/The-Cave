@@ -8,7 +8,9 @@ using UnityEngine.UI;
 
 public class TurretAI : MonoBehaviour
 {
-
+    [Tooltip("Starting Health of the Player Turret")]
+    public int health = 100;
+    int currentHealth;
     [Tooltip("The Object that will rotate")]
     public GameObject turretArm;
     [Tooltip("The Object that the bullets will fire from *Best to parent to Turret Head*")]
@@ -32,6 +34,8 @@ public class TurretAI : MonoBehaviour
     [Tooltip("Time between shots in seconds")]
     public float fireWait;
 
+    public Image healthBarFill;
+
     GameObject target;
 
     float currentTargetDis = Mathf.Infinity;
@@ -49,9 +53,11 @@ public class TurretAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        currentHealth = health;
         RangeMonitor();
         Aim();
         Fire();
+        HealthUpdate();
     }
 
     //Calculates which enemy in range has traveled the furthest and targets them
@@ -87,7 +93,6 @@ public class TurretAI : MonoBehaviour
             transform.localRotation = Quaternion.Euler(turretRot);
             turretArm.transform.LookAt(aimPoint);
 
-
             //Vector3 posDif = target.transform.position - transform.position;
             //Vector3 turretRot = transform.rotation.eulerAngles;
             //turretRot.y = (Mathf.Atan2(posDif.x, posDif.z) * Mathf.Rad2Deg);
@@ -113,5 +118,15 @@ public class TurretAI : MonoBehaviour
     {
         yield return new WaitForSeconds(waitTime);
             fire = true;
+    }
+
+    void HealthUpdate()
+    {
+        healthBarFill.fillAmount = currentHealth / health;
+        if (currentHealth <= 0)
+        {
+            //Destroy Turret and play particle effects
+            //GameObject.FindGameObjectWithTag("Canvas").GetComponent<UIManager>().GameOver();
+        }
     }
 }

@@ -38,15 +38,15 @@ public class UIManager : MonoBehaviour
     //public GameObject[] turretPrefabs;
     //public GameObject[] enemyPrefabs;
     //public GameObject buttonPrefab;
-    //public GameObject[] buttonPositions;
-
-    GameObject turretPrefab; 
+    //public GameObject[] buttonPositions; 
 
     //If this is true, we're in "build mode" and the next click will place a building
     static public bool isBuilding = false;
     static public bool isRemoving = false;
     static public bool uiMode = false;
 
+    enum UIState {Pause, Build, Repair, Remove, EndGame}
+    UIState uiState;
 
     // Use this for initialization
     void Start ()
@@ -73,10 +73,10 @@ public class UIManager : MonoBehaviour
         UpdateStats();
         //Construction();
         //Enables uiMode if any of these are true
-        if (isRemoving || isBuilding || isPaused || gameOver)
-            uiMode = true;
-        else
-            uiMode = false;
+        //if (isRemoving || isBuilding || isPaused || gameOver)
+        //    uiMode = true;
+        //else
+        //    uiMode = false;
         //if (Input.GetKeyDown(KeyCode.Escape))
         //MenuPR(!isPaused);
         //TargetCursor();
@@ -95,31 +95,38 @@ public class UIManager : MonoBehaviour
     //        cursorObject.GetComponentInChildren<SpriteRenderer>().sprite = targetSprite;
     //}
 
-    Transform currentBuildNode;
+    GameObject currentBuildNode;
+    Transform buildPanelPos;
 
     void BuildNodeClick()
     {
-        if (Input.GetButtonDown("Fire1"))
+        if (Input.GetButtonDown("Fire1") && !EventSystem.current.IsPointerOverGameObject())
         {
             RaycastHit hit;
             if (Physics.Raycast(m_Camera.ScreenPointToRay(Input.mousePosition), out hit))
             {
                 if (hit.collider.tag == "BuildNode")
                 {
-                    currentBuildNode = hit.collider.transform;
+                    currentBuildNode = hit.collider.gameObject;
+                    buildPanelPos = hit.collider.transform;
                     buildPanel.SetActive(true);
                     buildPanel.transform.position = m_Camera.WorldToScreenPoint(m_Camera.ScreenToWorldPoint(Input.mousePosition));
+                    uiState = UIState.Build;
                 }
             }
         }
     }
 
     //Grabs the turret prefab assigned to the button and sets it to a local variable so it can be placed, and turns on build mode
-    public void BuildButton(GameObject turret)
+    public void BuildButton(GameObject turretPrefab)
     {
-        buildPanel.SetActive(false);
-        Instantiate(turret, currentBuildNode.position, Quaternion.identity);
-        currentBuildNode = null;
+        if (conMat >= turretPrefab.GetComponent<TurretAI>().conMatCost)
+        {
+            buildPanel.SetActive(false);
+            Instantiate(turretPrefab, buildPanelPos.position, Quaternion.identity);
+            conMat -= turretPrefab.GetComponent<TurretAI>().conMatCost;
+            currentBuildNode = null;
+        }
     }
 
     //Activates build mode
@@ -180,7 +187,7 @@ public class UIManager : MonoBehaviour
     }
 
     //Handles the pause menus and pauses the game
-    bool isPaused = false;
+    //bool isPaused = false;
     //public void MenuPR(bool pause = false)
     //{
     //    //Pause
