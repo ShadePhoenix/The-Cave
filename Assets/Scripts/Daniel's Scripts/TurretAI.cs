@@ -78,11 +78,21 @@ public class TurretAI : MonoBehaviour
     {
         if (target != null)
         {
-            Vector3 posDif = target.transform.position - transform.position;
+            float dis = Vector3.Distance(transform.position, target.transform.position);
+            float travelTime = dis / projectileSpeed;
+            Vector3 aimPoint = target.transform.position + travelTime * target.GetComponent<Rigidbody>().velocity;
+            Vector3 posDif = aimPoint - transform.position;
             Vector3 turretRot = transform.rotation.eulerAngles;
             turretRot.y = (Mathf.Atan2(posDif.x, posDif.z) * Mathf.Rad2Deg);
             transform.localRotation = Quaternion.Euler(turretRot);
-            turretArm.transform.LookAt(target.transform);
+            turretArm.transform.LookAt(aimPoint);
+
+
+            //Vector3 posDif = target.transform.position - transform.position;
+            //Vector3 turretRot = transform.rotation.eulerAngles;
+            //turretRot.y = (Mathf.Atan2(posDif.x, posDif.z) * Mathf.Rad2Deg);
+            //transform.localRotation = Quaternion.Euler(turretRot);
+            //turretArm.transform.LookAt(target.transform);
         }
     }
 
