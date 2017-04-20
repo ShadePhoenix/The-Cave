@@ -23,7 +23,7 @@ public class DayNight : MonoBehaviour {
         if (isNight)
         {
             nightTimer += Time.deltaTime;
-            Debug.Log(nightTimer);
+            //Debug.Log(nightTimer);
             if (nightTimer > nightLength)
             {
                 isNight = false;

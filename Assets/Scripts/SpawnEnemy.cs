@@ -5,19 +5,19 @@ using UnityEngine;
 public class SpawnEnemy : MonoBehaviour
 {
     [Tooltip("Add the enemy to be spawned.")]
-    public GameObject enemy;   
+    public Transform enemy;   
     [Tooltip("Max enemies that can spawn at a time from the start. This increases by 1 every night.")]
-    public int maxEnemiesToSpawn = 1;
+    public int maxEnemiesToSpawn = 3;
     [Tooltip("Min enemies that can spawn at a time from the start.")]
     public int minEnemiesToSpawn = 1;
-    [Tooltip("How slowly enemies spawn (in seconds) at the start of the game. Gradually decreses.")]
+    [Tooltip("How slowly enemies spawn (in seconds) at the start of the game.")]
     public float spawnInterval = 3;
     //[Tooltip("The shortest interval between enemy spawns. Enemies will never spawn more frequently than this.")]
     //public float finalSpawnInterval = 1;
     //[Tooltip("This amount of seconds is taken off the frequency between spawns every night.")]
     //public float spawnFrequencyIncrease = 0.1f;
 
-    private List<GameObject> enemies = new List<GameObject>(); // pool of enemies
+    private List<Transform> enemies = new List<Transform>(); // pool of enemies
     private int enemiesToSpawn = 1000;
     private bool genEnemies = false;
 
@@ -63,8 +63,11 @@ public class SpawnEnemy : MonoBehaviour
         {
             spawning = true;
             int rSpawn = Random.Range(0, spawners.Length);            
-            StartCoroutine("SpawnNow", rSpawn);            
-            yield return new WaitForSeconds(startSpawnInterval);
+            StartCoroutine("SpawnNow", rSpawn);
+            //startSpawnInterval -= (spawnFrequencyIncrease);
+            //startSpawnInterval = Mathf.Clamp(startSpawnInterval, finalSpawnInterval, startSpawnInterval);
+            //Debug.Log(startSpawnInterval);
+            yield return new WaitForSeconds(spawnInterval);
         }         
     }
    
@@ -85,7 +88,7 @@ public class SpawnEnemy : MonoBehaviour
                 //        break;
                 //    }
                 //}                     
-                Instantiate(enemy, spawners[0].transform.position, Quaternion.identity);
+                Instantiate(enemy, spawners[i].transform.position, Quaternion.identity);
                 yield return new WaitForSeconds(0.5f);
             }
             spawning = false;
