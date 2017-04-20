@@ -7,9 +7,23 @@ public class AIController : MonoBehaviour
     //public Transform player;
     [Tooltip("The range that it can target the players base from. There should always be some object in range or they will wander aimlessly.")]
     public float targetRange;
+    [Tooltip("Health of the enemy.")]
+    public int health = 10;
+    [Tooltip("How much damage you take from normal turret bullets.")]
+    public int normalTurretDamageTaken = 1;
+    [Tooltip("How much damage you take from the big player turret bullets.")]
+    public int bigTurretDamageTaken = 5;
+    //public enum Type
+    //{
+    //    Normal,
+    //    Fast,
+    //    Tank
+    //};
 
-    private GameObject hero;
-    private GameObject turret;
+    //[Tooltip("The type of enemy you choose.")]
+    //public Type type;
+
+    private GameObject hero;   
     private GameObject target;
     private UnityEngine.AI.NavMeshAgent m_agent;
     public LayerMask mask;
@@ -24,15 +38,12 @@ public class AIController : MonoBehaviour
     void Start () 
 	{
 		m_agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
-        hero = GameObject.FindGameObjectWithTag("Player");
-        turret = GameObject.FindGameObjectWithTag("Base");
-        structures = GameObject.FindGameObjectsWithTag("Base");
+        hero = GameObject.FindGameObjectWithTag("Player");        
+        structures = GameObject.FindGameObjectsWithTag("Base");       
     }	
 	
 	void Update () 
-	{
-        //RangeMonitor();
-
+	{   
         if (playerController.playerAtBase == false)
         {
             targetStructureSet = false;
@@ -48,37 +59,45 @@ public class AIController : MonoBehaviour
             }
             
         }
-        
+
+        if(health <= 0)
+        {
+            gameObject.SetActive(false);
+        }        
 	}
-    //void RangeMonitor()
+
+
+    void OnCollisionEnter(Collision other)
+    {
+        if(other.gameObject.tag == "Bullet")
+        {
+            other.gameObject.SetActive(false);
+            health -= normalTurretDamageTaken;
+        }
+    }   
+    
+    
+    //void Setup()
     //{
-    //    currentTargetDis = Mathf.Infinity;
-    //    structuresInRange = Physics.OverlapSphere(transform.position, targetRange, mask);
-    //    if (structuresInRange.Length > 0)
+    //    switch (type)
     //    {
-    //        float shortestDistance = 200000;
-    //        float currentDistance = 0;
-    //        foreach (Collider eCol in structuresInRange)
-    //        {
-    //            currentDistance = Vector3.Distance(transform.position, target.transform.position);
-    //            if(currentDistance < shortestDistance)
-    //            {
-    //                shortestDistance = currentDistance;
+    //        case Type.Normal:
+    //            {                    
+    //                break;
     //            }
-    //        }
-    //        foreach (Collider eCol in structuresInRange)
-    //        {
-    //            currentDistance = Vector3.Distance(transform.position, target.transform.position);
-    //            if (currentDistance == shortestDistance)
+    //        case Type.Fast:
     //            {
-    //                target = eCol.gameObject;
+    //                break;
     //            }
-    //        }
-    //    }
-    //    else
-    //    {
-    //        target = null;
-    //        currentTargetDis = Mathf.Infinity;
+    //        case Type.Tank:
+    //            {
+    //                break;
+    //            }
+    //        default:
+    //            {
+
+    //                break;
+    //            }
     //    }
     //}
 }
