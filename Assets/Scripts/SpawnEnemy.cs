@@ -5,11 +5,14 @@ using UnityEngine;
 public class SpawnEnemy : MonoBehaviour
 {
     [Tooltip("Add the enemy to be spawned.")]
-    public Transform enemy;
+    public GameObject enemy;
     [Tooltip("The time (in seconds) between enemies spawning.")]
     public float enemySpawnInterval = 3;   
     private int maxEnemiesToSpawn = 1;    
     private int minEnemiesToSpawn = 1;
+    private List<GameObject> enemies = new List<GameObject>(); // pool of enemies
+    private int enemiesToSpawn = 1000;
+    private bool genEnemies = false;
 
     private float timeUntilSpawn = 0;
     private GameObject[] spawners;   
@@ -17,11 +20,30 @@ public class SpawnEnemy : MonoBehaviour
     
     void Start()
     {        
-        spawners = GameObject.FindGameObjectsWithTag("Spawner");
-        StartCoroutine("Spawn");
+        spawners = GameObject.FindGameObjectsWithTag("Spawner");        
     }
 
-    void Update() { }
+    void Update()
+    {
+        if(genEnemies)
+        {
+            StartCoroutine("Spawn");
+        }
+        GenEnemies();
+    }
+
+    void GenEnemies()
+    {
+        if(genEnemies == false)
+        {
+            genEnemies = true;
+            for (int i = 0; i < enemiesToSpawn; i++)
+            {
+                enemies.Add((GameObject)Instantiate(enemy, new Vector3(-10, -10, 0), Quaternion.identity));
+                enemies[i].gameObject.SetActive(false);
+            }
+        }
+    }
 
     private IEnumerator Spawn()
     {
@@ -42,11 +64,19 @@ public class SpawnEnemy : MonoBehaviour
             while (enemiesToSpawn > 0)
             {                
                 enemiesToSpawn--;
-                Instantiate(enemy, spawners[i].transform.position, Quaternion.identity);
-                yield return new WaitForSeconds(0.5f);
+                for (int x = 0; x < enemiesToSpawn; x++)
+                {
+                    //if (enemies[i].gameObject.activeSelf == false)
+                    //{
+                    //}
+                }
+                        //Instantiate(enemy, spawners[i].transform.position, Quaternion.identity);
+                        yield return new WaitForSeconds(0.5f);
             }
             spawning = false;
         }
         
     }
+
+
 }
