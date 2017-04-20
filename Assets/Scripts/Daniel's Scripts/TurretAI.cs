@@ -10,9 +10,11 @@ public class TurretAI : MonoBehaviour
 {
 
     [Tooltip("The Object that will rotate")]
-    public GameObject turretHead;
+    public GameObject turretArm;
     [Tooltip("The Object that the bullets will fire from *Best to parent to Turret Head*")]
-    public Transform barrel;
+    public Transform projectileSpawn;
+    [Tooltip("")]
+    public GameObject projectile;
 
     //public GameObject bulletPrefab;
 
@@ -24,12 +26,11 @@ public class TurretAI : MonoBehaviour
     public int energyFireCost;
     [Tooltip("The range that it can target enemies")]
     public float fireRange;
-    //[Tooltip("")]
-    //public float bulletSpeed;
+    [Tooltip("")]
+    public float projectileSpeed;
+
     [Tooltip("Time between shots in seconds")]
     public float fireWait;
-    //[Tooltip("")]
-    //public Image turretIcon;
 
     GameObject target;
 
@@ -78,33 +79,29 @@ public class TurretAI : MonoBehaviour
         if (target != null)
         {
             Vector3 posDif = target.transform.position - transform.position;
-            Vector3 turretRot = turretHead.transform.rotation.eulerAngles;
+            Vector3 turretRot = transform.rotation.eulerAngles;
             turretRot.y = (Mathf.Atan2(posDif.x, posDif.z) * Mathf.Rad2Deg);
-            turretHead.transform.rotation = Quaternion.Euler(turretRot);
+            transform.localRotation = Quaternion.Euler(turretRot);
+            turretArm.transform.LookAt(target.transform);
         }
     }
 
-    //Fires a raycast to damage enemies
     bool fire = true;
+
     void Fire()
     {
-        if (fire && target != null)
+        if (fire)
         {
-            RaycastHit hit;
-            if(Physics.Raycast(barrel.position, turretHead.transform.forward, out hit, fireRange, mask))
-            {
-                //hit.collider.gameObject.GetComponent<EnemyAI>().TakeDamage(damage);
-                //print(hit.collider.gameObject);
-            }
+            GameObject lProjectile = Instantiate(projectile, projectileSpawn.position, Quaternion.Euler(projectileSpawn.transform.eulerAngles));
+            lProjectile.GetComponent<Rigidbody>().AddForce(lProjectile.transform.up * projectileSpeed, ForceMode.Impulse);
             StartCoroutine(FireWait(fireWait));
             fire = false;
         }
     }
 
-    //Adds a waiting time before the next shot can be fired
     IEnumerator FireWait(float waitTime)
     {
         yield return new WaitForSeconds(waitTime);
-        fire = true;
+            fire = true;
     }
 }

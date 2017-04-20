@@ -23,6 +23,7 @@ public class UIManager : MonoBehaviour
 
     //public GameObject cursorObject;
 
+    public GameObject buildPanel;
     public GameObject gameUI;
     //public GameObject pauseMenu;
     //public GameObject gameOverMenu;
@@ -56,6 +57,7 @@ public class UIManager : MonoBehaviour
         uiMode = false;
         score = 0;
         gameUI.SetActive(true);
+        buildPanel.SetActive(false);
         //gameOverMenu.SetActive(false);
         //pauseMenu.SetActive(false);
         //gameWonMenu.SetActive(false);
@@ -63,7 +65,6 @@ public class UIManager : MonoBehaviour
         energy = startingEnergy;
         m_Camera = Camera.main;
         UpdateStats();
-        
     }
 
     // Update is called once per frame
@@ -76,11 +77,12 @@ public class UIManager : MonoBehaviour
         else
             uiMode = false;
         //if (Input.GetKeyDown(KeyCode.Escape))
-            //MenuPR(!isPaused);
+        //MenuPR(!isPaused);
         //TargetCursor();
+        BuildNodeClick();
     }
 
-    
+
     //void TargetCursor()
     //{
     //    Vector3 mousePos = Input.mousePosition;
@@ -92,17 +94,30 @@ public class UIManager : MonoBehaviour
     //        cursorObject.GetComponentInChildren<SpriteRenderer>().sprite = targetSprite;
     //}
 
-    
+    Transform currentBuildNode;
+
+    void BuildNodeClick()
+    {
+        if (Input.GetButtonDown("Fire1"))
+        {
+            RaycastHit hit;
+            if (Physics.Raycast(m_Camera.ScreenPointToRay(Input.mousePosition), out hit))
+            {
+                if (hit.collider.tag == "BuildNode")
+                {
+                    currentBuildNode = hit.collider.transform;
+                    buildPanel.SetActive(true);
+                    buildPanel.transform.position = m_Camera.WorldToScreenPoint(m_Camera.ScreenToWorldPoint(Input.mousePosition));
+
+                }
+            }
+        }
+    }
 
     //Grabs the turret prefab assigned to the button and sets it to a local variable so it can be placed, and turns on build mode
     public void BuildButton(GameObject turret)
     {
-        if (turret != null)
-        {
-            isBuilding = true;
-            isRemoving = !isBuilding;
-            turretPrefab = turret;
-        }
+        Instantiate(turret, currentBuildNode.position, Quaternion.identity);
     }
 
     //Activates build mode
