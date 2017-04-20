@@ -17,11 +17,11 @@ public class TurretAI : MonoBehaviour
     //public GameObject bulletPrefab;
 
     [Tooltip("How much the unit will cost to build")]
-    public int cost;
-    [Tooltip("The name you want to appear on the build buttons")]
-    public string turretName;
+    public int conMatCost;
     [Tooltip("Damage dealt to enemies when hit")]
     public int damage;
+    [Tooltip("")]
+    public int energyFireCost;
     [Tooltip("The range that it can target enemies")]
     public float fireRange;
     //[Tooltip("")]
@@ -36,8 +36,8 @@ public class TurretAI : MonoBehaviour
     float currentTargetDis = Mathf.Infinity;
 
     public LayerMask mask;
-
-    Collider[] enemiesInRange;
+    
+    public Collider[] enemiesInRange;
 
     // Use this for initialization
     void Start()
@@ -62,11 +62,7 @@ public class TurretAI : MonoBehaviour
         {
             foreach (Collider eCol in enemiesInRange)
             {
-                if (eCol.gameObject.GetComponent<EnemyAI>().disLeft <= currentTargetDis)
-                {
-                    currentTargetDis = eCol.gameObject.GetComponent<EnemyAI>().disLeft;
-                    target = eCol.gameObject;
-                }
+                target = eCol.gameObject;
             }
         }
         else
@@ -94,28 +90,14 @@ public class TurretAI : MonoBehaviour
     {
         if (fire && target != null)
         {
-            /*Firing with a bullet code.
-            GameObject bullet = Instantiate(bulletPrefab, barrel.position, Quaternion.Euler(turretHead.transform.eulerAngles));
-            bullet.GetComponent<Rigidbody>().AddForce(bullet.transform.forward * bulletSpeed, ForceMode.Impulse);
-            bullet.GetComponent<BulletManager>().shooter = gameObject;*/
-
             RaycastHit hit;
-            if(Physics.Raycast(barrel.position, barrel.forward, out hit, fireRange, mask))
+            if(Physics.Raycast(barrel.position, turretHead.transform.forward, out hit, fireRange, mask))
             {
-                hit.collider.gameObject.GetComponent<EnemyAI>().TakeDamage(damage);
+                //hit.collider.gameObject.GetComponent<EnemyAI>().TakeDamage(damage);
+                print(hit.collider.gameObject);
             }
-            if (barrel.GetComponent<ParticleSystem>() != null)
-                barrel.GetComponent<ParticleSystem>().Play();
-            else
-            {
-                barrel.GetComponentsInChildren<ParticleSystem>()[0].Play();
-                barrel.GetComponentsInChildren<ParticleSystem>()[1].Play();
-            }
-            float waitTime = fireWait;
-            StartCoroutine(FireWait(waitTime));
+            StartCoroutine(FireWait(fireWait));
             fire = false;
-            waitTime = 0.2f;
-            StartCoroutine(FireWait(waitTime));
         }
     }
 
@@ -123,14 +105,6 @@ public class TurretAI : MonoBehaviour
     IEnumerator FireWait(float waitTime)
     {
         yield return new WaitForSeconds(waitTime);
-        if (waitTime == fireWait)
-            fire = true;
-        else if (barrel.GetComponent<ParticleSystem>() != null)
-            barrel.GetComponent<ParticleSystem>().Stop();
-        else
-        {
-            barrel.GetComponentsInChildren<ParticleSystem>()[0].Stop();
-            barrel.GetComponentsInChildren<ParticleSystem>()[1].Stop();
-        }
+        fire = true;
     }
 }

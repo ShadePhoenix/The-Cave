@@ -21,23 +21,23 @@ public class UIManager : MonoBehaviour
    
     static public int score;
 
-    public GameObject cursorObject;
+    //public GameObject cursorObject;
 
     public GameObject gameUI;
-    public GameObject pauseMenu;
-    public GameObject gameOverMenu;
-    public GameObject gameWonMenu;
+    //public GameObject pauseMenu;
+    //public GameObject gameOverMenu;
+    //public GameObject gameWonMenu;
 
     public bool gameOver = false;
     public bool gameWon = false;
 
-    public Sprite targetSprite;
-    public Sprite buildSprite;
+    //public Sprite targetSprite;
+    //public Sprite buildSprite;
 
-    public GameObject[] turretPrefabs;
-    public GameObject[] enemyPrefabs;
-    public GameObject buttonPrefab;
-    public GameObject[] buttonPositions;
+    //public GameObject[] turretPrefabs;
+    //public GameObject[] enemyPrefabs;
+    //public GameObject buttonPrefab;
+    //public GameObject[] buttonPositions;
 
     GameObject turretPrefab; 
 
@@ -56,13 +56,14 @@ public class UIManager : MonoBehaviour
         uiMode = false;
         score = 0;
         gameUI.SetActive(true);
-        gameOverMenu.SetActive(false);
-        pauseMenu.SetActive(false);
-        gameWonMenu.SetActive(false);
+        //gameOverMenu.SetActive(false);
+        //pauseMenu.SetActive(false);
+        //gameWonMenu.SetActive(false);
         conMat = startingConMat;
         energy = startingEnergy;
         m_Camera = Camera.main;
         UpdateStats();
+        
     }
 
     // Update is called once per frame
@@ -74,33 +75,35 @@ public class UIManager : MonoBehaviour
             uiMode = true;
         else
             uiMode = false;
-        if (Input.GetKeyDown(KeyCode.Escape))
-            MenuPR(!isPaused);
-        TargetCursor();
+        //if (Input.GetKeyDown(KeyCode.Escape))
+            //MenuPR(!isPaused);
+        //TargetCursor();
     }
 
     
-    void TargetCursor()
-    {
-        Vector3 mousePos = Input.mousePosition;
-        mousePos.z = 950f;
-        cursorObject.transform.position = m_Camera.ScreenToWorldPoint(mousePos);
-        if (isBuilding || isRemoving)
-            cursorObject.GetComponentInChildren<SpriteRenderer>().sprite = buildSprite;
-        else
-            cursorObject.GetComponentInChildren<SpriteRenderer>().sprite = targetSprite;
-    }
+    //void TargetCursor()
+    //{
+    //    Vector3 mousePos = Input.mousePosition;
+    //    mousePos.z = 950f;
+    //    cursorObject.transform.position = m_Camera.ScreenToWorldPoint(mousePos);
+    //    if (isBuilding || isRemoving)
+    //        cursorObject.GetComponentInChildren<SpriteRenderer>().sprite = buildSprite;
+    //    else
+    //        cursorObject.GetComponentInChildren<SpriteRenderer>().sprite = targetSprite;
+    //}
+
+    
 
     //Grabs the turret prefab assigned to the button and sets it to a local variable so it can be placed, and turns on build mode
-    //public void BuildButton(GameObject turret)
-    //{
-    //    if (turret != null)
-    //    {
-    //        isBuilding = true;
-    //        isRemoving = !isBuilding;
-    //        turretPrefab = turret;
-    //    }
-    //}
+    public void BuildButton(GameObject turret)
+    {
+        if (turret != null)
+        {
+            isBuilding = true;
+            isRemoving = !isBuilding;
+            turretPrefab = turret;
+        }
+    }
 
     //Activates build mode
     //public void RemoveButton()
@@ -161,36 +164,36 @@ public class UIManager : MonoBehaviour
 
     //Handles the pause menus and pauses the game
     bool isPaused = false;
-    public void MenuPR(bool pause = false)
-    {
-        //Pause
-        isPaused = pause;
-        if (pause && !gameOver && !gameWon)
-        {
-            gameUI.SetActive(!pause);
-            pauseMenu.SetActive(pause);
-            Time.timeScale = 0;
-        }
-        //Unpause if Paused
-        else if (!pause && !gameOver && !gameWon)
-        {
-            gameUI.SetActive(!pause);
-            pauseMenu.SetActive(pause);
-            Time.timeScale = 1;
-        }
-        if (pause && gameOver && !gameWon)
-        {
-            gameOverMenu.SetActive(gameOver);
-            gameUI.SetActive(!gameOver);
-            Time.timeScale = 0;
-        }
-        if (pause && !gameOver && gameWon)
-        {
-            gameWonMenu.SetActive(gameWon);
-            gameUI.SetActive(!gameWon);
-            Time.timeScale = 0;
-        }
-    }
+    //public void MenuPR(bool pause = false)
+    //{
+    //    //Pause
+    //    isPaused = pause;
+    //    if (pause && !gameOver && !gameWon)
+    //    {
+    //        gameUI.SetActive(!pause);
+    //        pauseMenu.SetActive(pause);
+    //        Time.timeScale = 0;
+    //    }
+    //    //Unpause if Paused
+    //    else if (!pause && !gameOver && !gameWon)
+    //    {
+    //        gameUI.SetActive(!pause);
+    //        pauseMenu.SetActive(pause);
+    //        Time.timeScale = 1;
+    //    }
+    //    if (pause && gameOver && !gameWon)
+    //    {
+    //        gameOverMenu.SetActive(gameOver);
+    //        gameUI.SetActive(!gameOver);
+    //        Time.timeScale = 0;
+    //    }
+    //    if (pause && !gameOver && gameWon)
+    //    {
+    //        gameWonMenu.SetActive(gameWon);
+    //        gameUI.SetActive(!gameWon);
+    //        Time.timeScale = 0;
+    //    }
+    //}
 
     public void Restart()
     {
@@ -198,17 +201,17 @@ public class UIManager : MonoBehaviour
     }
 
     //Handles the gameover menu
-    public void GameOver()
-    {
-        gameOver = true;
-        MenuPR(gameOver);
-    }
+    //public void GameOver()
+    //{
+    //    gameOver = true;
+    //    MenuPR(gameOver);
+    //}
 
-    public void GameWon()
-    {
-        gameWon = true;
-        MenuPR(gameWon);
-    }
+    //public void GameWon()
+    //{
+    //    gameWon = true;
+    //    MenuPR(gameWon);
+    //}
 
     //Takes you back to the main menu
     public void Quit()
