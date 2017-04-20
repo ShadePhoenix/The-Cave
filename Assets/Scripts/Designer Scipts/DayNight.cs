@@ -5,7 +5,7 @@ using UnityEngine;
 public class DayNight : MonoBehaviour {
     public float nightLength;
     public float dayLength;
-    public float nightNumber;
+    public static float nightNumber;
     public bool isNight = false;
     private float dayRotate = 0;
     private float nightTimer = 0;
