@@ -16,6 +16,9 @@ public class playerController : MonoBehaviour {
     public int health;
     [Tooltip("Damage player takes from normal enemies.")]
     public int damageTakenNormal;
+    [Tooltip("How much of the global energy you use up while running per second.")]
+    public int staminaDrain = 1;
+    private float staminaDrainTimer = 1;
 
     private Rigidbody rb;    
     static public bool playerAtBase = false;
@@ -38,7 +41,12 @@ public class playerController : MonoBehaviour {
         moveDirection.y = 0;
         if (Input.GetKey(KeyCode.LeftShift) && UIManager.energy > 0)
         {
-            UIManager.energy--;
+            staminaDrainTimer -= Time.deltaTime;
+            if(staminaDrainTimer <= 0)
+            {
+                UIManager.energy -= staminaDrain;
+            }
+            
             rb.velocity += (moveDirection * runAcceleration);
 
             Vector3 velocity = rb.velocity;
