@@ -7,11 +7,14 @@ public class ResourceNode : MonoBehaviour {
     public float generationRate;
     public float maxResources;
     public float maxBrightness;
+    public int gatherRate;
+    private float timer;
+    private float timerTarget;
     public GameObject[] lightSource;
     public float currentResources;
 	// Use this for initialization
 	void Start () {
-		
+        timerTarget = timer + 1;
 	}
 	
 	// Update is called once per frame
@@ -27,4 +30,25 @@ public class ResourceNode : MonoBehaviour {
             light.range = maxBrightness * (currentResources / maxResources) * 10;
         }
 	}
+    void OnTriggerStay(Collider other)
+    {
+        if (other.tag == "Player" && currentResources>gatherRate)
+        {
+            currentResources -= gatherRate * Time.deltaTime;
+            timer += Time.deltaTime;
+            if (timer >= timerTarget)
+            {
+                if (energy)
+                {
+                    UIManager.energy += gatherRate;
+                }
+                if (!energy)
+                {
+                    UIManager.conMat += gatherRate;
+                }
+
+                timerTarget += 1;
+            }
+        }
+    }
 }
