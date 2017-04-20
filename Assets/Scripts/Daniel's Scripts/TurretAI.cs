@@ -90,7 +90,7 @@ public class TurretAI : MonoBehaviour
 
     void Fire()
     {
-        if (fire)
+        if (fire && target != null)
         {
             GameObject lProjectile = Instantiate(projectile, projectileSpawn.position, Quaternion.Euler(projectileSpawn.transform.eulerAngles));
             lProjectile.GetComponent<Rigidbody>().AddForce(lProjectile.transform.up * projectileSpeed, ForceMode.Impulse);
