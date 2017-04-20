@@ -34,6 +34,7 @@ public class AIController : MonoBehaviour
     private GameObject[] structures;
 
     private bool targetStructureSet = false;
+    private bool playerTargetSet = false;
 
     void Start () 
 	{
@@ -45,7 +46,7 @@ public class AIController : MonoBehaviour
 	void Update () 
 	{   
         if (playerController.playerAtBase == false)
-        {
+        {            
             targetStructureSet = false;
             m_agent.SetDestination(hero.transform.position);
         }
@@ -56,8 +57,7 @@ public class AIController : MonoBehaviour
                 targetStructureSet = true;
                 int rStruct = Random.Range(0, structures.Length);
                 m_agent.SetDestination(structures[rStruct].transform.position);
-            }
-            
+            }            
         }
 
         if(health <= 0)
@@ -72,32 +72,7 @@ public class AIController : MonoBehaviour
         if(other.gameObject.tag == "Bullet")
         {
             other.gameObject.SetActive(false);
-            health -= normalTurretDamageTaken;
+            health -= normalTurretDamageTaken;            
         }
     }   
-    
-    
-    //void Setup()
-    //{
-    //    switch (type)
-    //    {
-    //        case Type.Normal:
-    //            {                    
-    //                break;
-    //            }
-    //        case Type.Fast:
-    //            {
-    //                break;
-    //            }
-    //        case Type.Tank:
-    //            {
-    //                break;
-    //            }
-    //        default:
-    //            {
-
-    //                break;
-    //            }
-    //    }
-    //}
 }
