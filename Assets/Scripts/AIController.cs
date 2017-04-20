@@ -55,11 +55,16 @@ public class AIController : MonoBehaviour
 	}
 
     void OnTriggerEnter(Collider other)
-    {
-        if(other.gameObject.tag == "Bullet")
+    {        
+        if (other.gameObject.tag == "Bullet")
         {
             other.gameObject.SetActive(false);
             health -= normalTurretDamageTaken;            
+        }
+        if (other.gameObject.tag == "Player Bullet")
+        {            
+            other.gameObject.SetActive(false);
+            health -= bigTurretDamageTaken;            
         }
     }   
 }
