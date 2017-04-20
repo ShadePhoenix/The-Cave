@@ -45,6 +45,7 @@ public class playerController : MonoBehaviour {
             if(staminaDrainTimer <= 0)
             {
                 UIManager.energy -= staminaDrain;
+                staminaDrainTimer = 1;
             }
             
             rb.velocity += (moveDirection * runAcceleration);
