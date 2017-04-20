@@ -10,12 +10,14 @@ public class SpawnEnemy : MonoBehaviour
     public int maxEnemiesToSpawn = 3;
     [Tooltip("Min enemies that can spawn at a time from the start.")]
     public int minEnemiesToSpawn = 1;
-    [Tooltip("How slowly enemies spawn (in seconds) at the start of the game.")]
-    public float spawnInterval = 3;
+    //[Tooltip("How slowly enemies spawn (in seconds) at the start of the game.")]
+    //public float startSpawnInterval = 3;
     //[Tooltip("The shortest interval between enemy spawns. Enemies will never spawn more frequently than this.")]
     //public float finalSpawnInterval = 1;
     //[Tooltip("This amount of seconds is taken off the frequency between spawns every night.")]
     //public float spawnFrequencyIncrease = 0.1f;
+    [Tooltip("How slowly enemies spawn (in seconds) at the start of the game.")]
+    public float spawnInterval = 3;
 
     private List<Transform> enemies = new List<Transform>(); // pool of enemies
     private int enemiesToSpawn = 1000;
@@ -62,11 +64,11 @@ public class SpawnEnemy : MonoBehaviour
         while(true)
         {
             spawning = true;
-            int rSpawn = Random.Range(0, spawners.Length);            
-            StartCoroutine("SpawnNow", rSpawn);
-            //startSpawnInterval -= (spawnFrequencyIncrease);
-            //startSpawnInterval = Mathf.Clamp(startSpawnInterval, finalSpawnInterval, startSpawnInterval);
-            //Debug.Log(startSpawnInterval);
+            int rSpawn = Random.Range(0, spawners.Length);
+            //spawnInterval = startSpawnInterval - (spawnFrequencyIncrease * DayNight.nightNumber);
+            //spawnInterval = Mathf.Clamp(startSpawnInterval, finalSpawnInterval, startSpawnInterval);
+            StartCoroutine("SpawnNow", rSpawn);            
+            //Debug.Log("Spawn interval is " + spawnInterval);
             yield return new WaitForSeconds(spawnInterval);
         }         
     }
@@ -87,7 +89,8 @@ public class SpawnEnemy : MonoBehaviour
                 //        enemies[x].transform.position = spawners[x].transform.position;
                 //        break;
                 //    }
-                //}                     
+                //}     
+                Debug.Log("looping spawn now..");
                 Instantiate(enemy, spawners[i].transform.position, Quaternion.identity);
                 yield return new WaitForSeconds(0.5f);
             }
