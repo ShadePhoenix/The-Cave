@@ -36,8 +36,9 @@ public class playerController : MonoBehaviour {
     {    
         Vector3 moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));        
         moveDirection.y = 0;
-        if (Input.GetKey(KeyCode.LeftShift))
+        if (Input.GetKey(KeyCode.LeftShift) && UIManager.energy > 0)
         {
+            UIManager.energy--;
             rb.velocity += (moveDirection * runAcceleration);
 
             Vector3 velocity = rb.velocity;

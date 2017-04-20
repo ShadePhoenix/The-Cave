@@ -2,9 +2,7 @@
 using System.Collections;
 
 public class AIController : MonoBehaviour 
-{
-    // [Tooltip("Add the player as a target for nav mesh.")]
-    //public Transform player;
+{    
     [Tooltip("The range that it can target the players base from. There should always be some object in range or they will wander aimlessly.")]
     public float targetRange;
     [Tooltip("Health of the enemy.")]
@@ -12,16 +10,7 @@ public class AIController : MonoBehaviour
     [Tooltip("How much damage you take from normal turret bullets.")]
     public int normalTurretDamageTaken = 1;
     [Tooltip("How much damage you take from the big player turret bullets.")]
-    public int bigTurretDamageTaken = 5;
-    //public enum Type
-    //{
-    //    Normal,
-    //    Fast,
-    //    Tank
-    //};
-
-    //[Tooltip("The type of enemy you choose.")]
-    //public Type type;
+    public int bigTurretDamageTaken = 5;    
 
     private GameObject hero;   
     private GameObject target;
@@ -41,8 +30,7 @@ public class AIController : MonoBehaviour
 		m_agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
         hero = GameObject.FindGameObjectWithTag("Player");        
         structures = GameObject.FindGameObjectsWithTag("Base");       
-    }	
-	
+    }		
 	void Update () 
 	{   
         if (playerController.playerAtBase == false)
@@ -65,7 +53,6 @@ public class AIController : MonoBehaviour
             gameObject.SetActive(false);
         }        
 	}
-
 
     void OnTriggerEnter(Collider other)
     {
