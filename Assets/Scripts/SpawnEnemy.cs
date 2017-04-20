@@ -7,15 +7,15 @@ public class SpawnEnemy : MonoBehaviour
     [Tooltip("Add the enemy to be spawned.")]
     public GameObject enemy;   
     [Tooltip("Max enemies that can spawn at a time from the start. This increases by 1 every night.")]
-    public int maxEnemiesToSpawn = 3;
+    public int maxEnemiesToSpawn = 1;
     [Tooltip("Min enemies that can spawn at a time from the start.")]
     public int minEnemiesToSpawn = 1;
     [Tooltip("How slowly enemies spawn (in seconds) at the start of the game. Gradually decreses.")]
     public float spawnInterval = 3;
     //[Tooltip("The shortest interval between enemy spawns. Enemies will never spawn more frequently than this.")]
     //public float finalSpawnInterval = 1;
-    [Tooltip("This amount of seconds is taken off the frequency between spawns every night.")]
-    public float spawnFrequencyIncrease = 0.1f;
+    //[Tooltip("This amount of seconds is taken off the frequency between spawns every night.")]
+    //public float spawnFrequencyIncrease = 0.1f;
 
     private List<GameObject> enemies = new List<GameObject>(); // pool of enemies
     private int enemiesToSpawn = 1000;
