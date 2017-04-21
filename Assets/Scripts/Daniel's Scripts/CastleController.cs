@@ -56,7 +56,7 @@ public class CastleController : MonoBehaviour {
     static public bool playerActive = true;
     void OnTriggerStay(Collider other)
     {
-        if (other.tag == "Player" && Input.GetKeyDown(KeyCode.E))
+        if (other.tag == "Player")
         {
             print("heeeelp");
             //playerActive = !playerActive;

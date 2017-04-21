@@ -47,7 +47,7 @@ public class AIController : MonoBehaviour
     private bool playerTargetSet = false;
     private bool attacking = false;
 
-    private float animationTimeLeft = 1;
+    public float animationTimeLeft = 1;
     private Vector3 lastPos;
 
     public Image healthBarFill;
@@ -113,15 +113,13 @@ public class AIController : MonoBehaviour
             animationTimeLeft -= Time.deltaTime;
             float dist = Vector3.Distance(transform.position, target.transform.position);
             if (animationTimeLeft <= 0 && (dist <= 1 && dist >= -1))
-            {
-                print("Should be damaging now");
+            {                
                 animationTimeLeft = 1;
                 targetHealth = target.GetComponent<Health>();
                 targetHealth.currentHealth -= damageDealt;
             }
             else if(animationTimeLeft <= 0 && (dist <= 10 && dist >= -10))
-            {
-                print("Should be damaging now");
+            {                
                 animationTimeLeft = 1;
                 targetHealth = target.GetComponent<Health>();
                 targetHealth.currentHealth -= damageDealt;
