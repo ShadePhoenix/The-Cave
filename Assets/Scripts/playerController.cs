@@ -34,6 +34,24 @@ public class playerController : MonoBehaviour {
             Debug.Log("DEAD");
             Time.timeScale = 0;
         }
+
+        if(Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
+        {
+            transform.localEulerAngles = new Vector3(0, 0, 0);
+        }
+        if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
+        {
+            transform.localEulerAngles = new Vector3(0, -180, 0);
+        }
+        if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
+        {
+            transform.localEulerAngles = new Vector3(0, 90, 0);
+        }
+        if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
+        {
+            transform.localEulerAngles = new Vector3(0, -90, 0);
+        }     
+
     }
 
     void FixedUpdate()
