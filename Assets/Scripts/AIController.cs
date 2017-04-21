@@ -23,7 +23,8 @@ public class AIController : MonoBehaviour
     {
         Normal = 1,
         Fast = 2,
-        Tank = 3
+        Tank = 3,
+        Boss = 4
     };
 
     [Tooltip("Set the enemy type for the prefab. This will determine random enemy spawns.")]
@@ -58,8 +59,7 @@ public class AIController : MonoBehaviour
         hero = GameObject.FindGameObjectWithTag("Player");
         plController = hero.GetComponent<playerController>();
         structures = GameObject.FindGameObjectsWithTag("Base");
-        anim = GetComponent<Animator>();
-        bulletScript = GetComponent<BulletControl>();
+        anim = GetComponent<Animator>();              
     }		
 	void Update () 
 	{
@@ -107,7 +107,7 @@ public class AIController : MonoBehaviour
 
     void OnCollisionStay(Collision other)
     {
-        if(other.gameObject.tag == "Player" )
+        if(other.gameObject.tag == "Player" || other.gameObject.tag == "BuildNode")
         {
             anim.SetTrigger("Attack");           
         }
@@ -117,8 +117,9 @@ public class AIController : MonoBehaviour
     {        
         if (other.gameObject.tag == "Bullet")
         {
+            bulletScript = other.gameObject.GetComponent<BulletControl>();
             Destroy(other.gameObject);
-            currentHealth -= bulletScript.damageDealt;            
+            currentHealth -= bulletScript.damageDealt;
         }       
     }
 
