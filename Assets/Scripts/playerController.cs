@@ -20,6 +20,9 @@ public class playerController : MonoBehaviour {
     public int staminaDrain = 1;
     private float staminaDrainTimer = 1;
 
+    private float horizontal;
+    private float vertical;
+
     private Rigidbody rb;    
     static public bool playerAtBase = false;
     void Start ()
@@ -35,7 +38,10 @@ public class playerController : MonoBehaviour {
             Time.timeScale = 0;
         }
 
-        if(Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
+        horizontal = Input.GetAxis("Horizontal");
+        vertical = Input.GetAxis("Vertical");
+
+        if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
         {
             transform.localEulerAngles = new Vector3(0, 0, 0);
         }
@@ -50,8 +56,7 @@ public class playerController : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
         {
             transform.localEulerAngles = new Vector3(0, -90, 0);
-        }     
-
+        }
     }
 
     void FixedUpdate()
