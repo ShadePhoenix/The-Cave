@@ -21,15 +21,15 @@ public class BulletControl : MonoBehaviour {
     {
 		if(transform.position.x >= xVanishPosition || transform.position.x <= -xVanishPosition)
         {
-            gameObject.SetActive(false);
+            Destroy(gameObject);
         }
         else if (transform.position.y >= yVanishPosition || transform.position.y <= -yVanishPosition)
         {
-            gameObject.SetActive(false);
+            Destroy(gameObject);
         }
         else if (transform.position.z >= zVanishPosition || transform.position.y <= -zVanishPosition)
         {
-            gameObject.SetActive(false);
+            Destroy(gameObject);
         }
     }
 
@@ -37,7 +37,7 @@ public class BulletControl : MonoBehaviour {
     {
         if(other.gameObject.tag == "Terrain")
         {
-            other.gameObject.SetActive(false);
+            Destroy(gameObject);
         }
     }
 }
