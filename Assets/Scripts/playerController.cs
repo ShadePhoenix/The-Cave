@@ -11,15 +11,14 @@ public class playerController : MonoBehaviour {
     [Tooltip("Speed of Run acceleration.")]
     public float runAcceleration = 4;
     [Tooltip("Max running speed.")]
-    public float maxRunSpeed = 14;
-    [Tooltip("The players health.")]
-    public int health = 2;
+    public float maxRunSpeed = 14;    
+    private Health health;
     [Tooltip("Damage player takes from normal enemies.")]
     public int damageTakenNormal = 1;
     [Tooltip("How much of the global energy you use up while running per second.")]
     public int staminaDrain = 1;
     private float staminaDrainTimer = 1;
-    //public GameObject gameOver;
+    public GameObject gameOver;
 
     private float horizontal;
     private float vertical;
@@ -34,16 +33,17 @@ public class playerController : MonoBehaviour {
         rb = GetComponent<Rigidbody>();
         anim = GetComponent<Animator>();
         lastPos = transform.position;
-        //gameOver.SetActive(false);
+        health = GetComponent<Health>();
+        gameOver.SetActive(false);
 
     }
 
     void Update()
     {       
-        if(health <= 0)
+        if(health.currentHealth <= 0)
         {
             Debug.Log("DEAD");
-            //gameOver.SetActive(true);
+            gameOver.SetActive(true);
             Time.timeScale = 0;
         }
 
