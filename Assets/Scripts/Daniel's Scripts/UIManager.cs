@@ -20,6 +20,9 @@ public class UIManager : MonoBehaviour
     public int startingEnergy;
 
     static public int gold = 0;
+    [Tooltip("How much gold is worth.")]
+    public int goldValue;
+    static public int goldVal;
 
     //public GameObject cursorObject;
 
@@ -64,6 +67,7 @@ public class UIManager : MonoBehaviour
         energy = startingEnergy;
         m_Camera = Camera.main;
         UpdateStats();
+        goldVal = goldValue;
     }
 
     // Update is called once per frame

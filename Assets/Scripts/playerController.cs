@@ -78,7 +78,8 @@ public class playerController : MonoBehaviour {
 
         if (other.gameObject.tag == "Gold")
         {
-            UIManager.gold++;
+            UIManager.gold += UIManager.goldVal;
+            print("How much gold I have: " + UIManager.gold);
             Destroy(other);
         }
     }
