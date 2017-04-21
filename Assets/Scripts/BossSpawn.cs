@@ -34,7 +34,7 @@ public class BossSpawn : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
-		if (canSpawn == CanSpawn.Ready)
+		if (canSpawn == CanSpawn.Ready && DayNight.nightNumber >= nightsBeforeSpawn)
         {
             canSpawn = CanSpawn.Waiting; // wait for the next night for a chance to spawn again
             int rand = Random.Range(1, 100);
