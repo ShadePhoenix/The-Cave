@@ -20,6 +20,8 @@ public class CastleController : MonoBehaviour {
 
     public GameObject projectile;
 
+    public GameObject player;
+
     public Transform playerArea;
 
     float fireWait = 1;
@@ -38,7 +40,12 @@ public class CastleController : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        if (!playerActive)
+        //if(Input.GetKeyDown(KeyCode.E) && player.gameObject.activeSelf == false)
+        //{
+        //    player.gameObject.SetActive(true);
+        //    player.transform.position = playerArea.position;
+        //}
+        if (player.gameObject.activeSelf == false)
         {
             Aim();
             Fire();
@@ -51,7 +58,9 @@ public class CastleController : MonoBehaviour {
     {
         if (other.tag == "Player" && Input.GetKeyDown(KeyCode.E))
         {
-            playerActive = !playerActive;
+            print("heeeelp");
+            //playerActive = !playerActive;
+            player.gameObject.SetActive(false);
             //Move Player to PlayerArea in the castle
             //Lerp Camera to new position : New to figure out what script should handle camera movement
             //Deactivate player. Either SetActive(False) or disable all movement.
