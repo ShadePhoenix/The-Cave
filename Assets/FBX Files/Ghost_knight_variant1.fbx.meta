@@ -1,26 +1,44 @@
 fileFormatVersion: 2
-guid: 721b274937e95e946b5ea61f89a050eb
-timeCreated: 1492746634
-licenseType: Free
+guid: 80f86ad278d366f48a243e716861cf55
+timeCreated: 1492753234
+licenseType: Pro
 ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:
-    100000: //RootNode
-    100002: PlayerTurret_Barrel
-    100004: PlayerTurret_Projectile
-    400000: //RootNode
-    400002: PlayerTurret_Barrel
-    400004: PlayerTurret_Projectile
-    2300000: //RootNode
-    2300002: PlayerTurret_Barrel
-    2300004: PlayerTurret_Projectile
-    3300000: //RootNode
-    3300002: PlayerTurret_Barrel
-    3300004: PlayerTurret_Projectile
-    4300000: PlayerTurret_Base
-    4300002: PlayerTurret_Barrel
-    4300004: PlayerTurret_Projectile
+    100000: Ghost_Knight_Mesh1
+    100002: //RootNode
+    100004: Head_JNT
+    100006: L_Collarbone_JNT
+    100008: L_Hand_JNT
+    100010: L_Shoulder_JNT
+    100012: Neck
+    100014: R_Collarbone_JNT
+    100016: R_Hand_JNT
+    100018: R_Shoulder_JNT
+    100020: RIG
+    100022: Tail_end_JNT
+    100024: Tail_middle_JNT
+    100026: Tail_Start_JNT
+    100028: transform1
+    400000: Ghost_Knight_Mesh1
+    400002: //RootNode
+    400004: Head_JNT
+    400006: L_Collarbone_JNT
+    400008: L_Hand_JNT
+    400010: L_Shoulder_JNT
+    400012: Neck
+    400014: R_Collarbone_JNT
+    400016: R_Hand_JNT
+    400018: R_Shoulder_JNT
+    400020: RIG
+    400022: Tail_end_JNT
+    400024: Tail_middle_JNT
+    400026: Tail_Start_JNT
+    400028: transform1
+    4300000: Ghost_Knight_Mesh1
+    7400000: Take 001
     9500000: //RootNode
+    13700000: Ghost_Knight_Mesh1
   materials:
     importMaterials: 1
     materialName: 0
@@ -47,7 +65,7 @@ ModelImporter:
     lODScreenPercentages: []
     globalScale: 1
     meshCompression: 0
-    addColliders: 0
+    addColliders: 1
     importBlendShapes: 1
     swapUVChannels: 0
     generateSecondaryUV: 0
