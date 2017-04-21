@@ -25,8 +25,6 @@ public class TurretAI : MonoBehaviour
 
     [Tooltip("How much the unit will cost to build")]
     public int conMatCost;
-    [Tooltip("Damage dealt to enemies when hit")]
-    public int damage;
     [Tooltip("")]
     public int energyFireCost;
     [Tooltip("The range that it can target enemies")]
