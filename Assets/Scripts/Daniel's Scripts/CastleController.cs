@@ -20,9 +20,6 @@ public class CastleController : MonoBehaviour {
 
     public GameObject projectile;
 
-    [Tooltip("Damage dealt to enemies when hit")]
-    public int damage;
-
     public Transform playerArea;
 
     float fireWait = 1;
