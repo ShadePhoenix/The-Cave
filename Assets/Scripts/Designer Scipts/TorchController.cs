@@ -8,10 +8,11 @@ public class TorchController : MonoBehaviour {
     public float maxBrightness=1;
     public float maxRange=20;
     public float energy;
+    private float oldEnergy;
 
 	// Use this for initialization
 	void Start () {
-        energy = UIManager.energy;
+        //energy = UIManager.energy;
         //energy = 400;
         for (int i = 0; i < torches.Length; i++)
         {
@@ -22,14 +23,19 @@ public class TorchController : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        energy = UIManager.energy;
-        for (int i=0; i < torches.Length; i++)
+        //energy = UIManager.energy;
+        if (energy != oldEnergy)
         {
-            if (energy >= (visionSteps*i) && energy < visionSteps*(1+i))
+            for (int i = 0; i < torches.Length; i++)
             {
-                LightSwitch(i);
+              //  if (energy >= (visionSteps * i) && energy < visionSteps * (1 + i))
+               // {
+                    LightSwitch(i);
+               // }
             }
         }
+
+        oldEnergy = energy;
         
 
 
@@ -39,6 +45,7 @@ public class TorchController : MonoBehaviour {
     {
         for (int i = 0; i < torches[target].gameObject.transform.childCount; i++)
         {
+            Debug.Log(target);
             Light light = torches[target].gameObject.transform.GetChild(i).transform.GetChild(0).GetComponent<Light>();
             light.intensity = maxBrightness* Mathf.Clamp01((energy - (visionSteps * target)) / visionSteps);
             light.range = maxRange * Mathf.Clamp01((energy-(visionSteps * target))/visionSteps);
