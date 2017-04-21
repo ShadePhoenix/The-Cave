@@ -54,8 +54,7 @@ public class UIManager : MonoBehaviour
         Time.timeScale = 1;
         isBuilding = false;
         isRemoving = false;
-        uiMode = false;
-        score = 0;
+        uiMode = false;        
         gameUI.SetActive(true);
         buildPanel.SetActive(false);
         //gameOverMenu.SetActive(false);
