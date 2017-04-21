@@ -24,13 +24,10 @@ public class UIManager : MonoBehaviour
     public int goldValue;
     static public int goldVal;
 
-    public GameObject cursorObject;
+    //public GameObject cursorObject;
 
     public GameObject buildPanel;
     public GameObject gameUI;
-
-    public bool gameOver = false;
-    public bool gameWon = false;
 
     public Sprite targetSprite;
 
@@ -38,7 +35,8 @@ public class UIManager : MonoBehaviour
     void Start ()
     {
         Time.timeScale = 1;
-        cursorObject.SetActive(false);
+        buildPanel.SetActive(false);
+        //cursorObject.SetActive(false);
         gameUI.SetActive(true);
         conMat = startingConMat;
         energy = startingEnergy;
@@ -53,7 +51,7 @@ public class UIManager : MonoBehaviour
         UpdateStats();
         if (!CastleController.playerActive)
         {
-            cursorObject.SetActive(true);
+            //cursorObject.SetActive(true);
             //TargetCursor();
         }
         BuildNodeClick();
@@ -68,20 +66,19 @@ public class UIManager : MonoBehaviour
     //}
 
     GameObject currentBuildNode;
-    Transform buildPanelPos;
 
     void BuildNodeClick()
     {
         if (Input.GetButtonDown("Fire1"))
         {
-            RaycastHit hit;
-            if (Physics.Raycast(m_Camera.ScreenPointToRay(Input.mousePosition), out hit))
+            RaycastHit point;
+            if (Physics.Raycast(m_Camera.ScreenPointToRay(Input.mousePosition), out point))
             {
-                if (hit.collider.tag == "BuildNode" && hit.collider.GetComponent<BuildNode>().allowBuild)
+                if (point.collider.tag == "BuildNode" && point.collider.GetComponent<BuildNode>().allowBuild)
                 {
-                    currentBuildNode = hit.collider.gameObject;
-                    buildPanelPos = hit.collider.transform;
-                    GameObject buildCanvas = Instantiate(buildPanel, hit.collider.transform.position, Quaternion.identity);
+                    currentBuildNode = point.collider.gameObject;
+                    buildPanel.SetActive(true);
+                    buildPanel.transform.position = currentBuildNode.transform.position;
                 }
             }
         }
@@ -92,12 +89,12 @@ public class UIManager : MonoBehaviour
     {
         if (conMat >= turretPrefab.GetComponent<TurretAI>().conMatCost)
         {
-            buildPanel.SetActive(false);
-            GameObject turret = Instantiate(turretPrefab, buildPanelPos.position, Quaternion.identity);
-            currentBuildNode.GetComponent<BuildNode>().turret = turret;
+            GameObject builtTurret = Instantiate(turretPrefab, currentBuildNode.transform.position, Quaternion.identity);
+            currentBuildNode.GetComponent<BuildNode>().turret = builtTurret;
             currentBuildNode.GetComponent<BuildNode>().allowBuild = false;
             conMat -= turretPrefab.GetComponent<TurretAI>().conMatCost;
             currentBuildNode = null;
+            buildPanel.SetActive(false);
         }
     }
 
