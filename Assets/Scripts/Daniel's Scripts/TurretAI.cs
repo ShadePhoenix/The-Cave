@@ -94,13 +94,7 @@ public class TurretAI : MonoBehaviour
             Vector3 turretRot = transform.rotation.eulerAngles;
             turretRot.y = (Mathf.Atan2(posDif.x, posDif.z) * Mathf.Rad2Deg);
             transform.localRotation = Quaternion.Euler(turretRot);
-            turretArm.transform.LookAt(aimPoint);
-
-            //Vector3 posDif = target.transform.position - transform.position;
-            //Vector3 turretRot = transform.rotation.eulerAngles;
-            //turretRot.y = (Mathf.Atan2(posDif.x, posDif.z) * Mathf.Rad2Deg);
-            //transform.localRotation = Quaternion.Euler(turretRot);
-            //turretArm.transform.LookAt(target.transform);
+            turretArm.transform.LookAt(aimPoint);            
         }
     }
 
@@ -110,20 +104,7 @@ public class TurretAI : MonoBehaviour
     {
         if ((fire && target != null))
         {
-            //for (int i = 0; i < numProjectiles; i++)
-            //{
-            //    if (bulletList[i].gameObject.activeSelf == false)
-            //    {
-            //        bulletList[i].gameObject.SetActive(true); // reactivate the bullet
-            //        // set its position
-            //        bulletList[i].transform.position = new Vector3(projectileSpawn.position.x, projectileSpawn.position.y, projectileSpawn.position.z); 
-            //        bulletList[i].transform.eulerAngles = projectileSpawn.transform.eulerAngles; // set its ange
-            //        bulletBodies[i].AddForce(bulletList[i].transform.up * projectileSpeed, ForceMode.Impulse);  // add force on the matching rigidbody                  
-            //        StartCoroutine(FireWait(fireWait));
-            //        fire = false;                   
-            //        return;
-            //    }
-            //}
+            UIManager.energy -= energyFireCost;
             GameObject lProjectile = Instantiate(projectile, projectileSpawn.position, Quaternion.Euler(projectileSpawn.transform.eulerAngles));
             lProjectile.GetComponent<Rigidbody>().AddForce(lProjectile.transform.forward * projectileSpeed, ForceMode.Impulse);
             StartCoroutine(FireWait(fireWait));
@@ -144,22 +125,7 @@ public class TurretAI : MonoBehaviour
         healthBarFill.fillAmount = currentHealth / health;
         if (currentHealth <= 0)
         {
-            //Destroy Turret and play particle effects
-            //GameObject.FindGameObjectWithTag("Canvas").GetComponent<UIManager>().GameOver();
+            Destroy(gameObject);
         }
-    }
-
-    //void GenBullets()
-    //{
-    //    if(bulletGen == false)
-    //    {
-    //        bulletGen = true;
-    //        for (int i = 0; i < numProjectiles; i++)
-    //        {
-    //            bulletList.Add((GameObject)Instantiate(projectile, new Vector3(-10, -10, 0), Quaternion.identity));
-    //            bulletList[i].gameObject.SetActive(false);
-    //            bulletBodies.Add(bulletList[i].GetComponent<Rigidbody>());
-    //        }
-    //    }        
-    //}
+    }    
 }

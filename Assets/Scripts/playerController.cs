@@ -35,7 +35,6 @@ public class playerController : MonoBehaviour {
         lastPos = transform.position;
         health = GetComponent<Health>();
         gameOver.SetActive(false);
-
     }
 
     void Update()
