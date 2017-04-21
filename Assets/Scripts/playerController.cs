@@ -35,29 +35,29 @@ public class playerController : MonoBehaviour {
             Time.timeScale = 0;
         }
     }
-		
-	void FixedUpdate ()
-    {    
-        Vector3 moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));        
+
+    void FixedUpdate()
+    {
+        Vector3 moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
         moveDirection.y = 0;
         if (Input.GetKey(KeyCode.LeftShift) && UIManager.energy > 0)
         {
             staminaDrainTimer -= Time.deltaTime;
-            if(staminaDrainTimer <= 0)
+            if (staminaDrainTimer <= 0)
             {
                 UIManager.energy -= staminaDrain;
                 staminaDrainTimer = 1;
             }
-            
+
             rb.velocity += (moveDirection * runAcceleration);
 
             Vector3 velocity = rb.velocity;
             velocity.x = Mathf.Clamp(velocity.x, -maxRunSpeed, maxRunSpeed);
             velocity.z = Mathf.Clamp(velocity.z, -maxRunSpeed, maxRunSpeed);
 
-            rb.velocity = velocity;                  
+            rb.velocity = velocity;
         }
-        else 
+        else
         {
             rb.velocity += (moveDirection * walkAcceleration);
 
@@ -69,20 +69,16 @@ public class playerController : MonoBehaviour {
         }
     }
 
-    //void OnCollisionEnter(Collision other)
-    //{
-    //    if(other.gameObject.tag == "Enemy")
-    //    {           
-    //        health -= damageTakenNormal;
-    //        Debug.Log("OUCH!");
-    //    }
-    //}
-
     void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.tag == "Base Trigger")
         {           
             playerAtBase = true;
+        }
+
+        if (other.gameObject.tag == "Gold")
+        {
+            Destroy(other);
         }
     }
     void OnTriggerExit(Collider other)

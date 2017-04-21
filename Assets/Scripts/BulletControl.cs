@@ -11,8 +11,12 @@ public class BulletControl : MonoBehaviour {
     [Tooltip("Choose the Z position you want bullets to disappear at. Automatically sets the opposite negative value.")]
     public float zVanishPosition = 1000;
 
+    [Tooltip("Choose the Z position you want bullets to disappear at. Automatically sets the opposite negative value.")]
+    public int damageDealt;
+
 	// Use this for initialization
-	void Start () {
+	void Start ()
+    {
 		
 	}
 	
