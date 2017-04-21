@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using UnityEngine.AI;
 
 public class AIController : MonoBehaviour 
 {    
@@ -34,7 +35,7 @@ public class AIController : MonoBehaviour
     private GameObject hero;
     private playerController plController; 
     private GameObject target;
-    private UnityEngine.AI.NavMeshAgent m_agent;
+    private NavMeshAgent m_agent;
    
     private Collider[] structuresInRange;
     private float currentTargetDis = Mathf.Infinity;
@@ -55,6 +56,8 @@ public class AIController : MonoBehaviour
     private Health targetHealth;
     private Health myHealth;
 
+    Transform marker;
+
     void Start () 
 	{
         currentHealth = startHealth;
@@ -64,22 +67,39 @@ public class AIController : MonoBehaviour
         structures = GameObject.FindGameObjectsWithTag("BuildNode");
         anim = GetComponent<Animator>();
         myHealth = GetComponent<Health>();
+        //marker = transform.FindChild("Marker");
+        target = hero;
     }		
 	void Update () 
 	{
+        //marker.position = m_agent.destination;
+
         HealthUpdate();
         if (playerController.playerAtBase == false)
-        {            
+        {
+            target = hero;
             targetStructureSet = false;
             m_agent.SetDestination(hero.transform.position);
         }
         else
         {
             if(targetStructureSet == false)
-            {                
+            {      
                 targetStructureSet = true;
                 int rStruct = Random.Range(0, structures.Length);
-                m_agent.SetDestination(structures[rStruct].transform.position);                
+                target = structures[rStruct];
+
+                Vector3 targetPos = structures[rStruct].transform.position;
+                NavMeshHit myNavHit;
+                if (NavMesh.SamplePosition(targetPos, out myNavHit, 10, -1))
+                {
+                    targetPos = myNavHit.position;
+                }
+
+                m_agent.SetDestination(targetPos);
+                //print("Structure: " + structures[rStruct].transform.position);
+                //print("Agent destination: " + m_agent.destination);
+                //print("Player: " + hero.transform.position);
             }            
         }
         if(currentHealth <= 0)
@@ -89,14 +109,23 @@ public class AIController : MonoBehaviour
         
         if (anim.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
         {
+            //print("Animation Attack playing");
             animationTimeLeft -= Time.deltaTime;
-            //float dist = Vector3.Distance(transform.position, target.transform.position);
-            //if (animationTimeLeft <= 0 && (dist <= 1 && dist >= -1))
-            //{
-            //    animationTimeLeft = 1;
-            //    targetHealth = target.GetComponent<Health>();
-            //    targetHealth.currentHealth -= damageDealt;
-            //}
+            float dist = Vector3.Distance(transform.position, target.transform.position);
+            if (animationTimeLeft <= 0 && (dist <= 1 && dist >= -1))
+            {
+                print("Should be damaging now");
+                animationTimeLeft = 1;
+                targetHealth = target.GetComponent<Health>();
+                targetHealth.currentHealth -= damageDealt;
+            }
+            else if(animationTimeLeft <= 0 && (dist <= 10 && dist >= -10))
+            {
+                print("Should be damaging now");
+                animationTimeLeft = 1;
+                targetHealth = target.GetComponent<Health>();
+                targetHealth.currentHealth -= damageDealt;
+            }
         }
         if (lastPos != transform.position)
         {
@@ -112,11 +141,19 @@ public class AIController : MonoBehaviour
 
     void OnCollisionStay(Collision other)
     {
-        if(other.gameObject.tag == "Player" || other.gameObject.tag == "BuildNode")
+        if(other.gameObject.tag == "Player" )
         {
-            anim.SetTrigger("Attack");           
+           anim.SetTrigger("Attack");           
         }
     }        
+
+    void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.tag == "BuildNode")
+        {
+            anim.SetTrigger("Attack");
+        }
+    }
 
     void OnTriggerEnter(Collider other)
     {        
@@ -125,14 +162,15 @@ public class AIController : MonoBehaviour
             bulletScript = other.gameObject.GetComponent<BulletControl>();
             Destroy(other.gameObject);
             currentHealth -= bulletScript.damageDealt;
-        }       
+        }
+        
     }
 
     void HealthUpdate()
     {
         healthBar.transform.position = transform.position + new Vector3(0, 1, 1);
         healthBar.transform.rotation = Quaternion.Euler(new Vector3(90, 0, 0));
-        healthBarFill.fillAmount = currentHealth / startHealth;
+        healthBarFill.fillAmount = myHealth.currentHealth / myHealth.startHealth;
         if (currentHealth <= 0)
         {
             //Destroy enemy and play particle effects/animation
