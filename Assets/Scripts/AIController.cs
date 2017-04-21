@@ -25,6 +25,7 @@ public class AIController : MonoBehaviour
    
     private Collider[] structuresInRange;
     private float currentTargetDis = Mathf.Infinity;
+    private float speed = 0f;
 
     private GameObject[] structures;
 
@@ -33,6 +34,7 @@ public class AIController : MonoBehaviour
     private bool attacking = false;
 
     private float animationTimeLeft = 1;
+    private Vector3 lastPos;
 
     public Image healthBarFill;
 
@@ -62,10 +64,9 @@ public class AIController : MonoBehaviour
                 m_agent.SetDestination(structures[rStruct].transform.position);
             }            
         }
-
         if(currentHealth <= 0)
         {
-            gameObject.SetActive(false);
+            Destroy(gameObject);
         }
         
         if (anim.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
@@ -77,6 +78,16 @@ public class AIController : MonoBehaviour
                 animationTimeLeft = 1;
                 plController.health -= damageDealt;
             }
+        }
+        if (lastPos != transform.position)
+        {
+            speed = Mathf.Clamp01(speed+Time.deltaTime);
+            anim.SetFloat("Blend", speed);
+        }
+        else
+        {
+            speed = Mathf.Clamp01(speed - Time.deltaTime);
+            anim.SetFloat("Blend",speed);
         }
     }
 
@@ -92,12 +103,12 @@ public class AIController : MonoBehaviour
     {        
         if (other.gameObject.tag == "Bullet")
         {
-            other.gameObject.SetActive(false);
+            Destroy(other);
             currentHealth -= normalTurretDamageTaken;            
         }
         if (other.gameObject.tag == "Player Bullet")
-        {            
-            other.gameObject.SetActive(false);
+        {
+            Destroy(other);
             currentHealth -= bigTurretDamageTaken;            
         }
     }
