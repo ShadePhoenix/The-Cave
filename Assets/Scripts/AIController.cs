@@ -107,7 +107,7 @@ public class AIController : MonoBehaviour
 
     void OnCollisionStay(Collision other)
     {
-        if(other.gameObject.tag == "Player" )
+        if(other.gameObject.tag == "Player" || other.gameObject.tag == "BuildNode")
         {
             anim.SetTrigger("Attack");           
         }
@@ -119,7 +119,7 @@ public class AIController : MonoBehaviour
         {
             bulletScript = other.gameObject.GetComponent<BulletControl>();
             Destroy(other.gameObject);
-            currentHealth -= bulletScript.damageDealt;            
+            currentHealth -= bulletScript.damageDealt;
         }       
     }
 
