@@ -18,7 +18,7 @@ public class playerController : MonoBehaviour {
     [Tooltip("How much of the global energy you use up while running per second.")]
     public int staminaDrain = 1;
     private float staminaDrainTimer = 1;
-    public GameObject gameOver;
+   // public GameObject gameOver;
 
     private float horizontal;
     private float vertical;
@@ -34,7 +34,7 @@ public class playerController : MonoBehaviour {
         anim = GetComponent<Animator>();
         lastPos = transform.position;
         health = GetComponent<Health>();
-        gameOver.SetActive(false);
+        //gameOver.SetActive(false);
     }
 
     void Update()
@@ -42,40 +42,40 @@ public class playerController : MonoBehaviour {
         if(health.currentHealth <= 0)
         {
             Debug.Log("DEAD");
-            gameOver.SetActive(true);
+            //gameOver.SetActive(true);
             Time.timeScale = 0;
         }
 
         horizontal = Input.GetAxis("Horizontal");
         vertical = Input.GetAxis("Vertical");
 
-        if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
-        {
-            transform.localEulerAngles = new Vector3(0, 0, 0);
-        }
-        if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
-        {
-            transform.localEulerAngles = new Vector3(0, -180, 0);
-        }
-        if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
-        {
-            transform.localEulerAngles = new Vector3(0, 90, 0);
-        }
-        if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
-        {
-            transform.localEulerAngles = new Vector3(0, -90, 0);
-        }
-        if (lastPos != transform.position)
-        {
-            speed = Mathf.Clamp01(speed + Time.deltaTime);
-            anim.SetFloat("Blend", speed);
-        }
-        else
-        {
-            speed = Mathf.Clamp01(speed - Time.deltaTime);
-            anim.SetFloat("Blend", speed);
-        }
-        lastPos = transform.position;
+        //if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
+        //{
+        //    transform.localEulerAngles = new Vector3(0, 0, 0);
+        //}
+        //if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
+        //{
+        //    transform.localEulerAngles = new Vector3(0, -180, 0);
+        //}
+        //if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
+        //{
+        //    transform.localEulerAngles = new Vector3(0, 90, 0);
+        //}
+        //if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
+        //{
+        //    transform.localEulerAngles = new Vector3(0, -90, 0);
+        //}
+        //if (lastPos != transform.position)
+        //{
+        //    speed = Mathf.Clamp01(speed + Time.deltaTime);
+        //    anim.SetFloat("Blend", speed);
+        //}
+        //else
+        //{
+        //    speed = Mathf.Clamp01(speed - Time.deltaTime);
+        //    anim.SetFloat("Blend", speed);
+        //}
+        //lastPos = transform.position;
     }
 
     void FixedUpdate()
