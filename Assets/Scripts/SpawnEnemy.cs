@@ -26,15 +26,25 @@ public class SpawnEnemy : MonoBehaviour
     private float timeUntilSpawn = 0;
     private GameObject[] spawners;   
     private bool spawning = false;
+    private bool nightTime;
     
     void Start()
     {        
         spawners = GameObject.FindGameObjectsWithTag("Spawner");
-        StartCoroutine("Spawn");
+        //StartCoroutine("Spawn");
+        nightTime = DayNight.isNight;
     }
 
     void Update()
     {
+        if ( nightTime != DayNight.isNight)
+        {
+            if (DayNight.isNight)
+            {
+                StartCoroutine("Spawn");
+            }
+        }
+        nightTime = DayNight.isNight;
         //GenEnemies();
         //if (genEnemies)
         //{
@@ -59,7 +69,7 @@ public class SpawnEnemy : MonoBehaviour
 
     private IEnumerator Spawn()
     {
-        while(true)
+        while(DayNight.isNight)
         {
             spawning = true;
             int rSpawn = Random.Range(0, spawners.Length);
