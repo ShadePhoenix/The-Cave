@@ -10,7 +10,7 @@ public class TurretAI : MonoBehaviour
 {
     [Tooltip("Starting Health of the Player Turret")]
     public int health = 100;
-    int currentHealth;
+    float currentHealth;
     [Tooltip("The Object that will rotate")]
     public GameObject turretArm;
     [Tooltip("The Object that the bullets will fire from *Best to parent to Turret Head*")]
@@ -37,6 +37,7 @@ public class TurretAI : MonoBehaviour
     [Tooltip("Time between shots in seconds")]
     public float fireWait;
 
+    public GameObject healthBar;
     public Image healthBarFill;
 
     GameObject target;
@@ -50,14 +51,13 @@ public class TurretAI : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        
+        currentHealth = health;
     }
 
     // Update is called once per frame
     void Update()
     {
         //GenBullets();  // Generate a pool bullets if they haven't been already
-        currentHealth = health;
         RangeMonitor();
         Aim();
         Fire();
@@ -136,11 +136,13 @@ public class TurretAI : MonoBehaviour
     IEnumerator FireWait(float waitTime)
     {
         yield return new WaitForSeconds(waitTime);
-            fire = true;
+        fire = true;
     }
 
     void HealthUpdate()
     {
+        healthBar.transform.position = transform.position + new Vector3(0, 2, -2.5f);
+        healthBar.transform.rotation = Quaternion.Euler(new Vector3(90, 0, 0));
         healthBarFill.fillAmount = currentHealth / health;
         if (currentHealth <= 0)
         {
