@@ -20,9 +20,6 @@ public class CastleController : MonoBehaviour {
 
     public GameObject projectile;
 
-    [Tooltip("Damage dealt to enemies when hit")]
-    public int damage;
-
     public Transform playerArea;
 
     float fireWait = 1;
@@ -49,7 +46,7 @@ public class CastleController : MonoBehaviour {
         HealthUpdate();
     }
 
-    bool playerActive = true;
+    static public bool playerActive = true;
     void OnTriggerStay(Collider other)
     {
         if (other.tag == "Player" && Input.GetKeyDown(KeyCode.E))
@@ -70,14 +67,22 @@ public class CastleController : MonoBehaviour {
     }
 
     bool fire = true;
+    public LayerMask terrainMask;
     void Fire()
     {
         if (fire && Input.GetButtonDown("Fire1") && !EventSystem.current.IsPointerOverGameObject())
         {
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
+                if (Physics.Raycast(ray, out hit, terrainMask))
+                {
+                    turretArm.transform.LookAt(hit.point);
+                }
             GameObject bullet = Instantiate(projectile, projectileSpawn.position, Quaternion.Euler(projectileSpawn.transform.eulerAngles));
             bullet.GetComponent<Rigidbody>().AddForce(bullet.transform.up * projectileSpeed, ForceMode.Impulse);
             StartCoroutine(FireWait(fireWait));
             fire = false;
+            UIManager.uiState = UIManager.UIState.Build;
         }
     }
 
