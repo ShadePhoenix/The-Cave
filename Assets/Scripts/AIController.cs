@@ -52,14 +52,18 @@ public class AIController : MonoBehaviour
     public Image healthBarFill;
     public GameObject healthBar;
 
+    private Health targetHealth;
+    private Health myHealth;
+
     void Start () 
 	{
         currentHealth = startHealth;
 		m_agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
         hero = GameObject.FindGameObjectWithTag("Player");
         plController = hero.GetComponent<playerController>();
-        structures = GameObject.FindGameObjectsWithTag("Base");
-        anim = GetComponent<Animator>();        
+        structures = GameObject.FindGameObjectsWithTag("BuildNode");
+        anim = GetComponent<Animator>();
+        myHealth = GetComponent<Health>();
     }		
 	void Update () 
 	{
@@ -72,10 +76,10 @@ public class AIController : MonoBehaviour
         else
         {
             if(targetStructureSet == false)
-            {
+            {                
                 targetStructureSet = true;
                 int rStruct = Random.Range(0, structures.Length);
-                m_agent.SetDestination(structures[rStruct].transform.position);
+                m_agent.SetDestination(structures[rStruct].transform.position);                
             }            
         }
         if(currentHealth <= 0)
@@ -86,12 +90,13 @@ public class AIController : MonoBehaviour
         if (anim.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
         {
             animationTimeLeft -= Time.deltaTime;
-            float dist = Vector3.Distance(transform.position, hero.transform.position);
-            if (animationTimeLeft <= 0 && (dist <= 1 && dist >= -1))
-            {
-                animationTimeLeft = 1;
-                plController.health -= damageDealt;
-            }
+            //float dist = Vector3.Distance(transform.position, target.transform.position);
+            //if (animationTimeLeft <= 0 && (dist <= 1 && dist >= -1))
+            //{
+            //    animationTimeLeft = 1;
+            //    targetHealth = target.GetComponent<Health>();
+            //    targetHealth.currentHealth -= damageDealt;
+            //}
         }
         if (lastPos != transform.position)
         {
