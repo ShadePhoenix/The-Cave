@@ -45,7 +45,6 @@ public class TorchController : MonoBehaviour {
     {
         for (int i = 0; i < torches[target].gameObject.transform.childCount; i++)
         {
-            Debug.Log(target);
             Light light = torches[target].gameObject.transform.GetChild(i).transform.GetChild(0).GetComponent<Light>();
             light.intensity = maxBrightness* Mathf.Clamp01((energy - (visionSteps * target)) / visionSteps);
             light.range = maxRange * Mathf.Clamp01((energy-(visionSteps * target))/visionSteps);

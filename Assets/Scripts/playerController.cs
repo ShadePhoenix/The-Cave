@@ -19,15 +19,23 @@ public class playerController : MonoBehaviour {
     [Tooltip("How much of the global energy you use up while running per second.")]
     public int staminaDrain = 1;
     private float staminaDrainTimer = 1;
+    public GameObject gameOver;
 
     private float horizontal;
     private float vertical;
+    private float speed = 0f;
+    private Animator anim;
+    private Vector3 lastPos;
 
     private Rigidbody rb;    
     static public bool playerAtBase = false;
     void Start ()
     {
         rb = GetComponent<Rigidbody>();
+        anim = GetComponent<Animator>();
+        lastPos = transform.position;
+        gameOver.SetActive(false);
+
     }
 
     void Update()
@@ -35,6 +43,7 @@ public class playerController : MonoBehaviour {
         if(health <= 0)
         {
             Debug.Log("DEAD");
+            gameOver.SetActive(true);
             Time.timeScale = 0;
         }
 
@@ -57,6 +66,17 @@ public class playerController : MonoBehaviour {
         {
             transform.localEulerAngles = new Vector3(0, -90, 0);
         }
+        if (lastPos != transform.position)
+        {
+            speed = Mathf.Clamp01(speed + Time.deltaTime);
+            anim.SetFloat("Blend", speed);
+        }
+        else
+        {
+            speed = Mathf.Clamp01(speed - Time.deltaTime);
+            anim.SetFloat("Blend", speed);
+        }
+        lastPos = transform.position;
     }
 
     void FixedUpdate()
