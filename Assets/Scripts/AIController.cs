@@ -59,7 +59,7 @@ public class AIController : MonoBehaviour
         plController = hero.GetComponent<playerController>();
         structures = GameObject.FindGameObjectsWithTag("Base");
         anim = GetComponent<Animator>();
-        bulletScript = GetComponent<BulletControl>();
+        bulletScript = GetComponent<BulletControl>();       
     }		
 	void Update () 
 	{
