@@ -49,33 +49,33 @@ public class playerController : MonoBehaviour {
         horizontal = Input.GetAxis("Horizontal");
         vertical = Input.GetAxis("Vertical");
 
-        //if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
-        //{
-        //    transform.localEulerAngles = new Vector3(0, 0, 0);
-        //}
-        //if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
-        //{
-        //    transform.localEulerAngles = new Vector3(0, -180, 0);
-        //}
-        //if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
-        //{
-        //    transform.localEulerAngles = new Vector3(0, 90, 0);
-        //}
-        //if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
-        //{
-        //    transform.localEulerAngles = new Vector3(0, -90, 0);
-        //}
-        //if (lastPos != transform.position)
-        //{
-        //    speed = Mathf.Clamp01(speed + Time.deltaTime);
-        //    anim.SetFloat("Blend", speed);
-        //}
-        //else
-        //{
-        //    speed = Mathf.Clamp01(speed - Time.deltaTime);
-        //    anim.SetFloat("Blend", speed);
-        //}
-        //lastPos = transform.position;
+        if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
+        {
+            transform.localEulerAngles = new Vector3(0, 0, 0);
+        }
+        if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
+        {
+            transform.localEulerAngles = new Vector3(0, -180, 0);
+        }
+        if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
+        {
+            transform.localEulerAngles = new Vector3(0, 90, 0);
+        }
+        if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
+        {
+            transform.localEulerAngles = new Vector3(0, -90, 0);
+        }
+        if (lastPos != transform.position)
+        {
+            speed = Mathf.Clamp01(speed + Time.deltaTime);
+            anim.SetFloat("Blend", speed);
+        }
+        else
+        {
+            speed = Mathf.Clamp01(speed - Time.deltaTime);
+            anim.SetFloat("Blend", speed);
+        }
+        lastPos = transform.position;
     }
 
     void FixedUpdate()
@@ -123,7 +123,7 @@ public class playerController : MonoBehaviour {
         if (other.gameObject.tag == "Gold")
         {
             UIManager.gold += UIManager.goldVal;
-            print("How much gold I have: " + UIManager.gold);
+            //print("How much gold I have: " + UIManager.gold);
             Destroy(other.gameObject);
         }
     }

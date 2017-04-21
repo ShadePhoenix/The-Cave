@@ -19,16 +19,15 @@ public class CastleController : MonoBehaviour {
     public Transform projectileSpawn;
 
     public GameObject projectile;
-
     public GameObject player;
-
     public Transform playerArea;
 
     float fireWait = 1;
 
     public float projectileSpeed = 50;
-
     public Image healthBarFill;
+
+    private bool triggered = false;
 
     // Use this for initialization
     void Start()
@@ -45,6 +44,13 @@ public class CastleController : MonoBehaviour {
         //    player.gameObject.SetActive(true);
         //    player.transform.position = playerArea.position;
         //}
+
+        if ((triggered && Input.GetKeyDown(KeyCode.E) )&& player.gameObject.activeSelf == true)
+        {
+            
+            //m_Camera.gameObject.SetActive(false);
+        }
+
         if (player.gameObject.activeSelf == false)
         {
             Aim();
@@ -56,14 +62,17 @@ public class CastleController : MonoBehaviour {
     static public bool playerActive = true;
     void OnTriggerStay(Collider other)
     {
-        if (other.tag == "Player" && Input.GetKeyDown(KeyCode.E))
+        if (other.tag == "Player")
         {
-            print("heeeelp");
-            //playerActive = !playerActive;
-            player.gameObject.SetActive(false);
-            //Move Player to PlayerArea in the castle
-            //Lerp Camera to new position : New to figure out what script should handle camera movement
-            //Deactivate player. Either SetActive(False) or disable all movement.
+            triggered = true;           
+        }
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        if (other.tag == "Player")
+        {
+            triggered = false;
         }
     }
 

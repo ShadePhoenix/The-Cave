@@ -1,16 +1,25 @@
 fileFormatVersion: 2
-guid: bec329cb46fdd1f43a521eb3dec369f8
-timeCreated: 1492664961
+guid: 6797f4c2f061b1b4b913227cd66f6a94
+timeCreated: 1492757597
 licenseType: Pro
 ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:
     100000: //RootNode
+    100002: PlayerTurret_Barrel
+    100004: PlayerTurret_Projectile
     400000: //RootNode
+    400002: PlayerTurret_Barrel
+    400004: PlayerTurret_Projectile
     2300000: //RootNode
+    2300002: PlayerTurret_Barrel
+    2300004: PlayerTurret_Projectile
     3300000: //RootNode
-    4300000: crystal01
-    6400000: //RootNode
+    3300002: PlayerTurret_Barrel
+    3300004: PlayerTurret_Projectile
+    4300000: PlayerTurret_Base
+    4300002: PlayerTurret_Barrel
+    4300004: PlayerTurret_Projectile
     9500000: //RootNode
   materials:
     importMaterials: 1
@@ -38,7 +47,7 @@ ModelImporter:
     lODScreenPercentages: []
     globalScale: 1
     meshCompression: 0
-    addColliders: 1
+    addColliders: 0
     importBlendShapes: 1
     swapUVChannels: 0
     generateSecondaryUV: 0

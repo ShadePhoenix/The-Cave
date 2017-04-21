@@ -10,6 +10,11 @@ public class SlowTower : MonoBehaviour {
     public int health = 100;
     float currentHealth;
 
+    [Tooltip("How much the unit will cost to build")]
+    public int conMatCost;
+    [Tooltip("Cost to slow each enemy that enters its radius")]
+    public int energyFireCost;
+
 
 
     // Use this for initialization
@@ -26,8 +31,8 @@ public class SlowTower : MonoBehaviour {
     {
         if (other.tag == "Enemy")
         {
-            other.gameObject.GetComponent<NavMeshAgent>().speed = (other.gameObject.GetComponent<NavMeshAgent>().speed) / 2;
-            Debug.Log(other.gameObject.GetComponent<NavMeshAgent>().speed);
+                other.gameObject.GetComponent<NavMeshAgent>().speed = (other.gameObject.GetComponent<NavMeshAgent>().speed) / 2;
+                Debug.Log(other.gameObject.GetComponent<NavMeshAgent>().speed);
         }
     }
 
