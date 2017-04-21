@@ -18,8 +18,8 @@ public class UIManager : MonoBehaviour
     public Text energyTB;
     static public int energy;
     public int startingEnergy;
-   
-    static public int score;
+
+    static public int gold = 0;
 
     //public GameObject cursorObject;
 

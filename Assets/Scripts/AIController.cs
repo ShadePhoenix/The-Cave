@@ -8,7 +8,7 @@ public class AIController : MonoBehaviour
     public float targetRange;
     [Tooltip("Health of the enemy.")]
     public int startHealth = 10;
-    private int currentHealth;
+    private float currentHealth;
     [Tooltip("How much damage you take from normal turret bullets.")]
     public int normalTurretDamageTaken = 1;
     [Tooltip("How much damage you take from the big player turret bullets.")]
@@ -37,6 +37,7 @@ public class AIController : MonoBehaviour
     private Vector3 lastPos;
 
     public Image healthBarFill;
+    public GameObject healthBar;
 
     void Start () 
 	{
@@ -115,6 +116,8 @@ public class AIController : MonoBehaviour
 
     void HealthUpdate()
     {
+        healthBar.transform.position = transform.position + new Vector3(0, 1, 1);
+        healthBar.transform.rotation = Quaternion.Euler(new Vector3(90, 0, 0));
         healthBarFill.fillAmount = currentHealth / startHealth;
         if (currentHealth <= 0)
         {
