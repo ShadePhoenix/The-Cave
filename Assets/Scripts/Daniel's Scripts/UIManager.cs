@@ -108,7 +108,7 @@ public class UIManager : MonoBehaviour
             RaycastHit hit;
             if (Physics.Raycast(m_Camera.ScreenPointToRay(Input.mousePosition), out hit))
             {
-                if (hit.collider.tag == "BuildNode")
+                if (hit.collider.tag == "BuildNode" && hit.collider.GetComponent<BuildNode>().allowBuild)
                 {
                     currentBuildNode = hit.collider.gameObject;
                     buildPanelPos = hit.collider.transform;
@@ -127,7 +127,10 @@ public class UIManager : MonoBehaviour
         if (conMat >= turretPrefab.GetComponent<TurretAI>().conMatCost)
         {
             buildPanel.SetActive(false);
-            Instantiate(turretPrefab, buildPanelPos.position, Quaternion.identity);
+            GameObject turret = Instantiate(turretPrefab, buildPanelPos.position, Quaternion.identity);
+            currentBuildNode.GetComponent<BuildNode>().turret = turret;
+            //turret.transform.parent = currentBuildNode.transform;
+            currentBuildNode.GetComponent<BuildNode>().allowBuild = false;
             conMat -= turretPrefab.GetComponent<TurretAI>().conMatCost;
             currentBuildNode = null;
         }
