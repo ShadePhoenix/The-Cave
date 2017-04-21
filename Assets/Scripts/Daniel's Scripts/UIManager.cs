@@ -48,8 +48,8 @@ public class UIManager : MonoBehaviour
     static public bool isRemoving = false;
     static public bool uiMode = false;
 
-    enum UIState {Pause, Build, Repair, Remove, EndGame}
-    UIState uiState;
+    public enum UIState {Pause, Build, Repair, Remove, EndGame}
+    public static UIState uiState;
 
     // Use this for initialization
     void Start ()
@@ -82,6 +82,7 @@ public class UIManager : MonoBehaviour
         //    uiMode = false;
         //if (Input.GetKeyDown(KeyCode.Escape))
         //MenuPR(!isPaused);
+        //if (!CastleController.playerActive)
         //TargetCursor();
         BuildNodeClick();
     }
@@ -136,55 +137,7 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    //Activates build mode
-    //public void RemoveButton()
-    //{
-    //    isRemoving = true;
-    //    isBuilding = !isRemoving;
-    //}
-
-    //void Construction()
-    //{
-    //    //This is for building turrets
-    //    if (isBuilding && turretPrefab != null)
-    //    {
-    //        if (Input.GetButtonDown("Fire1") && !EventSystem.current.IsPointerOverGameObject() && money >= turretPrefab.GetComponent<TurretAI>().cost)
-    //        {
-    //            RaycastHit hit;
-    //            if (Physics.Raycast(m_Camera.ScreenPointToRay(Input.mousePosition), out hit))
-    //            {
-    //                if (hit.collider.tag == "BuildPos")
-    //                {
-    //                    Instantiate(turretPrefab, hit.collider.transform.position + new Vector3(0, 0.5f, 0), Quaternion.identity);
-    //                    money -= turretPrefab.GetComponent<TurretAI>().cost;
-    //                    UpdateStats();
-    //                }
-    //                turretPrefab = null;
-    //                StartCoroutine(WaitTimer());
-    //            }
-    //        }
-    //        else if (Input.GetButtonDown("Fire1") && money < turretPrefab.GetComponent<TurretAI>().cost)
-    //            StartCoroutine(WaitTimer());
-    //    }
-    //    //This is for removing turrets
-    //    if (isRemoving)
-    //    {
-    //        if (Input.GetButtonDown("Fire1") && !EventSystem.current.IsPointerOverGameObject())
-    //        {
-    //            RaycastHit hit;
-    //            if (Physics.Raycast(m_Camera.ScreenPointToRay(Input.mousePosition), out hit))
-    //            {
-    //                if (hit.collider.tag == "Turret")
-    //                {
-    //                    money += hit.collider.GetComponent<TurretAI>().cost / 2;
-    //                    UpdateStats();
-    //                    Destroy(hit.collider.gameObject);
-    //                }
-    //                StartCoroutine(WaitTimer());
-    //            }
-    //        }
-    //    }
-    //}
+    
 
     //Updates score and money text boxes
     public void UpdateStats()
