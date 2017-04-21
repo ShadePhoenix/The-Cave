@@ -60,10 +60,16 @@ public class CastleController : MonoBehaviour {
 
     void Aim()
     {
-            Vector2 posDif = Input.mousePosition - m_Camera.WorldToScreenPoint(transform.position);
-            Vector3 playerRot = playerTurret.transform.rotation.eulerAngles;
-            playerRot.y = Mathf.Atan2(posDif.x, posDif.y) * Mathf.Rad2Deg;
-            playerTurret.transform.rotation = Quaternion.Euler(playerRot);
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, terrainMask))
+        {
+            playerTurret.transform.forward = hit.point - transform.position;
+            Vector3 angles = playerTurret.transform.eulerAngles;
+            angles.x = angles.z = 0;
+            playerTurret.transform.eulerAngles = angles;
+            turretArm.transform.forward = hit.point - transform.position;
+        }
     }
 
     bool fire = true;
@@ -72,14 +78,14 @@ public class CastleController : MonoBehaviour {
     {
         if (fire && Input.GetButtonDown("Fire1") && !EventSystem.current.IsPointerOverGameObject())
         {
-                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                RaycastHit hit;
-                if (Physics.Raycast(ray, out hit, terrainMask))
-                {
-                    turretArm.transform.LookAt(hit.point);
-                }
+            //Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            //RaycastHit hit;
+            //if (Physics.Raycast(ray, out hit, terrainMask))
+            //{
+            //    turretArm.transform.LookAt(new Vector3(playerTurret.transform.rotation.x,hit.point.y, playerTurret.transform.rotation.z));
+            //}
             GameObject bullet = Instantiate(projectile, projectileSpawn.position, Quaternion.Euler(projectileSpawn.transform.eulerAngles));
-            bullet.GetComponent<Rigidbody>().AddForce(bullet.transform.up * projectileSpeed, ForceMode.Impulse);
+            bullet.GetComponent<Rigidbody>().AddForce(bullet.transform.forward * projectileSpeed, ForceMode.Impulse);
             StartCoroutine(FireWait(fireWait));
             fire = false;
             UIManager.uiState = UIManager.UIState.Build;
