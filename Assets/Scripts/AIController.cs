@@ -59,7 +59,7 @@ public class AIController : MonoBehaviour
         plController = hero.GetComponent<playerController>();
         structures = GameObject.FindGameObjectsWithTag("Base");
         anim = GetComponent<Animator>();
-        bulletScript = GetComponent<BulletControl>();
+        bulletScript = GetComponent<BulletControl>();       
     }		
 	void Update () 
 	{
@@ -118,7 +118,7 @@ public class AIController : MonoBehaviour
         if (other.gameObject.tag == "Bullet")
         {
             Destroy(other.gameObject);
-            currentHealth -= bulletScript.damageDealt;            
+            currentHealth -= bulletScript.damageDealt;
         }       
     }
 

@@ -1,0 +1,475 @@
+fileFormatVersion: 2
+guid: 67c9e0c32b9a9954a88d54a1e0ec234c
+timeCreated: 1492736542
+licenseType: Pro
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: ArmLower_L_JNT
+    100002: ArmLower_R_JNT
+    100004: ArmUpper_L_JNT
+    100006: ArmUpper_R_JNT
+    100008: Centre_JNT
+    100010: Chest_JNT
+    100012: Crown_END
+    100014: Crown_JNT
+    100016: Gear_END
+    100018: Gear_JNT
+    100020: Hammer_END
+    100022: Hammer_JNT
+    100024: Hand_R_END
+    100026: Head_JNT
+    100028: Hero
+    100030: //RootNode
+    100032: Neck_JNT
+    100034: Shoulder_L_JNT
+    100036: Shoulder_R_JNT
+    100038: Tyre_END
+    100040: Tyre_JNT
+    400000: ArmLower_L_JNT
+    400002: ArmLower_R_JNT
+    400004: ArmUpper_L_JNT
+    400006: ArmUpper_R_JNT
+    400008: Centre_JNT
+    400010: Chest_JNT
+    400012: Crown_END
+    400014: Crown_JNT
+    400016: Gear_END
+    400018: Gear_JNT
+    400020: Hammer_END
+    400022: Hammer_JNT
+    400024: Hand_R_END
+    400026: Head_JNT
+    400028: Hero
+    400030: //RootNode
+    400032: Neck_JNT
+    400034: Shoulder_L_JNT
+    400036: Shoulder_R_JNT
+    400038: Tyre_END
+    400040: Tyre_JNT
+    4300000: Hero
+    7400000: PlayerTakeOff
+    7400002: PlayerIdle
+    7400004: Stopping
+    7400006: PlayerMove
+    7400008: PlayerHammer
+    9500000: //RootNode
+    13700000: Hero
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: PlayerTakeOff
+      takeName: Take 001
+      firstFrame: 52
+      lastFrame: 68
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Centre_JNT
+        weight: 1
+      - path: Centre_JNT/Chest_JNT
+        weight: 1
+      - path: Centre_JNT/Chest_JNT/Gear_JNT
+        weight: 1
+      - path: Centre_JNT/Chest_JNT/Gear_JNT/Gear_END
+        weight: 1
+      - path: Centre_JNT/Chest_JNT/Neck_JNT
+        weight: 1
+      - path: Centre_JNT/Chest_JNT/Neck_JNT/Head_JNT
+        weight: 1
+      - path: Centre_JNT/Chest_JNT/Neck_JNT/Head_JNT/Crown_JNT
+        weight: 1
+      - path: Centre_JNT/Chest_JNT/Neck_JNT/Head_JNT/Crown_JNT/Crown_END
+        weight: 1
+      - path: Centre_JNT/Chest_JNT/Shoulder_L_JNT
+        weight: 1
+      - path: Centre_JNT/Chest_JNT/Shoulder_L_JNT/ArmUpper_L_JNT
+        weight: 1
+      - path: Centre_JNT/Chest_JNT/Shoulder_L_JNT/ArmUpper_L_JNT/ArmLower_L_JNT
+        weight: 1
+      - path: Centre_JNT/Chest_JNT/Shoulder_L_JNT/ArmUpper_L_JNT/ArmLower_L_JNT/Hammer_JNT
+        weight: 1
+      - path: Centre_JNT/Chest_JNT/Shoulder_L_JNT/ArmUpper_L_JNT/ArmLower_L_JNT/Hammer_JNT/Hammer_END
+        weight: 1
+      - path: Centre_JNT/Chest_JNT/Shoulder_R_JNT
+        weight: 1
+      - path: Centre_JNT/Chest_JNT/Shoulder_R_JNT/ArmUpper_R_JNT
+        weight: 1
+      - path: Centre_JNT/Chest_JNT/Shoulder_R_JNT/ArmUpper_R_JNT/ArmLower_R_JNT
+        weight: 1
+      - path: Centre_JNT/Chest_JNT/Shoulder_R_JNT/ArmUpper_R_JNT/ArmLower_R_JNT/Hand_R_END
+        weight: 1
+      - path: Centre_JNT/Tyre_JNT
+        weight: 1
+      - path: Centre_JNT/Tyre_JNT/Tyre_END
+        weight: 1
+      - path: Hero
+        weight: 1
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: PlayerIdle
+      takeName: Take 001
+      firstFrame: 1
+      lastFrame: 50
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Centre_JNT
+        weight: 1
+      - path: Centre_JNT/Chest_JNT
+        weight: 1
+      - path: Centre_JNT/Chest_JNT/Gear_JNT
+        weight: 1
+      - path: Centre_JNT/Chest_JNT/Gear_JNT/Gear_END
+        weight: 1
+      - path: Centre_JNT/Chest_JNT/Neck_JNT
+        weight: 1
+      - path: Centre_JNT/Chest_JNT/Neck_JNT/Head_JNT
+        weight: 1
+      - path: Centre_JNT/Chest_JNT/Neck_JNT/Head_JNT/Crown_JNT
+        weight: 1
+      - path: Centre_JNT/Chest_JNT/Neck_JNT/Head_JNT/Crown_JNT/Crown_END
+        weight: 1
+      - path: Centre_JNT/Chest_JNT/Shoulder_L_JNT
+        weight: 1
+      - path: Centre_JNT/Chest_JNT/Shoulder_L_JNT/ArmUpper_L_JNT
+        weight: 1
+      - path: Centre_JNT/Chest_JNT/Shoulder_L_JNT/ArmUpper_L_JNT/ArmLower_L_JNT
+        weight: 1
+      - path: Centre_JNT/Chest_JNT/Shoulder_L_JNT/ArmUpper_L_JNT/ArmLower_L_JNT/Hammer_JNT
+        weight: 1
+      - path: Centre_JNT/Chest_JNT/Shoulder_L_JNT/ArmUpper_L_JNT/ArmLower_L_JNT/Hammer_JNT/Hammer_END
+        weight: 1
+      - path: Centre_JNT/Chest_JNT/Shoulder_R_JNT
+        weight: 1
+      - path: Centre_JNT/Chest_JNT/Shoulder_R_JNT/ArmUpper_R_JNT
+        weight: 1
+      - path: Centre_JNT/Chest_JNT/Shoulder_R_JNT/ArmUpper_R_JNT/ArmLower_R_JNT
+        weight: 1
+      - path: Centre_JNT/Chest_JNT/Shoulder_R_JNT/ArmUpper_R_JNT/ArmLower_R_JNT/Hand_R_END
+        weight: 1
+      - path: Centre_JNT/Tyre_JNT
+        weight: 1
+      - path: Centre_JNT/Tyre_JNT/Tyre_END
+        weight: 1
+      - path: Hero
+        weight: 1
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Stopping
+      takeName: Take 001
+      firstFrame: 100
+      lastFrame: 123
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Centre_JNT
+        weight: 1
+      - path: Centre_JNT/Chest_JNT
+        weight: 1
+      - path: Centre_JNT/Chest_JNT/Gear_JNT
+        weight: 1
+      - path: Centre_JNT/Chest_JNT/Gear_JNT/Gear_END
+        weight: 1
+      - path: Centre_JNT/Chest_JNT/Neck_JNT
+        weight: 1
+      - path: Centre_JNT/Chest_JNT/Neck_JNT/Head_JNT
+        weight: 1
+      - path: Centre_JNT/Chest_JNT/Neck_JNT/Head_JNT/Crown_JNT
+        weight: 1
+      - path: Centre_JNT/Chest_JNT/Neck_JNT/Head_JNT/Crown_JNT/Crown_END
+        weight: 1
+      - path: Centre_JNT/Chest_JNT/Shoulder_L_JNT
+        weight: 1
+      - path: Centre_JNT/Chest_JNT/Shoulder_L_JNT/ArmUpper_L_JNT
+        weight: 1
+      - path: Centre_JNT/Chest_JNT/Shoulder_L_JNT/ArmUpper_L_JNT/ArmLower_L_JNT
+        weight: 1
+      - path: Centre_JNT/Chest_JNT/Shoulder_L_JNT/ArmUpper_L_JNT/ArmLower_L_JNT/Hammer_JNT
+        weight: 1
+      - path: Centre_JNT/Chest_JNT/Shoulder_L_JNT/ArmUpper_L_JNT/ArmLower_L_JNT/Hammer_JNT/Hammer_END
+        weight: 1
+      - path: Centre_JNT/Chest_JNT/Shoulder_R_JNT
+        weight: 1
+      - path: Centre_JNT/Chest_JNT/Shoulder_R_JNT/ArmUpper_R_JNT
+        weight: 1
+      - path: Centre_JNT/Chest_JNT/Shoulder_R_JNT/ArmUpper_R_JNT/ArmLower_R_JNT
+        weight: 1
+      - path: Centre_JNT/Chest_JNT/Shoulder_R_JNT/ArmUpper_R_JNT/ArmLower_R_JNT/Hand_R_END
+        weight: 1
+      - path: Centre_JNT/Tyre_JNT
+        weight: 1
+      - path: Centre_JNT/Tyre_JNT/Tyre_END
+        weight: 1
+      - path: Hero
+        weight: 1
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: PlayerMove
+      takeName: Take 001
+      firstFrame: 69
+      lastFrame: 99
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Centre_JNT
+        weight: 1
+      - path: Centre_JNT/Chest_JNT
+        weight: 1
+      - path: Centre_JNT/Chest_JNT/Gear_JNT
+        weight: 1
+      - path: Centre_JNT/Chest_JNT/Gear_JNT/Gear_END
+        weight: 1
+      - path: Centre_JNT/Chest_JNT/Neck_JNT
+        weight: 1
+      - path: Centre_JNT/Chest_JNT/Neck_JNT/Head_JNT
+        weight: 1
+      - path: Centre_JNT/Chest_JNT/Neck_JNT/Head_JNT/Crown_JNT
+        weight: 1
+      - path: Centre_JNT/Chest_JNT/Neck_JNT/Head_JNT/Crown_JNT/Crown_END
+        weight: 1
+      - path: Centre_JNT/Chest_JNT/Shoulder_L_JNT
+        weight: 1
+      - path: Centre_JNT/Chest_JNT/Shoulder_L_JNT/ArmUpper_L_JNT
+        weight: 1
+      - path: Centre_JNT/Chest_JNT/Shoulder_L_JNT/ArmUpper_L_JNT/ArmLower_L_JNT
+        weight: 1
+      - path: Centre_JNT/Chest_JNT/Shoulder_L_JNT/ArmUpper_L_JNT/ArmLower_L_JNT/Hammer_JNT
+        weight: 1
+      - path: Centre_JNT/Chest_JNT/Shoulder_L_JNT/ArmUpper_L_JNT/ArmLower_L_JNT/Hammer_JNT/Hammer_END
+        weight: 1
+      - path: Centre_JNT/Chest_JNT/Shoulder_R_JNT
+        weight: 1
+      - path: Centre_JNT/Chest_JNT/Shoulder_R_JNT/ArmUpper_R_JNT
+        weight: 1
+      - path: Centre_JNT/Chest_JNT/Shoulder_R_JNT/ArmUpper_R_JNT/ArmLower_R_JNT
+        weight: 1
+      - path: Centre_JNT/Chest_JNT/Shoulder_R_JNT/ArmUpper_R_JNT/ArmLower_R_JNT/Hand_R_END
+        weight: 1
+      - path: Centre_JNT/Tyre_JNT
+        weight: 1
+      - path: Centre_JNT/Tyre_JNT/Tyre_END
+        weight: 1
+      - path: Hero
+        weight: 1
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: PlayerHammer
+      takeName: Take 001
+      firstFrame: 128
+      lastFrame: 146
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Centre_JNT
+        weight: 1
+      - path: Centre_JNT/Chest_JNT
+        weight: 1
+      - path: Centre_JNT/Chest_JNT/Gear_JNT
+        weight: 1
+      - path: Centre_JNT/Chest_JNT/Gear_JNT/Gear_END
+        weight: 1
+      - path: Centre_JNT/Chest_JNT/Neck_JNT
+        weight: 1
+      - path: Centre_JNT/Chest_JNT/Neck_JNT/Head_JNT
+        weight: 1
+      - path: Centre_JNT/Chest_JNT/Neck_JNT/Head_JNT/Crown_JNT
+        weight: 1
+      - path: Centre_JNT/Chest_JNT/Neck_JNT/Head_JNT/Crown_JNT/Crown_END
+        weight: 1
+      - path: Centre_JNT/Chest_JNT/Shoulder_L_JNT
+        weight: 1
+      - path: Centre_JNT/Chest_JNT/Shoulder_L_JNT/ArmUpper_L_JNT
+        weight: 1
+      - path: Centre_JNT/Chest_JNT/Shoulder_L_JNT/ArmUpper_L_JNT/ArmLower_L_JNT
+        weight: 1
+      - path: Centre_JNT/Chest_JNT/Shoulder_L_JNT/ArmUpper_L_JNT/ArmLower_L_JNT/Hammer_JNT
+        weight: 1
+      - path: Centre_JNT/Chest_JNT/Shoulder_L_JNT/ArmUpper_L_JNT/ArmLower_L_JNT/Hammer_JNT/Hammer_END
+        weight: 1
+      - path: Centre_JNT/Chest_JNT/Shoulder_R_JNT
+        weight: 1
+      - path: Centre_JNT/Chest_JNT/Shoulder_R_JNT/ArmUpper_R_JNT
+        weight: 1
+      - path: Centre_JNT/Chest_JNT/Shoulder_R_JNT/ArmUpper_R_JNT/ArmLower_R_JNT
+        weight: 1
+      - path: Centre_JNT/Chest_JNT/Shoulder_R_JNT/ArmUpper_R_JNT/ArmLower_R_JNT/Hand_R_END
+        weight: 1
+      - path: Centre_JNT/Tyre_JNT
+        weight: 1
+      - path: Centre_JNT/Tyre_JNT/Tyre_END
+        weight: 1
+      - path: Hero
+        weight: 1
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 1
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
