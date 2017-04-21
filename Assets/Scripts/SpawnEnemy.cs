@@ -52,8 +52,6 @@ public class SpawnEnemy : MonoBehaviour
         //}
 
         //startSpawnInterval -= 
-
-
     }
 
     void GenEnemies()
@@ -100,7 +98,7 @@ public class SpawnEnemy : MonoBehaviour
                 //        break;
                 //    }
                 //}     
-                Debug.Log("looping spawn now..");
+                //Debug.Log("looping spawn now..");
                 Instantiate(enemy, spawners[i].transform.position, Quaternion.identity);
                 yield return new WaitForSeconds(0.5f);
             }
