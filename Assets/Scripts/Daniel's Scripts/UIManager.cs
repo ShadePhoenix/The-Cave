@@ -33,10 +33,6 @@ public class UIManager : MonoBehaviour
     public bool gameWon = false;
 
     public Sprite targetSprite;
-    public Sprite buildSprite;
-
-    public enum UIState {Pause, Build, Repair, Remove, EndGame}
-    public static UIState uiState;
 
     // Use this for initialization
     void Start ()
@@ -85,9 +81,7 @@ public class UIManager : MonoBehaviour
                 {
                     currentBuildNode = hit.collider.gameObject;
                     buildPanelPos = hit.collider.transform;
-                    buildPanel.SetActive(true);
-                    buildPanel.transform.position = hit.collider.transform.position;
-                    uiState = UIState.Build;
+                    GameObject buildCanvas = Instantiate(buildPanel, hit.collider.transform.position, Quaternion.identity);
                 }
             }
         }
