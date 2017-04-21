@@ -61,7 +61,7 @@ public class AIController : MonoBehaviour
 		m_agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
         hero = GameObject.FindGameObjectWithTag("Player");
         plController = hero.GetComponent<playerController>();
-        structures = GameObject.FindGameObjectsWithTag("Base");
+        structures = GameObject.FindGameObjectsWithTag("BuildNode");
         anim = GetComponent<Animator>();
         myHealth = GetComponent<Health>();
     }		
@@ -76,10 +76,10 @@ public class AIController : MonoBehaviour
         else
         {
             if(targetStructureSet == false)
-            {
+            {                
                 targetStructureSet = true;
                 int rStruct = Random.Range(0, structures.Length);
-                m_agent.SetDestination(structures[rStruct].transform.position);
+                m_agent.SetDestination(structures[rStruct].transform.position);                
             }            
         }
         if(currentHealth <= 0)
@@ -90,13 +90,13 @@ public class AIController : MonoBehaviour
         if (anim.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
         {
             animationTimeLeft -= Time.deltaTime;
-            float dist = Vector3.Distance(transform.position, target.transform.position);
-            if (animationTimeLeft <= 0 && (dist <= 1 && dist >= -1))
-            {
-                animationTimeLeft = 1;
-                targetHealth = target.GetComponent<Health>();
-                targetHealth.currentHealth -= damageDealt;
-            }
+            //float dist = Vector3.Distance(transform.position, target.transform.position);
+            //if (animationTimeLeft <= 0 && (dist <= 1 && dist >= -1))
+            //{
+            //    animationTimeLeft = 1;
+            //    targetHealth = target.GetComponent<Health>();
+            //    targetHealth.currentHealth -= damageDealt;
+            //}
         }
         if (lastPos != transform.position)
         {
