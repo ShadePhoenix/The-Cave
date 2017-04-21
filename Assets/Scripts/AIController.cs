@@ -19,8 +19,17 @@ public class AIController : MonoBehaviour
     public GameObject bullet;
     private BulletControl bulletScript;
 
-    private Animator anim;
+    public enum EnemyType
+    {
+        Normal = 1,
+        Fast = 2,
+        Tank = 3
+    };
 
+    [Tooltip("Set the enemy type for the prefab. This will determine random enemy spawns.")]
+    public EnemyType type = EnemyType.Normal;
+
+    private Animator anim;
     private GameObject hero;
     private playerController plController; 
     private GameObject target;
