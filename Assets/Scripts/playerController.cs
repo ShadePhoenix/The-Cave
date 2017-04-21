@@ -69,6 +69,8 @@ public class playerController : MonoBehaviour {
         }
     }
 
+    
+
     void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.tag == "Base Trigger")
@@ -78,8 +80,9 @@ public class playerController : MonoBehaviour {
 
         if (other.gameObject.tag == "Gold")
         {
-            UIManager.gold++;
-            Destroy(other);
+            UIManager.gold += UIManager.goldVal;
+            print("How much gold I have: " + UIManager.gold);
+            Destroy(other.gameObject);
         }
     }
     void OnTriggerExit(Collider other)

@@ -15,9 +15,21 @@ public class AIController : MonoBehaviour
     public int bigTurretDamageTaken = 5;
     [Tooltip("How much damage you deal the player.")]
     public int damageDealt = 1;
+    [Tooltip("The bullet to get damage from.")]
+    public GameObject bullet;
+    private BulletControl bulletScript;
+
+    public enum EnemyType
+    {
+        Normal = 1,
+        Fast = 2,
+        Tank = 3
+    };
+
+    [Tooltip("Set the enemy type for the prefab. This will determine random enemy spawns.")]
+    public EnemyType type = EnemyType.Normal;
 
     private Animator anim;
-
     private GameObject hero;
     private playerController plController; 
     private GameObject target;
@@ -47,6 +59,7 @@ public class AIController : MonoBehaviour
         plController = hero.GetComponent<playerController>();
         structures = GameObject.FindGameObjectsWithTag("Base");
         anim = GetComponent<Animator>();
+        bulletScript = GetComponent<BulletControl>();
     }		
 	void Update () 
 	{
@@ -104,14 +117,9 @@ public class AIController : MonoBehaviour
     {        
         if (other.gameObject.tag == "Bullet")
         {
-            Destroy(other);
-            currentHealth -= normalTurretDamageTaken;            
-        }
-        if (other.gameObject.tag == "Player Bullet")
-        {
-            Destroy(other);
-            currentHealth -= bigTurretDamageTaken;            
-        }
+            Destroy(other.gameObject);
+            currentHealth -= bulletScript.damageDealt;            
+        }       
     }
 
     void HealthUpdate()
@@ -123,6 +131,7 @@ public class AIController : MonoBehaviour
         {
             //Destroy enemy and play particle effects/animation
             //GameObject.FindGameObjectWithTag("Canvas").GetComponent<UIManager>().GameOver();
+            Destroy(gameObject);
         }
     }
 }
