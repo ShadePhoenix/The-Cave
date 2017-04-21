@@ -59,7 +59,7 @@ public class AIController : MonoBehaviour
         hero = GameObject.FindGameObjectWithTag("Player");
         plController = hero.GetComponent<playerController>();
         structures = GameObject.FindGameObjectsWithTag("Base");
-        anim = GetComponent<Animator>();              
+        anim = GetComponent<Animator>();        
     }		
 	void Update () 
 	{
