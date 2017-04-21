@@ -24,29 +24,16 @@ public class UIManager : MonoBehaviour
     public int goldValue;
     static public int goldVal;
 
-    //public GameObject cursorObject;
+    public GameObject cursorObject;
 
     public GameObject buildPanel;
     public GameObject gameUI;
-    //public GameObject pauseMenu;
-    //public GameObject gameOverMenu;
-    //public GameObject gameWonMenu;
 
     public bool gameOver = false;
     public bool gameWon = false;
 
-    //public Sprite targetSprite;
-    //public Sprite buildSprite;
-
-    //public GameObject[] turretPrefabs;
-    //public GameObject[] enemyPrefabs;
-    //public GameObject buttonPrefab;
-    //public GameObject[] buttonPositions; 
-
-    //If this is true, we're in "build mode" and the next click will place a building
-    static public bool isBuilding = false;
-    static public bool isRemoving = false;
-    static public bool uiMode = false;
+    public Sprite targetSprite;
+    public Sprite buildSprite;
 
     public enum UIState {Pause, Build, Repair, Remove, EndGame}
     public static UIState uiState;
@@ -55,14 +42,8 @@ public class UIManager : MonoBehaviour
     void Start ()
     {
         Time.timeScale = 1;
-        isBuilding = false;
-        isRemoving = false;
-        uiMode = false;        
+        cursorObject.SetActive(false);
         gameUI.SetActive(true);
-        buildPanel.SetActive(false);
-        //gameOverMenu.SetActive(false);
-        //pauseMenu.SetActive(false);
-        //gameWonMenu.SetActive(false);
         conMat = startingConMat;
         energy = startingEnergy;
         m_Camera = Camera.main;
@@ -74,30 +55,21 @@ public class UIManager : MonoBehaviour
     void Update()
     {
         UpdateStats();
-        //Construction();
-        //Enables uiMode if any of these are true
-        //if (isRemoving || isBuilding || isPaused || gameOver)
-        //    uiMode = true;
-        //else
-        //    uiMode = false;
-        //if (Input.GetKeyDown(KeyCode.Escape))
-        //MenuPR(!isPaused);
-        //if (!CastleController.playerActive)
-        //TargetCursor();
+        if (!CastleController.playerActive)
+        {
+            cursorObject.SetActive(true);
+            TargetCursor();
+        }
         BuildNodeClick();
     }
 
 
-    //void TargetCursor()
-    //{
-    //    Vector3 mousePos = Input.mousePosition;
-    //    mousePos.z = 950f;
-    //    cursorObject.transform.position = m_Camera.ScreenToWorldPoint(mousePos);
-    //    if (isBuilding || isRemoving)
-    //        cursorObject.GetComponentInChildren<SpriteRenderer>().sprite = buildSprite;
-    //    else
-    //        cursorObject.GetComponentInChildren<SpriteRenderer>().sprite = targetSprite;
-    //}
+    void TargetCursor()
+    {
+        Vector3 mousePos = Input.mousePosition;
+        mousePos.z = 950f;
+        cursorObject.transform.position = m_Camera.ScreenToWorldPoint(mousePos);
+    }
 
     GameObject currentBuildNode;
     Transform buildPanelPos;
@@ -115,7 +87,6 @@ public class UIManager : MonoBehaviour
                     buildPanelPos = hit.collider.transform;
                     buildPanel.SetActive(true);
                     buildPanel.transform.position = hit.collider.transform.position;
-                    //buildPanel.transform.position = m_Camera.WorldToScreenPoint(m_Camera.ScreenToWorldPoint(Input.mousePosition));
                     uiState = UIState.Build;
                 }
             }
@@ -130,7 +101,6 @@ public class UIManager : MonoBehaviour
             buildPanel.SetActive(false);
             GameObject turret = Instantiate(turretPrefab, buildPanelPos.position, Quaternion.identity);
             currentBuildNode.GetComponent<BuildNode>().turret = turret;
-            //turret.transform.parent = currentBuildNode.transform;
             currentBuildNode.GetComponent<BuildNode>().allowBuild = false;
             conMat -= turretPrefab.GetComponent<TurretAI>().conMatCost;
             currentBuildNode = null;
@@ -144,73 +114,5 @@ public class UIManager : MonoBehaviour
     {
         conMatTB.text = conMat.ToString();
         energyTB.text = energy.ToString();
-    }
-
-    //Handles the pause menus and pauses the game
-    //bool isPaused = false;
-    //public void MenuPR(bool pause = false)
-    //{
-    //    //Pause
-    //    isPaused = pause;
-    //    if (pause && !gameOver && !gameWon)
-    //    {
-    //        gameUI.SetActive(!pause);
-    //        pauseMenu.SetActive(pause);
-    //        Time.timeScale = 0;
-    //    }
-    //    //Unpause if Paused
-    //    else if (!pause && !gameOver && !gameWon)
-    //    {
-    //        gameUI.SetActive(!pause);
-    //        pauseMenu.SetActive(pause);
-    //        Time.timeScale = 1;
-    //    }
-    //    if (pause && gameOver && !gameWon)
-    //    {
-    //        gameOverMenu.SetActive(gameOver);
-    //        gameUI.SetActive(!gameOver);
-    //        Time.timeScale = 0;
-    //    }
-    //    if (pause && !gameOver && gameWon)
-    //    {
-    //        gameWonMenu.SetActive(gameWon);
-    //        gameUI.SetActive(!gameWon);
-    //        Time.timeScale = 0;
-    //    }
-    //}
-
-    public void Restart()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-    }
-
-    //Handles the gameover menu
-    //public void GameOver()
-    //{
-    //    gameOver = true;
-    //    MenuPR(gameOver);
-    //}
-
-    //public void GameWon()
-    //{
-    //    gameWon = true;
-    //    MenuPR(gameWon);
-    //}
-
-    //Takes you back to the main menu
-    public void Quit()
-    {
-        SceneManager.LoadScene("Main Menu");
-    }
-
-    //This does something that helps, I swear
-    IEnumerator WaitTimer()
-    {
-        yield return new WaitForSeconds(0.2f);
-        uiMode = false;
-        if (isBuilding)
-            isBuilding = !isBuilding;
-        else if (isRemoving)
-            isRemoving = !isRemoving;
     }
 }
