@@ -30,53 +30,31 @@ public class SpawnEnemy : MonoBehaviour
     
     void Start()
     {        
-        spawners = GameObject.FindGameObjectsWithTag("Spawner");
-        //StartCoroutine("Spawn");
+        spawners = GameObject.FindGameObjectsWithTag("Spawner");       
         nightTime = DayNight.isNight;
+        StartCoroutine("Spawn");
     }
 
     void Update()
     {
-        if ( nightTime != DayNight.isNight)
-        {
-            if (DayNight.isNight)
-            {
-                StartCoroutine("Spawn");
-            }
-        }
-        nightTime = DayNight.isNight;
-        //GenEnemies();
-        //if (genEnemies)
+        //if ( nightTime != DayNight.isNight)
         //{
-        //    StartCoroutine("Spawn");
+        //    if (DayNight.isNight)
+        //    {
+        //        StartCoroutine("Spawn");
+        //    }
         //}
-
-        //startSpawnInterval -= 
-    }
-
-    void GenEnemies()
-    {
-        if(genEnemies == false)
-        {
-            //genEnemies = true;
-            //for (int i = 0; i < enemiesToSpawn; i++)
-            //{
-            //    enemies.Add((GameObject)Instantiate(enemy, spawners[0].transform.position, Quaternion.identity));
-            //    enemies[i].gameObject.SetActive(false);
-            //}
-        }
-    }
+        //nightTime = DayNight.isNight;        
+    } 
 
     private IEnumerator Spawn()
     {
-        while(DayNight.isNight)
+        //while(DayNight.isNight)
+        while (true)
         {
             spawning = true;
-            int rSpawn = Random.Range(0, spawners.Length);
-            //spawnInterval = startSpawnInterval - (spawnFrequencyIncrease * DayNight.nightNumber);
-            //spawnInterval = Mathf.Clamp(startSpawnInterval, finalSpawnInterval, startSpawnInterval);
-            StartCoroutine("SpawnNow", rSpawn);            
-            //Debug.Log("Spawn interval is " + spawnInterval);
+            int rSpawn = Random.Range(0, spawners.Length);            
+            StartCoroutine("SpawnNow", rSpawn);                        
             yield return new WaitForSeconds(spawnInterval);
         }         
     }
@@ -88,17 +66,7 @@ public class SpawnEnemy : MonoBehaviour
         {            
             while (enemiesToSpawn > 0)
             {                
-                enemiesToSpawn--;
-                //for (int x = 0; x < enemiesToSpawn; x++)
-                //{
-                //    if (enemies[x].gameObject.activeSelf == false)
-                //    {
-                //        enemies[x].gameObject.SetActive(true);
-                //        enemies[x].transform.position = spawners[x].transform.position;
-                //        break;
-                //    }
-                //}     
-                //Debug.Log("looping spawn now..");
+                enemiesToSpawn--;                
                 Instantiate(enemy, spawners[i].transform.position, Quaternion.identity);
                 yield return new WaitForSeconds(0.5f);
             }
