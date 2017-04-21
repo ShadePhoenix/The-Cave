@@ -1,25 +1,15 @@
 fileFormatVersion: 2
-guid: 721b274937e95e946b5ea61f89a050eb
-timeCreated: 1492746634
+guid: d6c8fbd07db0c0b4c931d945eb0d25ba
+timeCreated: 1492752192
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:
     100000: //RootNode
-    100002: PlayerTurret_Barrel
-    100004: PlayerTurret_Projectile
     400000: //RootNode
-    400002: PlayerTurret_Barrel
-    400004: PlayerTurret_Projectile
     2300000: //RootNode
-    2300002: PlayerTurret_Barrel
-    2300004: PlayerTurret_Projectile
     3300000: //RootNode
-    3300002: PlayerTurret_Barrel
-    3300004: PlayerTurret_Projectile
-    4300000: PlayerTurret_Base
-    4300002: PlayerTurret_Barrel
-    4300004: PlayerTurret_Projectile
+    4300000: Crystal_Slow_tower
     9500000: //RootNode
   materials:
     importMaterials: 1

@@ -125,7 +125,7 @@ public class TurretAI : MonoBehaviour
             //    }
             //}
             GameObject lProjectile = Instantiate(projectile, projectileSpawn.position, Quaternion.Euler(projectileSpawn.transform.eulerAngles));
-            lProjectile.GetComponent<Rigidbody>().AddForce(lProjectile.transform.up * projectileSpeed, ForceMode.Impulse);
+            lProjectile.GetComponent<Rigidbody>().AddForce(lProjectile.transform.forward * projectileSpeed, ForceMode.Impulse);
             StartCoroutine(FireWait(fireWait));
             fire = false;
         }
