@@ -9,7 +9,7 @@ using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
-    Camera m_Camera;
+    public Camera m_Camera;
 
     public Text conMatTB;
     static public int conMat;
@@ -42,7 +42,7 @@ public class UIManager : MonoBehaviour
         gameUI.SetActive(true);
         conMat = startingConMat;
         energy = startingEnergy;
-        m_Camera = Camera.main;
+        //m_Camera = Camera.main;
         UpdateStats();
         goldVal = goldValue;
     }
@@ -54,25 +54,25 @@ public class UIManager : MonoBehaviour
         if (!CastleController.playerActive)
         {
             cursorObject.SetActive(true);
-            TargetCursor();
+            //TargetCursor();
         }
         BuildNodeClick();
     }
 
 
-    void TargetCursor()
-    {
-        Vector3 mousePos = Input.mousePosition;
-        mousePos.z = 950f;
-        cursorObject.transform.position = m_Camera.ScreenToWorldPoint(mousePos);
-    }
+    //void TargetCursor()
+    //{
+    //    Vector3 mousePos = Input.mousePosition;
+    //    mousePos.z = 950f;
+    //    cursorObject.transform.position = m_Camera.ScreenToWorldPoint(mousePos);
+    //}
 
     GameObject currentBuildNode;
     Transform buildPanelPos;
 
     void BuildNodeClick()
     {
-        if (Input.GetButtonDown("Fire1") && !EventSystem.current.IsPointerOverGameObject())
+        if (Input.GetButtonDown("Fire1"))
         {
             RaycastHit hit;
             if (Physics.Raycast(m_Camera.ScreenPointToRay(Input.mousePosition), out hit))
