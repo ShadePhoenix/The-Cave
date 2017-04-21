@@ -6,8 +6,13 @@ public class BossSpawn : MonoBehaviour {
 
     [Tooltip("Chance for boss to spawn out of 100.")]
     public int spawnChance = 1;
+    private int currentSpawnChance;
     [Tooltip("Every night that a boss does not spaw, the chance for him to spawn increases by this amount, up to 100.")]
     public int spawnChanceIncrease = 1;
+    [Tooltip("Reference for the Boss. Attach the game object.")]
+    public GameObject boss;
+    [Tooltip("How many nights must pass before a boss spawns.")]
+    public int nightsBeforeSpawn = 0;
 
     private enum CanSpawn
     {
@@ -16,12 +21,13 @@ public class BossSpawn : MonoBehaviour {
         Waiting
     }
 
-    CanSpawn canSpawn;
+    CanSpawn canSpawn = CanSpawn.Cannot;
 
     // Use this for initialization
     void Start ()
     {
-        spawnChance = Mathf.Clamp(spawnChance, 0, 100);
+        currentSpawnChance = spawnChance;
+        currentSpawnChance = Mathf.Clamp(currentSpawnChance, 0, 100);
         spawnChanceIncrease = Mathf.Clamp(spawnChanceIncrease, 1, 100);
     }
 	
@@ -33,9 +39,10 @@ public class BossSpawn : MonoBehaviour {
             canSpawn = CanSpawn.Waiting; // wait for the next night for a chance to spawn again
             int rand = Random.Range(1, 100);
 
-            if(rand > 0 && rand <= spawnChance)
+            if(rand > 0 && rand <= currentSpawnChance)
             {
-                
+                currentSpawnChance = spawnChance;
+                Instantiate(boss, transform.position, Quaternion.identity);
             }
         }
 
@@ -45,7 +52,7 @@ public class BossSpawn : MonoBehaviour {
         }
         else if(DayNight.isNight == true && canSpawn == CanSpawn.Waiting) // If it's day time and waiting to be spawn ready
         {
-            spawnChance += spawnChanceIncrease;
+            currentSpawnChance += spawnChanceIncrease;
             canSpawn = CanSpawn.Ready; // Ready to spawn. It is night time now
         }
 	}
