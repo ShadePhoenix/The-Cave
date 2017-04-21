@@ -88,7 +88,7 @@ public class CastleController : MonoBehaviour {
             bullet.GetComponent<Rigidbody>().AddForce(bullet.transform.forward * projectileSpeed, ForceMode.Impulse);
             StartCoroutine(FireWait(fireWait));
             fire = false;
-            UIManager.uiState = UIManager.UIState.Build;
+            //UIManager.uiState = UIManager.UIState.Build;
         }
     }
 
