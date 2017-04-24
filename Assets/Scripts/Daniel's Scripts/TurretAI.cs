@@ -24,23 +24,21 @@ public class TurretAI : MonoBehaviour
     //private bool bulletGen = false; // have normal bullets been generated
 
     [Tooltip("How much the unit will cost to build")]
-    public int conMatCost;
+    public int conMatCost = 1;
     [Tooltip("")]
-    public int energyFireCost;
+    public int energyFireCost = 1;
     [Tooltip("The range that it can target enemies")]
-    public float fireRange;
+    public float fireRange = 100;
     [Tooltip("")]
     public float projectileSpeed;
 
     [Tooltip("Time between shots in seconds")]
-    public float fireWait;
+    public float fireWait = 1;
 
     public GameObject healthBar;
     public Image healthBarFill;
 
     GameObject target;
-
-    float currentTargetDis = Mathf.Infinity;
 
     public LayerMask mask;
     
@@ -66,7 +64,6 @@ public class TurretAI : MonoBehaviour
     //Calculates which enemy in range has traveled the furthest and targets them
     void RangeMonitor()
     {
-        currentTargetDis = Mathf.Infinity;
         enemiesInRange = Physics.OverlapSphere(transform.position, fireRange, mask);
         if (enemiesInRange.Length > 0)
         {
@@ -78,7 +75,6 @@ public class TurretAI : MonoBehaviour
         else
         {
             target = null;
-            currentTargetDis = Mathf.Infinity;
         }  
     }
 

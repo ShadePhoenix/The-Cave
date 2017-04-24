@@ -32,6 +32,7 @@ public class CastleController : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
+        player = GameObject.FindGameObjectWithTag("Player");
         currentHealth = health;
         m_Camera = Camera.main;
     }
@@ -45,21 +46,28 @@ public class CastleController : MonoBehaviour {
         //    player.transform.position = playerArea.position;
         //}
 
-        if ((triggered && Input.GetKeyDown(KeyCode.E) )&& player.gameObject.activeSelf == true)
+        if ((triggered && Input.GetKeyDown(KeyCode.E) ) && player.activeSelf == true)
         {
-            
-            //m_Camera.gameObject.SetActive(false);
+            player.SetActive(false);
+            m_Camera.gameObject.GetComponent<Follow>().followObject = gameObject;
+        }
+        else if (Input.GetKeyDown(KeyCode.E) && player.activeSelf == false)
+        {
+            player.transform.position = playerArea.position;
+            player.SetActive(true);
+            m_Camera.gameObject.GetComponent<Follow>().followObject = gameObject;
         }
 
-        if (player.gameObject.activeSelf == false)
+
+        if (player.activeSelf == false)
         {
             Aim();
             Fire();
         }
+
         HealthUpdate();
     }
 
-    static public bool playerActive = true;
     void OnTriggerStay(Collider other)
     {
         if (other.tag == "Player")
@@ -76,10 +84,11 @@ public class CastleController : MonoBehaviour {
         }
     }
 
+    RaycastHit hit;
     void Aim()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
+        
         if (Physics.Raycast(ray, out hit, terrainMask))
         {
             playerTurret.transform.forward = hit.point - transform.position;
@@ -94,19 +103,12 @@ public class CastleController : MonoBehaviour {
     public LayerMask terrainMask;
     void Fire()
     {
-        if (fire && Input.GetButtonDown("Fire1") && !EventSystem.current.IsPointerOverGameObject())
+        if (fire && Input.GetButtonDown("Fire1") && !EventSystem.current.IsPointerOverGameObject() && hit.collider.tag != "BuildNode")
         {
-            //Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            //RaycastHit hit;
-            //if (Physics.Raycast(ray, out hit, terrainMask))
-            //{
-            //    turretArm.transform.LookAt(new Vector3(playerTurret.transform.rotation.x,hit.point.y, playerTurret.transform.rotation.z));
-            //}
             GameObject bullet = Instantiate(projectile, projectileSpawn.position, Quaternion.Euler(projectileSpawn.transform.eulerAngles));
             bullet.GetComponent<Rigidbody>().AddForce(bullet.transform.forward * projectileSpeed, ForceMode.Impulse);
             StartCoroutine(FireWait(fireWait));
             fire = false;
-            //UIManager.uiState = UIManager.UIState.Build;
         }
     }
 
