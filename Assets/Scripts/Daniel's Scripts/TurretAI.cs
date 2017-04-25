@@ -38,7 +38,7 @@ public class TurretAI : MonoBehaviour
     public GameObject healthBar;
     public Image healthBarFill;
 
-    GameObject target;
+    public GameObject target;
 
     public LayerMask mask;
     

@@ -55,7 +55,7 @@ public class CastleController : MonoBehaviour {
         {
             player.transform.position = playerArea.position;
             player.SetActive(true);
-            m_Camera.gameObject.GetComponent<Follow>().followObject = gameObject;
+            m_Camera.gameObject.GetComponent<Follow>().followObject = player;
         }
 
 
@@ -103,7 +103,7 @@ public class CastleController : MonoBehaviour {
     public LayerMask terrainMask;
     void Fire()
     {
-        if (fire && Input.GetButtonDown("Fire1") && !EventSystem.current.IsPointerOverGameObject() && hit.collider.tag != "BuildNode")
+        if (fire && Input.GetButton("Fire1") && !EventSystem.current.IsPointerOverGameObject() && hit.collider.tag != "BuildNode")
         {
             GameObject bullet = Instantiate(projectile, projectileSpawn.position, Quaternion.Euler(projectileSpawn.transform.eulerAngles));
             bullet.GetComponent<Rigidbody>().AddForce(bullet.transform.forward * projectileSpeed, ForceMode.Impulse);
