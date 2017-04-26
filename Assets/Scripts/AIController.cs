@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 using UnityEngine.AI;
+using System.Collections.Generic;
 
 public class AIController : MonoBehaviour 
 {    
@@ -35,14 +36,16 @@ public class AIController : MonoBehaviour
     private GameObject hero;
     private playerController plController; 
     private GameObject target;
+    private PlayerOrTarget targType; // what kind of target is it
     private NavMeshAgent m_agent;
    
     private Collider[] structuresInRange;
     private float currentTargetDis = Mathf.Infinity;
     private float speed = 0f;
 
-    private GameObject[] structures;
-
+    private List<GameObject> structures = new List<GameObject>();
+    private List<PlayerOrTarget> strucTypes = new List<PlayerOrTarget>(); // the types of the structures, whether targetable or not
+    
     private bool targetStructureSet = false;
     private bool playerTargetSet = false;
     private bool attacking = false;
@@ -63,12 +66,13 @@ public class AIController : MonoBehaviour
         currentHealth = startHealth;
 		m_agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
         hero = GameObject.FindGameObjectWithTag("Player");
-        plController = hero.GetComponent<playerController>();
-        structures = GameObject.FindGameObjectsWithTag("BuildNode");
+        plController = hero.GetComponent<playerController>(); 
         anim = GetComponent<Animator>();
         myHealth = GetComponent<Health>();
         //marker = transform.FindChild("Marker");
         target = hero;
+
+        PopulateStructureLists();
     }		
 	void Update () 
 	{
@@ -78,6 +82,7 @@ public class AIController : MonoBehaviour
         if (playerController.playerAtBase == false)
         {
             target = hero;
+            targType = target.GetComponent<PlayerOrTarget>();
             targetStructureSet = false;
             m_agent.SetDestination(hero.transform.position);
         }
@@ -86,8 +91,9 @@ public class AIController : MonoBehaviour
             if(targetStructureSet == false)
             {      
                 targetStructureSet = true;
-                int rStruct = Random.Range(0, structures.Length);
+                int rStruct = Random.Range(0, structures.Count);
                 target = structures[rStruct];
+                targType = target.GetComponent<PlayerOrTarget>();
 
                 Vector3 targetPos = structures[rStruct].transform.position;
                 NavMeshHit myNavHit;
@@ -97,9 +103,6 @@ public class AIController : MonoBehaviour
                 }
 
                 m_agent.SetDestination(targetPos);
-                //print("Structure: " + structures[rStruct].transform.position);
-                //print("Agent destination: " + m_agent.destination);
-                //print("Player: " + hero.transform.position);
             }            
         }
         if(currentHealth <= 0)
@@ -108,17 +111,22 @@ public class AIController : MonoBehaviour
         }
         
         if (anim.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
-        {
-            //print("Animation Attack playing");
+        {            
             animationTimeLeft -= Time.deltaTime;
-            float dist = Vector3.Distance(transform.position, target.transform.position);
-            if (animationTimeLeft <= 0 && (dist <= 1 && dist >= -1))
+            float dist = Vector3.Distance(transform.position, target.transform.position);            
+            if ((animationTimeLeft <= 0 && targType.targetType == PlayerOrTarget.TargetType.Player) && (dist <= 1 && dist >= -1))
             {                
+                animationTimeLeft = 1;
+                targetHealth = target.GetComponent<Health>(); 
+                targetHealth.currentHealth -= damageDealt;
+            }
+            else if ((animationTimeLeft <= 0 && targType.targetType == PlayerOrTarget.TargetType.Battlement ) && (dist <= 5 && dist >= 4.5))
+            {
                 animationTimeLeft = 1;
                 targetHealth = target.GetComponent<Health>();
                 targetHealth.currentHealth -= damageDealt;
             }
-            else if ((animationTimeLeft <= 0) && (dist <= 5 && dist >= 4.5))
+            else if ((animationTimeLeft <= 0 && targType.targetType == PlayerOrTarget.TargetType.Castle) && (dist <= 10 && dist >= 0))
             {
                 animationTimeLeft = 1;
                 targetHealth = target.GetComponent<Health>();
@@ -174,6 +182,27 @@ public class AIController : MonoBehaviour
             //Destroy enemy and play particle effects/animation
             //GameObject.FindGameObjectWithTag("Canvas").GetComponent<UIManager>().GameOver();
             Destroy(gameObject);
+        }
+    }
+
+    void PopulateStructureLists()
+    {
+        // hold all of the structures and their target scripts in temporary arrays        
+        PlayerOrTarget[] tempStructTypes = GameObject.FindObjectsOfType<PlayerOrTarget>(); // get all objects with a certain script        
+        GameObject[] tempStructures = new GameObject[tempStructTypes.Length];
+        for (int i = 0; i < tempStructTypes.Length; i++)
+        {
+            tempStructures[i] = tempStructTypes[i].gameObject; // make an array of the game objects attached to the scripts
+        }
+
+        // now only populate the Lists we are going to use with targetable structures
+        for (int i = 0; i < tempStructures.Length; i++)
+        {
+            if (tempStructTypes[i].targetType == PlayerOrTarget.TargetType.Battlement || tempStructTypes[i].targetType == PlayerOrTarget.TargetType.Castle)
+            {
+                structures.Add(tempStructures[i]);
+                strucTypes.Add(tempStructTypes[i]);
+            }
         }
     }
 }
