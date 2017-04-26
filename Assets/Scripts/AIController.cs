@@ -115,6 +115,7 @@ public class AIController : MonoBehaviour
             Destroy(gameObject);
         }
         
+        // if the attack animation is playing, see if 1 second has passed and then do a distance check on the objects to be attacked
         if (anim.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
         {            
             animationTimeLeft -= Time.deltaTime;
@@ -131,7 +132,7 @@ public class AIController : MonoBehaviour
                 targetHealth = target.GetComponent<Health>();
                 targetHealth.currentHealth -= damageDealt;
             }
-            else if ((animationTimeLeft <= 0 && targType.targetType == PlayerOrTarget.TargetType.Castle) && (dist <= 20 && dist >= 0))
+            else if ((animationTimeLeft <= 0 && targType.targetType == PlayerOrTarget.TargetType.Castle) && (dist <= 16 && dist >= 0))
             {
                 animationTimeLeft = 1;
                 targetHealth = target.GetComponent<Health>();
@@ -164,10 +165,12 @@ public class AIController : MonoBehaviour
     {
         if (other.gameObject.tag == "BuildNode")
         {
+            // attack towers 
             anim.SetTrigger("Attack");
         }
         else if (other.gameObject.tag == "Base")
         {
+            // attack the base
             anim.SetTrigger("Attack");
         }
     }
