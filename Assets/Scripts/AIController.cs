@@ -118,8 +118,8 @@ public class AIController : MonoBehaviour
                 targetHealth = target.GetComponent<Health>();
                 targetHealth.currentHealth -= damageDealt;
             }
-            else if(animationTimeLeft <= 0 && (dist <= 10 && dist >= -10))
-            {                
+            else if ((animationTimeLeft <= 0) && (dist <= 5 && dist >= 4.5))
+            {
                 animationTimeLeft = 1;
                 targetHealth = target.GetComponent<Health>();
                 targetHealth.currentHealth -= damageDealt;
