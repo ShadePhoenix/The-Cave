@@ -41,7 +41,8 @@ public class AIController : MonoBehaviour
    
     private Collider[] structuresInRange;
     private float currentTargetDis = Mathf.Infinity;
-    private float speed = 0f;
+
+    private float animationSpeed = 0f;
 
     private List<GameObject> structures = new List<GameObject>();
     private List<PlayerOrTarget> strucTypes = new List<PlayerOrTarget>(); // the types of the structures, whether targetable or not
@@ -97,7 +98,11 @@ public class AIController : MonoBehaviour
 
                 Vector3 targetPos = structures[rStruct].transform.position;
                 NavMeshHit myNavHit;
-                if (NavMesh.SamplePosition(targetPos, out myNavHit, 10, -1))
+                if (targType.targetType == PlayerOrTarget.TargetType.Battlement && NavMesh.SamplePosition(targetPos, out myNavHit, 10, -1))
+                {
+                    targetPos = myNavHit.position;
+                }
+                else if (targType.targetType == PlayerOrTarget.TargetType.Castle && NavMesh.SamplePosition(targetPos, out myNavHit, 20, -1))
                 {
                     targetPos = myNavHit.position;
                 }
@@ -126,22 +131,24 @@ public class AIController : MonoBehaviour
                 targetHealth = target.GetComponent<Health>();
                 targetHealth.currentHealth -= damageDealt;
             }
-            else if ((animationTimeLeft <= 0 && targType.targetType == PlayerOrTarget.TargetType.Castle) && (dist <= 10 && dist >= 0))
+            else if ((animationTimeLeft <= 0 && targType.targetType == PlayerOrTarget.TargetType.Castle) && (dist <= 20 && dist >= 0))
             {
                 animationTimeLeft = 1;
                 targetHealth = target.GetComponent<Health>();
                 targetHealth.currentHealth -= damageDealt;
             }
         }
+
+        // Blending animations
         if (lastPos != transform.position)
         {
-            speed = Mathf.Clamp01(speed+Time.deltaTime);
-            anim.SetFloat("Blend", speed);
+            animationSpeed = Mathf.Clamp01(animationSpeed + Time.deltaTime);
+            anim.SetFloat("Blend", animationSpeed);
         }
         else
         {
-            speed = Mathf.Clamp01(speed - Time.deltaTime);
-            anim.SetFloat("Blend",speed);
+            animationSpeed = Mathf.Clamp01(animationSpeed - Time.deltaTime);
+            anim.SetFloat("Blend", animationSpeed);
         }
     }
 
@@ -156,6 +163,10 @@ public class AIController : MonoBehaviour
     void OnTriggerStay(Collider other)
     {
         if (other.gameObject.tag == "BuildNode")
+        {
+            anim.SetTrigger("Attack");
+        }
+        else if (other.gameObject.tag == "Base")
         {
             anim.SetTrigger("Attack");
         }
