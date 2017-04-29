@@ -49,8 +49,8 @@ public class SpawnEnemy : MonoBehaviour
 
     private IEnumerator Spawn()
     {
-        //while(DayNight.isNight)
-        while (true)
+        //while (true)
+        while (DayNight.isNight)
         {
             spawning = true;
             int rSpawn = Random.Range(0, spawners.Length);            
