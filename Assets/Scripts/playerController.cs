@@ -18,7 +18,7 @@ public class playerController : MonoBehaviour {
     [Tooltip("How much of the global energy you use up while running per second.")]
     public int staminaDrain = 1;
     private float staminaDrainTimer = 1;
-   // public GameObject gameOver;
+    public GameObject gameOver;
 
     private float horizontal;
     private float vertical;
@@ -34,7 +34,7 @@ public class playerController : MonoBehaviour {
         anim = GetComponent<Animator>();
         lastPos = transform.position;
         health = GetComponent<Health>();
-        //gameOver.SetActive(false);
+        gameOver.SetActive(false);
     }
 
     void Update()
@@ -42,7 +42,7 @@ public class playerController : MonoBehaviour {
         if(health.currentHealth <= 0)
         {
             Debug.Log("DEAD");
-            //gameOver.SetActive(true);
+            gameOver.SetActive(true);
             Time.timeScale = 0;
         }
 
