@@ -23,7 +23,6 @@ public class MenuController : MonoBehaviour {
             if (Input.GetKeyDown(KeyCode.Escape) && inMenu)
             {
                 Resume();
-
             }
             else if (Input.GetKeyDown(KeyCode.Escape) && !inMenu)
             {
@@ -36,7 +35,7 @@ public class MenuController : MonoBehaviour {
     public void SceneChange(string sceneName)
     {
         Time.timeScale = 1;
-        SceneManager.LoadScene(sceneName);
+        SceneManager.LoadScene("GameLevel Stu");
     }
 
     public void CloseProgram()
