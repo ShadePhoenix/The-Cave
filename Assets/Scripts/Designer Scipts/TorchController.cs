@@ -12,7 +12,7 @@ public class TorchController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        //energy = UIManager.energy;
+        energy = UIManager.energy;
         //energy = 400;
         for (int i = 0; i < torches.Length; i++)
         {
@@ -23,7 +23,7 @@ public class TorchController : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        //energy = UIManager.energy;
+        energy = UIManager.energy;
         if (energy != oldEnergy)
         {
             for (int i = 0; i < torches.Length; i++)
