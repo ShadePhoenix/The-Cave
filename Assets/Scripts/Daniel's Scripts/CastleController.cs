@@ -50,12 +50,14 @@ public class CastleController : MonoBehaviour {
         {
             player.SetActive(false);
             m_Camera.gameObject.GetComponent<Follow>().followObject = gameObject;
+            gameObject.GetComponent<AudioListener>().enabled = true;
         }
         else if (Input.GetKeyDown(KeyCode.E) && player.activeSelf == false)
         {
             player.transform.position = playerArea.position;
             player.SetActive(true);
             m_Camera.gameObject.GetComponent<Follow>().followObject = player;
+            gameObject.GetComponent<AudioListener>().enabled = false;
         }
 
 
