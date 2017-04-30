@@ -80,8 +80,10 @@ public class playerController : MonoBehaviour {
 
     void FixedUpdate()
     {
+        //float horizontal = Input.GetAxis("Horizontal");
+        //float vertical = Input.GetAxis("Vertical");
         Vector3 moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-        moveDirection.y = 0;
+        //moveDirection.y = 0;
         if (Input.GetKey(KeyCode.LeftShift) && UIManager.energy > 0)
         {
             staminaDrainTimer -= Time.deltaTime;
@@ -90,6 +92,7 @@ public class playerController : MonoBehaviour {
                 UIManager.energy -= staminaDrain;
                 staminaDrainTimer = 1;
             }
+
 
             rb.velocity += (moveDirection * runAcceleration);
 
