@@ -4,6 +4,7 @@ using System.Collections;
 using UnityEngine.AI;
 using System.Collections.Generic;
 
+[RequireComponent(typeof(AudioSource))]
 public class AIController : MonoBehaviour 
 {    
     [Tooltip("The range that it can target the players base from. There should always be some object in range or they will wander aimlessly.")]
@@ -19,7 +20,13 @@ public class AIController : MonoBehaviour
     public int damageDealt = 1;
     [Tooltip("The bullet to get damage from.")]
     public GameObject bullet;
+
     private BulletControl bulletScript;
+
+    public GameObject deathEffect;
+    public AudioClip[] sounds;
+    private AudioSource audioPlayer;
+
 
     public enum EnemyType
     {
@@ -72,7 +79,7 @@ public class AIController : MonoBehaviour
         myHealth = GetComponent<Health>();
         //marker = transform.FindChild("Marker");
         target = hero;
-
+        audioPlayer = gameObject.GetComponent<AudioSource>();
         PopulateStructureLists();
     }		
 	void Update () 
@@ -112,6 +119,9 @@ public class AIController : MonoBehaviour
         }
         if(currentHealth <= 0)
         {
+            //spawns particle effect, and makes sure that the particle effect is its own object
+            GameObject particles = Instantiate(deathEffect, transform.position, transform.rotation);
+            particles.transform.parent = null;
             Destroy(gameObject);
         }
         
@@ -182,6 +192,9 @@ public class AIController : MonoBehaviour
             bulletScript = other.gameObject.GetComponent<BulletControl>();
             Destroy(other.gameObject);
             currentHealth -= bulletScript.damageDealt;
+            audioPlayer.clip = (sounds[Random.Range(0, sounds.Length)]);
+            audioPlayer.Play();
+
         }
         
     }

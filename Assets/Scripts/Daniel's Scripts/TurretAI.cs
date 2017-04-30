@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
 
-//[RequireComponent(typeof())]
+[RequireComponent(typeof(AudioSource))]
 
 public class TurretAI : MonoBehaviour
 {
@@ -43,11 +43,14 @@ public class TurretAI : MonoBehaviour
     public LayerMask mask;
     
     public Collider[] enemiesInRange;
+    public AudioClip[] sounds;
+    private AudioSource audioPlayer;
 
     // Use this for initialization
     void Start()
     {
         currentHealth = health;
+        audioPlayer = gameObject.GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -103,6 +106,9 @@ public class TurretAI : MonoBehaviour
             UIManager.energy -= energyFireCost;
             GameObject lProjectile = Instantiate(projectile, projectileSpawn.position, Quaternion.Euler(projectileSpawn.transform.eulerAngles));
             lProjectile.GetComponent<Rigidbody>().AddForce(lProjectile.transform.forward * projectileSpeed, ForceMode.Impulse);
+            int index = Random.Range(0, sounds.Length);
+            audioPlayer.clip = (sounds[index]);
+            audioPlayer.Play();
             StartCoroutine(FireWait(fireWait));
             fire = false;
         }
