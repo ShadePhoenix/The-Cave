@@ -148,24 +148,6 @@ public class AIController : MonoBehaviour
 
     void PopulateStructureLists()
     {
-        //// hold all of the structures and their target scripts in temporary arrays        
-        //PlayerOrTarget[] tempStructTypes = GameObject.FindObjectsOfType<PlayerOrTarget>(); // get all objects with a certain script        
-        //GameObject[] tempStructures = new GameObject[tempStructTypes.Length];
-        //for (int i = 0; i < tempStructTypes.Length; i++)
-        //{
-        //    tempStructures[i] = tempStructTypes[i].gameObject; // make an array of the game objects attached to the scripts
-        //}
-
-        //// now only populate the Lists we are going to use with targetable structures
-        //for (int i = 0; i < tempStructures.Length; i++)
-        //{
-        //    if (tempStructTypes[i].targetType == PlayerOrTarget.TargetType.Battlement || tempStructTypes[i].targetType == PlayerOrTarget.TargetType.Castle)
-        //    {
-        //        structures.Add(tempStructures[i]);
-        //        strucTypes.Add(tempStructTypes[i]);
-        //    }
-        //}
-
         if(structures.Count > 0)
         {
             structures.Clear();
