@@ -51,7 +51,7 @@ public class UIManager : MonoBehaviour
 
     void BuildNodeClick()
     {
-        if (Input.GetButtonDown("Fire1") && !EventSystem.current.IsPointerOverGameObject())
+        if (Input.GetButtonDown("Fire2") && !EventSystem.current.IsPointerOverGameObject())
         {
             RaycastHit hit;
             if (Physics.Raycast(m_Camera.ScreenPointToRay(Input.mousePosition), out hit))

@@ -105,7 +105,7 @@ public class CastleController : MonoBehaviour {
     public LayerMask terrainMask;
     void Fire()
     {
-        if (fire && Input.GetButton("Fire1") && !EventSystem.current.IsPointerOverGameObject() && hit.collider.tag != "BuildNode")
+        if (fire && Input.GetButton("Fire1") && !EventSystem.current.IsPointerOverGameObject())
         {
             GameObject bullet = Instantiate(projectile, projectileSpawn.position, Quaternion.Euler(projectileSpawn.transform.eulerAngles));
             bullet.GetComponent<Rigidbody>().AddForce(bullet.transform.forward * projectileSpeed, ForceMode.Impulse);
