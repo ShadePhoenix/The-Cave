@@ -12,7 +12,7 @@ public class BuildNode : MonoBehaviour {
     public GameObject healthBar;
     public Image healthBarFill;
 
-    public Health myHealth;
+    private Health myHealth;
     private PlayerOrTarget type;
 
     // Use this for initialization
@@ -25,7 +25,7 @@ public class BuildNode : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
-        if(type.targetType != PlayerOrTarget.TargetType.Non_Target && turret != null && healthBar != null)
+        if(type.targetType != PlayerOrTarget.TargetType.Non_Target)
         {
             healthBar.transform.position = transform.position + new Vector3(0, 2, -2.5f);
             healthBar.transform.rotation = Quaternion.Euler(new Vector3(90, 0, 0));

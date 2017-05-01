@@ -81,8 +81,6 @@ public class UIManager : MonoBehaviour
         if (turretPrefab.GetComponent<TurretAI>() != null && conMat >= turretPrefab.GetComponent<TurretAI>().conMatCost && turretPrefab != null && currentBuildNode != null)
         {
             GameObject builtTurret = Instantiate(turretPrefab, currentBuildNode.transform.position, Quaternion.identity, currentBuildNode.transform);
-            currentBuildNode.GetComponent<BuildNode>().healthBar = builtTurret.GetComponent<TurretAI>().healthBar;
-            currentBuildNode.GetComponent<BuildNode>().healthBarFill = builtTurret.GetComponent<TurretAI>().healthBarFill;
             currentBuildNode.GetComponent<BuildNode>().turret = builtTurret;
             currentBuildNode.GetComponent<BuildNode>().allowBuild = false;
             nodeHealth = currentBuildNode.GetComponent<Health>();
@@ -94,8 +92,6 @@ public class UIManager : MonoBehaviour
         else if(turretPrefab.GetComponent<SlowTower>() != null && conMat >= turretPrefab.GetComponent<SlowTower>().conMatCost && turretPrefab != null && currentBuildNode != null)
         {
             GameObject builtTurret = Instantiate(turretPrefab, currentBuildNode.transform.position, Quaternion.identity, currentBuildNode.transform);
-            currentBuildNode.GetComponent<BuildNode>().healthBar = builtTurret.GetComponent<SlowTower>().healthBar;
-            currentBuildNode.GetComponent<BuildNode>().healthBarFill = builtTurret.GetComponent<SlowTower>().healthBarFill;
             currentBuildNode.GetComponent<BuildNode>().turret = builtTurret;
             currentBuildNode.GetComponent<BuildNode>().allowBuild = false;
             nodeHealth = currentBuildNode.GetComponent<Health>();
