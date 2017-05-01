@@ -49,29 +49,33 @@ public class SpawnEnemy : MonoBehaviour
 
     private IEnumerator Spawn()
     {
-        //while (true)
-        while (DayNight.isNight)
+        if (spawners.Length > 0)
         {
-            spawning = true;
-            int rSpawn = Random.Range(0, spawners.Length);            
-            StartCoroutine("SpawnNow", rSpawn);                        
-            yield return new WaitForSeconds(spawnInterval);
-        }         
+            while (DayNight.isNight)
+            {
+                spawning = true;
+                int rSpawn = Random.Range(0, spawners.Length);
+                StartCoroutine("SpawnNow", rSpawn);
+                yield return new WaitForSeconds(spawnInterval);
+            }
+        }      
     }
    
     private IEnumerator SpawnNow(int i)
-    {
-        int enemiesToSpawn = Random.Range(minEnemiesToSpawn, maxEnemiesToSpawn + (int)DayNight.nightNumber);        
-        while (spawning == true)
-        {            
-            while (enemiesToSpawn > 0)
-            {                
-                enemiesToSpawn--;                
-                Instantiate(enemy, spawners[i].transform.position, Quaternion.identity);
-                yield return new WaitForSeconds(0.5f);
+    {        
+            int enemiesToSpawn = Random.Range(minEnemiesToSpawn, maxEnemiesToSpawn + (int)DayNight.nightNumber);
+            while (spawning == true)
+            {
+                while (enemiesToSpawn > 0)
+                {
+                    enemiesToSpawn--;
+                    Instantiate(enemy, spawners[i].transform.position, Quaternion.identity);
+                    yield return new WaitForSeconds(0.5f);
+
+                }
+                spawning = false;
             }
-            spawning = false;
-        }        
+                    
     }
 
 
