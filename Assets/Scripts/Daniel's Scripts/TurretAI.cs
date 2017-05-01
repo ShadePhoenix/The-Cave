@@ -72,11 +72,13 @@ public class TurretAI : MonoBehaviour
     void RangeMonitor()
     {
         enemiesInRange = Physics.OverlapSphere(transform.position, fireRange, mask);
-        if (enemiesInRange.Length > 0)
+        if (enemiesInRange.Length > 0 && target == null)
         {
-            foreach (Collider eCol in enemiesInRange)
+            int rand = Random.Range(0, enemiesInRange.Length);
+            if (!enemiesInRange[rand].GetComponent<AIController>().targeted)
             {
-                target = eCol.gameObject;
+                enemiesInRange[rand].GetComponent<AIController>().targeted = true;
+                target = enemiesInRange[rand].gameObject;
             }
         }
         else
