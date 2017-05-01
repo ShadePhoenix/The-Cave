@@ -91,94 +91,9 @@ public class AIController : MonoBehaviour
         //marker.position = m_agent.destination;
 
         HealthUpdate();
-        if (playerController.playerActive == true)
-        {
-            target = hero;
-            targType = target.GetComponent<PlayerOrTarget>();
-            targetStructureSet = false;
-            m_agent.SetDestination(hero.transform.position);
-        }
-        else
-        {
-            if(targetStructureSet == false)
-            {
-                PopulateStructureLists();
-            }
-            //if(targetStructureSet == false)
-            while(targetStructureSet == false)
-            {      
-                // targetStructureSet = true;
-                int rStruct = Random.Range(0, structures.Count);
-                target = structures[rStruct];
-                targType = target.GetComponent<PlayerOrTarget>();
-                targetHealth = target.GetComponent<Health>();
-
-                print(targetHealth.currentHealth);
-
-                if(targetHealth.currentHealth > 0)
-                {
-                    Vector3 targetPos = structures[rStruct].transform.position;
-                    NavMeshHit myNavHit;
-                    if (targType.targetType == PlayerOrTarget.TargetType.Battlement && NavMesh.SamplePosition(targetPos, out myNavHit, 10, -1))
-                    {
-                        targetPos = myNavHit.position;                                            
-                    }
-                    else if (targType.targetType == PlayerOrTarget.TargetType.Castle && NavMesh.SamplePosition(targetPos, out myNavHit, 20, -1))
-                    {
-                        targetPos = myNavHit.position;                                        
-                    }
-
-                    m_agent.SetDestination(targetPos);
-                    targetStructureSet = true;
-                    break;
-                }               
-            }            
-        }
-        if(myHealth.currentHealth <= 0)
-        {
-            //spawns particle effect, and makes sure that the particle effect is its own object
-            GameObject particles = Instantiate(deathEffect, transform.position, transform.rotation);
-            particles.transform.parent = null;
-            Destroy(gameObject);
-        }
-        
-        // if the attack animation is playing, see if 1 second has passed and then do a distance check on the objects to be attacked
-        if (anim.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
-        {            
-            animationTimeLeft -= Time.deltaTime;
-            float dist = Vector3.Distance(transform.position, target.transform.position);            
-            if ((animationTimeLeft <= 0 && targType.targetType == PlayerOrTarget.TargetType.Player) && (dist <= 1 && dist >= -1))
-            {                
-                animationTimeLeft = 1;
-                targetHealth = target.GetComponent<Health>(); 
-                targetHealth.currentHealth -= damageDealt;
-            }
-            else if ((animationTimeLeft <= 0 && targType.targetType == PlayerOrTarget.TargetType.Battlement ) && (dist <= 5 && dist >= 4.5))
-            {
-                animationTimeLeft = 1;
-                targetHealth = target.GetComponent<Health>();
-                targetHealth.currentHealth -= damageDealt;
-            }
-            else if ((animationTimeLeft <= 0 && targType.targetType == PlayerOrTarget.TargetType.Castle) && (dist <= 16 && dist >= 0))
-            {
-                animationTimeLeft = 1;
-                targetHealth = target.GetComponent<Health>();
-                targetHealth.currentHealth -= damageDealt;
-            }
-        }
-
-        // Blending animations
-        if (lastPos != transform.position)
-        {
-            animationSpeed = Mathf.Clamp01(animationSpeed + Time.deltaTime);
-            anim.SetFloat("Blend", animationSpeed);
-        }
-        else
-        {
-            animationSpeed = Mathf.Clamp01(animationSpeed - Time.deltaTime);
-            anim.SetFloat("Blend", animationSpeed);
-        }
-        lastPos = transform.position;
+        SetTarget();
+        Attack();
+        Animate();        
     }
 
     void OnCollisionStay(Collision other)
@@ -221,10 +136,13 @@ public class AIController : MonoBehaviour
         healthBar.transform.rotation = Quaternion.Euler(new Vector3(90, 0, 0));
         healthBarFill.fillAmount = myHealth.currentHealth / myHealth.startHealth;
         if (myHealth.currentHealth <= 0)
-        {            
+        {
+            //spawns particle effect, and makes sure that the particle effect is its own object
+            GameObject particles = Instantiate(deathEffect, transform.position, transform.rotation);
+            particles.transform.parent = null;
             Instantiate(gold, gameObject.transform.position, Quaternion.identity);
             Destroy(gameObject);
-        }
+        }      
     }
 
     void PopulateStructureLists()
@@ -275,5 +193,99 @@ public class AIController : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void SetTarget()
+    {
+        if (playerController.playerActive == true)
+        {
+            target = hero;
+            targType = target.GetComponent<PlayerOrTarget>();
+            targetStructureSet = false;
+            m_agent.SetDestination(hero.transform.position);
+        }
+        else
+        {
+            if (targetStructureSet == false)
+            {
+                PopulateStructureLists();
+            }
+                        
+            while (targetStructureSet == false)
+            {
+                // targetStructureSet = true;
+                int rStruct = Random.Range(0, structures.Count);
+                target = structures[rStruct];
+                targType = target.GetComponent<PlayerOrTarget>();
+                targetHealth = target.GetComponent<Health>();
+
+                if (targetHealth.currentHealth > 0)
+                {
+                    Vector3 targetPos = structures[rStruct].transform.position;
+                    NavMeshHit myNavHit;
+                    if (targType.targetType == PlayerOrTarget.TargetType.Battlement && NavMesh.SamplePosition(targetPos, out myNavHit, 10, -1))
+                    {
+                        targetPos = myNavHit.position;
+                    }
+                    else if (targType.targetType == PlayerOrTarget.TargetType.Castle && NavMesh.SamplePosition(targetPos, out myNavHit, 20, -1))
+                    {
+                        targetPos = myNavHit.position;
+                    }
+
+                    m_agent.SetDestination(targetPos);
+                    targetStructureSet = true;
+                    break;
+                }
+            }
+        }
+    }
+
+    public void Attack()
+    {
+        // if the attack animation is playing, see if 1 second has passed and then do a distance check on the objects to be attacked
+        if (anim.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
+        {
+            animationTimeLeft -= Time.deltaTime;
+            float dist = Vector3.Distance(transform.position, target.transform.position);
+            if ((animationTimeLeft <= 0 && targType.targetType == PlayerOrTarget.TargetType.Player) && (dist <= 1 && dist >= -1))
+            {
+                animationTimeLeft = 1;
+                targetHealth = target.GetComponent<Health>();
+                targetHealth.currentHealth -= damageDealt;
+            }
+            else if ((animationTimeLeft <= 0 && targType.targetType == PlayerOrTarget.TargetType.Battlement) && (dist <= 5 && dist >= 4.5))
+            {
+                animationTimeLeft = 1;
+                targetHealth = target.GetComponent<Health>();
+                targetHealth.currentHealth -= damageDealt;
+            }
+            else if ((animationTimeLeft <= 0 && targType.targetType == PlayerOrTarget.TargetType.Castle) && (dist <= 16 && dist >= 0))
+            {
+                animationTimeLeft = 1;
+                targetHealth = target.GetComponent<Health>();
+                targetHealth.currentHealth -= damageDealt;
+            }
+
+            if (targetHealth.currentHealth <= 0)
+            {               
+                targetStructureSet = false;
+            }
+        }
+    }
+
+    public void Animate()
+    {
+        // Blending animations
+        if (lastPos != transform.position)
+        {
+            animationSpeed = Mathf.Clamp01(animationSpeed + Time.deltaTime);
+            anim.SetFloat("Blend", animationSpeed);
+        }
+        else
+        {
+            animationSpeed = Mathf.Clamp01(animationSpeed - Time.deltaTime);
+            anim.SetFloat("Blend", animationSpeed);
+        }
+        lastPos = transform.position;
     }
 }

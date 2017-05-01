@@ -50,8 +50,7 @@ public class playerController : MonoBehaviour {
         if (playerActive)
         {
             if (health.currentHealth <= 0)
-            {
-                Debug.Log("DEAD");
+            {                
                 gameOver.SetActive(true);
                 Time.timeScale = 0;
             }
@@ -135,24 +134,11 @@ public class playerController : MonoBehaviour {
     
 
     void OnTriggerEnter(Collider other)
-    {
-        //if(other.gameObject.tag == "Base Trigger")
-        //{           
-        //    playerAtBase = true;
-        //}
-
+    {  
         if (other.gameObject.tag == "Gold")
         {
-            UIManager.gold += UIManager.goldVal;
-            //print("How much gold I have: " + UIManager.gold);
+            UIManager.gold += UIManager.goldVal;            
             Destroy(other.gameObject);
         }
-    }
-    //void OnTriggerExit(Collider other)
-    //{
-    //    if (other.gameObject.tag == "Base Trigger")
-    //    {            
-    //        playerAtBase = false;
-    //    }
-    //}
+    }    
 }

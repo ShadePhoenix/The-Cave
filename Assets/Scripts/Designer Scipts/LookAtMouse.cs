@@ -14,8 +14,7 @@ public class LookAtMouse : MonoBehaviour {
     {
         RaycastHit hit;
         if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 1000))
-        {
-            Debug.Log("Hit");
+        {            
             gameObject.transform.LookAt(hit.transform.position);
         }
     }

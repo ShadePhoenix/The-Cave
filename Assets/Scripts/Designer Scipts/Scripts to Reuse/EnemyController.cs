@@ -46,8 +46,7 @@ public class EnemyController : MonoBehaviour {
     // Update is called once per frame
     void Update () {
         Vector3 visionCheck = player.transform.position - transform.position;
-        float angle = Vector3.Angle(visionCheck, transform.forward);
-       // print(angle);
+        float angle = Vector3.Angle(visionCheck, transform.forward);       
         if (angle<visionArc)
         {
             if (Physics.Raycast(transform.position,player.transform.position - transform.position,out hit, visionDistance))
@@ -146,7 +145,6 @@ public class EnemyController : MonoBehaviour {
                 gameController.GameOver("You got eaten");
             
 
-        }
-       // Debug.Log("collision");
+        }      
     }
 }

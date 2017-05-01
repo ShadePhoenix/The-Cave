@@ -144,8 +144,7 @@ public class GameController : MonoBehaviour {
     }
 
     public void GameOver(string fail)
-    {
-        Debug.Log(fail);
+    {        
         failCause = fail;
         gameOverHappening = true;
     }

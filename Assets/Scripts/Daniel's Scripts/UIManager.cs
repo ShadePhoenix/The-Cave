@@ -59,15 +59,13 @@ public class UIManager : MonoBehaviour
             if (Physics.Raycast(m_Camera.ScreenPointToRay(Input.mousePosition), out hit))
             {
                 if (hit.collider.tag == "BuildNode" && hit.collider.GetComponent<BuildNode>().allowBuild)
-                {
-                    //print(hit.collider.name);
+                {                    
                     currentBuildNode = hit.collider.gameObject;
                     buildCanvas.transform.position = currentBuildNode.transform.position + new Vector3(0, 2, 0);
                     buildCanvas.SetActive(true);
                 }
                 else
-                {
-                    //print(hit.collider.name);
+                {                    
                     buildCanvas.SetActive(false);
                     currentBuildNode = null;
                 }

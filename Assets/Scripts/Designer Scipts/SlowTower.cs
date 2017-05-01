@@ -31,8 +31,7 @@ public class SlowTower : MonoBehaviour {
     {
         if (other.tag == "Enemy")
         {
-                other.gameObject.GetComponent<NavMeshAgent>().speed = (other.gameObject.GetComponent<NavMeshAgent>().speed) / 2;
-                Debug.Log(other.gameObject.GetComponent<NavMeshAgent>().speed);
+                other.gameObject.GetComponent<NavMeshAgent>().speed = (other.gameObject.GetComponent<NavMeshAgent>().speed) / 2;                
         }
     }
 
@@ -41,8 +40,7 @@ public class SlowTower : MonoBehaviour {
 
         if (other.tag == "Enemy")
         {
-            other.gameObject.GetComponent<NavMeshAgent>().speed = (other.gameObject.GetComponent<NavMeshAgent>().speed) *2;
-            //Debug.Log(other.gameObject.GetComponent<NavMeshAgent>().speed);
+            other.gameObject.GetComponent<NavMeshAgent>().speed = (other.gameObject.GetComponent<NavMeshAgent>().speed) *2;            
         }
 
 

@@ -79,9 +79,7 @@ public class FishScript : MonoBehaviour {
 	}
 
     public void Flee() //causes fish to flee from player
-    {
-
-        Debug.Log("EEEE");
+    {        
             if (timer > fleeRefresh)
             { 
             timer = 0;
@@ -90,8 +88,7 @@ public class FishScript : MonoBehaviour {
             }
             startPosition = gameObject.transform.position;
             startRotation = gameObject.transform.rotation;
-            Vector3 rotate = new Vector3(0f, Random.Range(-fleeAngleRange, fleeAngleRange), 0f);
-          //  Debug.Log(rotate);
+            Vector3 rotate = new Vector3(0f, Random.Range(-fleeAngleRange, fleeAngleRange), 0f);         
             transform.rotation = Quaternion.LookRotation(transform.position - player.transform.position + rotate);
             destination = transform.position + (transform.forward * fleeDistance);
             NavMeshHit hit;
@@ -108,8 +105,7 @@ public class FishScript : MonoBehaviour {
         if (other.tag == "Player" && other.GetType()==typeof(BoxCollider))
         {
             Destroy(gameObject);
-            gameController.score += 1; 
-            Debug.Log("FEESH");
+            gameController.score += 1;            
         }
     }*/
 }

@@ -31,8 +31,7 @@ public class BuildNode : MonoBehaviour {
         if(type.targetType != PlayerOrTarget.TargetType.Non_Target)
         {
             healthBar.transform.position = transform.position + new Vector3(0, 2, -2.5f);
-            healthBar.transform.rotation = Quaternion.Euler(new Vector3(90, 0, 0));
-            //print(myHealth.currentHealth);
+            healthBar.transform.rotation = Quaternion.Euler(new Vector3(90, 0, 0));            
             healthBarFill.fillAmount = myHealth.currentHealth / myHealth.startHealth;
             if (myHealth.currentHealth <= 0 && turret != null && !allowBuild)
             {                
