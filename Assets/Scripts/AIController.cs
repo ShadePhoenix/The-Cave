@@ -39,6 +39,8 @@ public class AIController : MonoBehaviour
 
     [Tooltip("Set the enemy type for the prefab. This will determine random enemy spawns.")]
     public EnemyType type = EnemyType.Normal;
+    [Tooltip("The Gold prefab to spawn when enemy is killed.")]
+    public GameObject gold;
 
     private Animator anim;
     private GameObject hero;
@@ -209,6 +211,7 @@ public class AIController : MonoBehaviour
         {
             //Destroy enemy and play particle effects/animation
             //GameObject.FindGameObjectWithTag("Canvas").GetComponent<UIManager>().GameOver();
+            Instantiate(gold, gameObject.transform.position, Quaternion.identity);
             Destroy(gameObject);
         }
     }

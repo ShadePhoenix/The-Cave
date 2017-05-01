@@ -27,6 +27,8 @@ public class UIManager : MonoBehaviour
     public GameObject buildCanvas;
     public GameObject gameUI;
 
+    private Health nodeHealth;
+
     // Use this for initialization
     void Start ()
     {
@@ -83,6 +85,8 @@ public class UIManager : MonoBehaviour
             currentBuildNode.GetComponent<BuildNode>().healthBarFill = builtTurret.GetComponent<TurretAI>().healthBarFill;
             currentBuildNode.GetComponent<BuildNode>().turret = builtTurret;
             currentBuildNode.GetComponent<BuildNode>().allowBuild = false;
+            nodeHealth = currentBuildNode.GetComponent<Health>();
+            nodeHealth.currentHealth = nodeHealth.startHealth;            
             conMat -= turretPrefab.GetComponent<TurretAI>().conMatCost;
             currentBuildNode = null;
             buildCanvas.SetActive(false);
@@ -94,6 +98,8 @@ public class UIManager : MonoBehaviour
             currentBuildNode.GetComponent<BuildNode>().healthBarFill = builtTurret.GetComponent<SlowTower>().healthBarFill;
             currentBuildNode.GetComponent<BuildNode>().turret = builtTurret;
             currentBuildNode.GetComponent<BuildNode>().allowBuild = false;
+            nodeHealth = currentBuildNode.GetComponent<Health>();
+            nodeHealth.currentHealth = nodeHealth.startHealth;
             conMat -= turretPrefab.GetComponent<SlowTower>().conMatCost;
             currentBuildNode = null;
             buildCanvas.SetActive(false);
