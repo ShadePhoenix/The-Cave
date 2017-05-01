@@ -100,25 +100,34 @@ public class AIController : MonoBehaviour
         }
         else
         {
-            if(targetStructureSet == false)
+            //if(targetStructureSet == false)
+            while(targetStructureSet == false)
             {      
-                targetStructureSet = true;
+                // targetStructureSet = true;
                 int rStruct = Random.Range(0, structures.Count);
                 target = structures[rStruct];
                 targType = target.GetComponent<PlayerOrTarget>();
+                targetHealth = target.GetComponent<Health>();
 
-                Vector3 targetPos = structures[rStruct].transform.position;
-                NavMeshHit myNavHit;
-                if (targType.targetType == PlayerOrTarget.TargetType.Battlement && NavMesh.SamplePosition(targetPos, out myNavHit, 10, -1))
-                {
-                    targetPos = myNavHit.position;
-                }
-                else if (targType.targetType == PlayerOrTarget.TargetType.Castle && NavMesh.SamplePosition(targetPos, out myNavHit, 20, -1))
-                {
-                    targetPos = myNavHit.position;
-                }
+                print(targetHealth.currentHealth);
 
-                m_agent.SetDestination(targetPos);
+                if(targetHealth.currentHealth > 0)
+                {
+                    Vector3 targetPos = structures[rStruct].transform.position;
+                    NavMeshHit myNavHit;
+                    if (targType.targetType == PlayerOrTarget.TargetType.Battlement && NavMesh.SamplePosition(targetPos, out myNavHit, 10, -1))
+                    {
+                        targetPos = myNavHit.position;                                            
+                    }
+                    else if (targType.targetType == PlayerOrTarget.TargetType.Castle && NavMesh.SamplePosition(targetPos, out myNavHit, 20, -1))
+                    {
+                        targetPos = myNavHit.position;                                        
+                    }
+
+                    m_agent.SetDestination(targetPos);
+                    targetStructureSet = true;
+                    break;
+                }               
             }            
         }
         if(myHealth.currentHealth <= 0)
@@ -208,9 +217,7 @@ public class AIController : MonoBehaviour
         healthBar.transform.rotation = Quaternion.Euler(new Vector3(90, 0, 0));
         healthBarFill.fillAmount = myHealth.currentHealth / myHealth.startHealth;
         if (myHealth.currentHealth <= 0)
-        {
-            //Destroy enemy and play particle effects/animation
-            //GameObject.FindGameObjectWithTag("Canvas").GetComponent<UIManager>().GameOver();
+        {            
             Instantiate(gold, gameObject.transform.position, Quaternion.identity);
             Destroy(gameObject);
         }
@@ -235,5 +242,28 @@ public class AIController : MonoBehaviour
                 strucTypes.Add(tempStructTypes[i]);
             }
         }
+
+        // hold all of the structures and their target scripts in temporary arrays        
+        //PlayerOrTarget[] tempStructTypes = GameObject.FindObjectsOfType<PlayerOrTarget>(); // get all objects with a certain script        
+        //GameObject[] tempStructures = new GameObject[tempStructTypes.Length];
+        //Health structuretHealth;
+        //for (int i = 0; i < tempStructTypes.Length; i++)
+        //{
+        //    tempStructures[i] = tempStructTypes[i].gameObject; // make an array of the game objects attached to the scripts
+        //}
+
+        //// now only populate the Lists we are going to use with targetable structures
+        //for (int i = 0; i < tempStructures.Length; i++)
+        //{
+        //    structuretHealth = tempStructures[i].GetComponent<Health>();
+        //    if (tempStructTypes[i].targetType == PlayerOrTarget.TargetType.Battlement || tempStructTypes[i].targetType == PlayerOrTarget.TargetType.Castle)
+        //    {
+        //        if(structuretHealth.currentHealth > 0)
+        //        {
+        //            structures.Add(tempStructures[i]);
+        //            strucTypes.Add(tempStructTypes[i]);
+        //        }                
+        //    }
+        //}
     }
 }

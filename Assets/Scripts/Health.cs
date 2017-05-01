@@ -10,7 +10,8 @@ public class Health : MonoBehaviour {
     public float currentHealth;
 
     // Use this for initialization
-    void Start () {
+    void Start ()
+    {
         currentHealth = startHealth;
 	}
 	

@@ -19,6 +19,7 @@ public class BuildNode : MonoBehaviour {
     void Start ()
     {
         myHealth = gameObject.GetComponent<Health>();
+        myHealth.currentHealth = 0;
         type = gameObject.GetComponent<PlayerOrTarget>();
     }
 	
@@ -33,11 +34,13 @@ public class BuildNode : MonoBehaviour {
             healthBarFill.fillAmount = myHealth.currentHealth / myHealth.startHealth;
             if (myHealth.currentHealth <= 0 && gameObject.transform.childCount > 0)
             {                
-                Destroy(gameObject.transform.GetChild(0));                                             
-            }
-            if(gameObject.transform.childCount <= 0)
+                Destroy(gameObject.transform.GetChild(0).gameObject);                                             
+            }           
+
+            if (gameObject.transform.childCount <= 0)
             {
                 myHealth.currentHealth = 0;
+                print(myHealth.currentHealth);
             }
         }
        
