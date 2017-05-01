@@ -30,6 +30,7 @@ public class CastleController : MonoBehaviour {
 
     private bool triggered = false;
     private Health myHealth;
+    private Follow followScript;
 
     // Use this for initialization
     void Start()
@@ -38,6 +39,7 @@ public class CastleController : MonoBehaviour {
         myHealth = gameObject.GetComponent<Health>();
         //currentHealth = health;
         m_Camera = Camera.main;
+        followScript = m_Camera.gameObject.GetComponent<Follow>();
     }
 
     // Update is called once per frame
@@ -48,7 +50,8 @@ public class CastleController : MonoBehaviour {
             playerController.playerActive = false;
             playerController.collider.enabled = false;
             playerController.mesh.enabled = false; 
-            m_Camera.gameObject.GetComponent<Follow>().followObject = gameObject;
+            followScript.followObject = gameObject;
+            followScript.followingPlayer = false;
             gameObject.GetComponent<AudioListener>().enabled = true;
         }
         else if (Input.GetKeyDown(KeyCode.E) && playerController.playerActive == false)
@@ -56,8 +59,9 @@ public class CastleController : MonoBehaviour {
             player.transform.position = playerArea.position;
             playerController.playerActive = true;
             playerController.collider.enabled = true;
-            playerController.mesh.enabled = true;            
-            m_Camera.gameObject.GetComponent<Follow>().followObject = player;
+            playerController.mesh.enabled = true;
+            followScript.followObject = player;
+            followScript.followingPlayer = true;
             gameObject.GetComponent<AudioListener>().enabled = false;
         }
 
