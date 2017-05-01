@@ -34,11 +34,12 @@ public class BuildNode : MonoBehaviour {
             healthBar.transform.rotation = Quaternion.Euler(new Vector3(90, 0, 0));
             //print(myHealth.currentHealth);
             healthBarFill.fillAmount = myHealth.currentHealth / myHealth.startHealth;
-            if (myHealth.currentHealth <= 0 && turret != null)
+            if (myHealth.currentHealth <= 0 && turret != null && !allowBuild)
             {                
-                Destroy(turret);                                             
+                Destroy(turret);
+                allowBuild = true;
             }
-            if(turret == null)
+            if(turret == null && allowBuild)
             {
                 myHealth.currentHealth = 0;
             }
