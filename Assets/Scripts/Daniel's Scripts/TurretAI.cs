@@ -81,10 +81,15 @@ public class TurretAI : MonoBehaviour
                 target = enemiesInRange[rand].gameObject;
             }
         }
+        else if(Vector3.Distance(transform.position, target.transform.position) > fireRange)
+        {
+            target.GetComponent<AIController>().targeted = false;
+            target = null;
+        }
         else
         {
             target = null;
-        }  
+        }
     }
 
     //Rotates the turret head to face the target
