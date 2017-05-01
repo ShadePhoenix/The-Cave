@@ -71,11 +71,9 @@ public class SpawnEnemy : MonoBehaviour
                     enemiesToSpawn--;
                     Instantiate(enemy, spawners[i].transform.position, Quaternion.identity);
                     yield return new WaitForSeconds(0.5f);
-
                 }
                 spawning = false;
-            }
-                    
+            }                    
     }
 
 
