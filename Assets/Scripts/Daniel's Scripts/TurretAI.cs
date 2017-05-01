@@ -81,7 +81,7 @@ public class TurretAI : MonoBehaviour
                 target = enemiesInRange[rand].gameObject;
             }
         }
-        else if(Vector3.Distance(transform.position, target.transform.position) > fireRange)
+        else if(target != null && Vector3.Distance(transform.position, target.transform.position) > fireRange)
         {
             target.GetComponent<AIController>().targeted = false;
             target = null;
