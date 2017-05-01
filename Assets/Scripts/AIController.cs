@@ -9,9 +9,10 @@ public class AIController : MonoBehaviour
 {    
     [Tooltip("The range that it can target the players base from. There should always be some object in range or they will wander aimlessly.")]
     public float targetRange;
-    [Tooltip("Health of the enemy.")]
-    public int startHealth = 10;
-    private float currentHealth;
+    //[Tooltip("Health of the enemy.")]
+    //public int startHealth = 10;
+    //private float currentHealth;
+
     [Tooltip("How much damage you take from normal turret bullets.")]
     public int normalTurretDamageTaken = 1;
     [Tooltip("How much damage you take from the big player turret bullets.")]
@@ -41,13 +42,13 @@ public class AIController : MonoBehaviour
 
     private Animator anim;
     private GameObject hero;
-    private playerController plController; 
+    //private playerController plController; 
     private GameObject target;
     private PlayerOrTarget targType; // what kind of target is it
     private NavMeshAgent m_agent;
    
     private Collider[] structuresInRange;
-    private float currentTargetDis = Mathf.Infinity;
+    //private float currentTargetDis = Mathf.Infinity;
 
     private float animationSpeed = 0f;
 
@@ -55,8 +56,8 @@ public class AIController : MonoBehaviour
     private List<PlayerOrTarget> strucTypes = new List<PlayerOrTarget>(); // the types of the structures, whether targetable or not
     
     private bool targetStructureSet = false;
-    private bool playerTargetSet = false;
-    private bool attacking = false;
+    //private bool playerTargetSet = false;
+    //private bool attacking = false;
 
     public float animationTimeLeft = 1;
     private Vector3 lastPos;
@@ -67,16 +68,17 @@ public class AIController : MonoBehaviour
     private Health targetHealth;
     private Health myHealth;
 
+
     Transform marker;
 
     void Start () 
-	{
-        currentHealth = startHealth;
+	{        
 		m_agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
         hero = GameObject.FindGameObjectWithTag("Player");
-        plController = hero.GetComponent<playerController>(); 
+        //plController = hero.GetComponent<playerController>(); 
         anim = GetComponent<Animator>();
         myHealth = GetComponent<Health>();
+        lastPos = transform.position;
         //marker = transform.FindChild("Marker");
         target = hero;
         audioPlayer = gameObject.GetComponent<AudioSource>();
@@ -87,7 +89,7 @@ public class AIController : MonoBehaviour
         //marker.position = m_agent.destination;
 
         HealthUpdate();
-        if (playerController.playerAtBase == false)
+        if (playerController.playerActive == true)
         {
             target = hero;
             targType = target.GetComponent<PlayerOrTarget>();
@@ -117,7 +119,7 @@ public class AIController : MonoBehaviour
                 m_agent.SetDestination(targetPos);
             }            
         }
-        if(currentHealth <= 0)
+        if(myHealth.currentHealth <= 0)
         {
             //spawns particle effect, and makes sure that the particle effect is its own object
             GameObject particles = Instantiate(deathEffect, transform.position, transform.rotation);
@@ -161,6 +163,7 @@ public class AIController : MonoBehaviour
             animationSpeed = Mathf.Clamp01(animationSpeed - Time.deltaTime);
             anim.SetFloat("Blend", animationSpeed);
         }
+        lastPos = transform.position;
     }
 
     void OnCollisionStay(Collision other)
@@ -191,7 +194,7 @@ public class AIController : MonoBehaviour
         {
             bulletScript = other.gameObject.GetComponent<BulletControl>();
             Destroy(other.gameObject);
-            currentHealth -= bulletScript.damageDealt;
+            myHealth.currentHealth -= bulletScript.damageDealt;
             audioPlayer.clip = (sounds[Random.Range(0, sounds.Length)]);
             audioPlayer.Play();
 
@@ -204,7 +207,7 @@ public class AIController : MonoBehaviour
         healthBar.transform.position = transform.position + new Vector3(0, 1, 1);
         healthBar.transform.rotation = Quaternion.Euler(new Vector3(90, 0, 0));
         healthBarFill.fillAmount = myHealth.currentHealth / myHealth.startHealth;
-        if (currentHealth <= 0)
+        if (myHealth.currentHealth <= 0)
         {
             //Destroy enemy and play particle effects/animation
             //GameObject.FindGameObjectWithTag("Canvas").GetComponent<UIManager>().GameOver();

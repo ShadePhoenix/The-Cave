@@ -23,7 +23,7 @@ public class PlayerController : MonoBehaviour
     private Slider boostSlider;
     private Slider breathtSlider;
     private GameController gameController;
-    private ParticleSystem particles;
+    //private ParticleSystem particles;
     private float angularSpeed;
     //add breath decreaseing while boosting
     //public float speedDecay;
@@ -42,7 +42,7 @@ public class PlayerController : MonoBehaviour
         boostSlider.value = boost;
         breathtSlider.value = breath;
         maxBreath = breath;
-        particles = GetComponentInChildren<ParticleSystem>();
+        //particles = GetComponentInChildren<ParticleSystem>();
         enemies = GameObject.FindGameObjectsWithTag("Enemy");
         enemyTarget = transform.position;
     }
@@ -70,9 +70,9 @@ public class PlayerController : MonoBehaviour
             boosting = true;
         }
         if (Input.GetKeyDown(KeyCode.P))
-            {
+        {
             gameController.score += 1000;
-            }
+        }
         if (boosting)
         {
             boost -= exhaustionRate * Time.deltaTime;
@@ -88,28 +88,29 @@ public class PlayerController : MonoBehaviour
         if (breath < 0)
         {
             gameController.GameOver("You Drowned");
-            agent.enabled=(false);
+            agent.enabled = (false);
         }
         currentSpeed = ((transform.position - lastPosition).magnitude) / Time.deltaTime;
-        if (!gameController.inMenu) { 
-        enemyTarget = (transform.position + transform.forward * currentSpeed);// target for enemy slightly ahead of player, increases accuracy. Also used by camera to give movement
-            }
+        if (!gameController.inMenu)
+        {
+            enemyTarget = (transform.position + transform.forward * currentSpeed);// target for enemy slightly ahead of player, increases accuracy. Also used by camera to give movement
+        }
         lastPosition = transform.position;
         breathtSlider.value = breath;
         boostSlider.value = boost;
-        particles.startSpeed = currentSpeed/2;
+        //particles.startSpeed = currentSpeed / 2;
         //particles.emissionRate = Mathf.Clamp((currentSpeed/2),2,20);
-        particles.emissionRate = currentSpeed/2;
+        //particles.emissionRate = currentSpeed / 2;
     }
-    void OnTriggerEnter (Collider other)
+    void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "PickUp" )
+        if (other.tag == "PickUp")
         {
             if (other is BoxCollider)
-                {
+            {
                 Destroy(other.transform.parent.gameObject);
                 gameController.score += other.GetComponent<FishScript>().foodValue;
-                }
+            }
             else if (other is SphereCollider)
             {
                 other.GetComponent<FishScript>().Flee();
@@ -119,8 +120,8 @@ public class PlayerController : MonoBehaviour
         {
             gameObject.GetComponent<PlayerSpawner>().enabled = true;
             agent.enabled = false;
-            particles.emissionRate = 0;
-            for (var i = 0; i<enemies.Length; i++)
+            //particles.emissionRate = 0;
+            for (var i = 0; i < enemies.Length; i++)
             {
                 enemies[i].SendMessage("EndHunt");
             }
@@ -133,7 +134,7 @@ public class PlayerController : MonoBehaviour
 
             }
             enemyTarget = transform.position;
-            gameObject.GetComponent<PlayerController>().enabled=false;
+            gameObject.GetComponent<PlayerController>().enabled = false;
         }
-    }  
+    }
 }

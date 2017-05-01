@@ -28,6 +28,12 @@ public class playerController : MonoBehaviour {
 
     private Rigidbody rb;    
     static public bool playerAtBase = false;
+    static public bool playerActive = true;
+    [HideInInspector]
+    static public new CapsuleCollider collider;
+    [HideInInspector]
+    static public SkinnedMeshRenderer mesh;
+
     void Start ()
     {
         rb = GetComponent<Rigidbody>();
@@ -35,92 +41,105 @@ public class playerController : MonoBehaviour {
         lastPos = transform.position;
         health = GetComponent<Health>();
         gameOver.SetActive(false);
+        collider = gameObject.GetComponent<CapsuleCollider>();
+        mesh = gameObject.transform.GetChild(0).GetComponent<SkinnedMeshRenderer>();
     }
 
     void Update()
-    {       
-        if(health.currentHealth <= 0)
+    {  
+        if (playerActive)
         {
-            Debug.Log("DEAD");
-            gameOver.SetActive(true);
-            Time.timeScale = 0;
-        }
+            if (health.currentHealth <= 0)
+            {
+                Debug.Log("DEAD");
+                gameOver.SetActive(true);
+                Time.timeScale = 0;
+            }
 
-        horizontal = Input.GetAxis("Horizontal");
-        vertical = Input.GetAxis("Vertical");
+            horizontal = Input.GetAxis("Horizontal");
+            vertical = Input.GetAxis("Vertical");
 
-        if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
-        {
-            transform.localEulerAngles = new Vector3(0, 0, 0);
-        }
-        if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
-        {
-            transform.localEulerAngles = new Vector3(0, -180, 0);
-        }
-        if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
-        {
-            transform.localEulerAngles = new Vector3(0, 90, 0);
-        }
-        if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
-        {
-            transform.localEulerAngles = new Vector3(0, -90, 0);
-        }
-        if (lastPos != transform.position)
-        {
-            speed = Mathf.Clamp01(speed + Time.deltaTime);
-            anim.SetFloat("Blend", speed);
-        }
+            if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
+            {
+                transform.localEulerAngles = new Vector3(0, 0, 0);
+            }
+            if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
+            {
+                transform.localEulerAngles = new Vector3(0, -180, 0);
+            }
+            if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
+            {
+                transform.localEulerAngles = new Vector3(0, 90, 0);
+            }
+            if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
+            {
+                transform.localEulerAngles = new Vector3(0, -90, 0);
+            }
+
+            if (lastPos != transform.position)
+            {
+                speed = Mathf.Clamp01(speed + Time.deltaTime);
+                anim.SetFloat("Blend", speed);
+            }
+            else
+            {
+                speed = Mathf.Clamp01(speed - Time.deltaTime);
+                anim.SetFloat("Blend", speed);
+            }
+            lastPos = transform.position;
+        }        
         else
         {
-            speed = Mathf.Clamp01(speed - Time.deltaTime);
-            anim.SetFloat("Blend", speed);
+            collider.enabled = false;
         }
-        lastPos = transform.position;
     }
 
     void FixedUpdate()
     {
-        horizontal = Input.GetAxis("Horizontal");
-        vertical = Input.GetAxis("Vertical");
-        //Vector3 moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-        //moveDirection.y = 0;
-        if (Input.GetKey(KeyCode.LeftShift) && UIManager.energy > 0)
+        if(playerActive)
         {
-            staminaDrainTimer -= Time.deltaTime;
-            if (staminaDrainTimer <= 0)
+            horizontal = Input.GetAxis("Horizontal");
+            vertical = Input.GetAxis("Vertical");
+            //Vector3 moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+            //moveDirection.y = 0;
+            if (Input.GetKey(KeyCode.LeftShift) && UIManager.energy > 0)
             {
-                UIManager.energy -= staminaDrain;
-                staminaDrainTimer = 1;
-            }
-            //rb.velocity += (moveDirection * runAcceleration);
-            Vector3 velocity = rb.velocity;
-            velocity.x += horizontal * runAcceleration;
-            velocity.z += vertical * runAcceleration;
-            velocity.x = Mathf.Clamp(velocity.x, -maxRunSpeed, maxRunSpeed);
-            velocity.z = Mathf.Clamp(velocity.z, -maxRunSpeed, maxRunSpeed);
+                staminaDrainTimer -= Time.deltaTime;
+                if (staminaDrainTimer <= 0)
+                {
+                    UIManager.energy -= staminaDrain;
+                    staminaDrainTimer = 1;
+                }
+                //rb.velocity += (moveDirection * runAcceleration);
+                Vector3 velocity = rb.velocity;
+                velocity.x += horizontal * runAcceleration;
+                velocity.z += vertical * runAcceleration;
+                velocity.x = Mathf.Clamp(velocity.x, -maxRunSpeed, maxRunSpeed);
+                velocity.z = Mathf.Clamp(velocity.z, -maxRunSpeed, maxRunSpeed);
 
-            rb.velocity = velocity;
-        }
-        else
-        {
-            //rb.velocity += (moveDirection * walkAcceleration);
-            Vector3 velocity = rb.velocity;
-            velocity.x += horizontal * runAcceleration;
-            velocity.z += vertical * runAcceleration;
-            velocity.x = Mathf.Clamp(velocity.x, -maxWalkSpeed, maxWalkSpeed);
-            velocity.z = Mathf.Clamp(velocity.z, -maxWalkSpeed, maxWalkSpeed);
-            rb.velocity = velocity;
-        }
+                rb.velocity = velocity;
+            }
+            else
+            {
+                //rb.velocity += (moveDirection * walkAcceleration);
+                Vector3 velocity = rb.velocity;
+                velocity.x += horizontal * runAcceleration;
+                velocity.z += vertical * runAcceleration;
+                velocity.x = Mathf.Clamp(velocity.x, -maxWalkSpeed, maxWalkSpeed);
+                velocity.z = Mathf.Clamp(velocity.z, -maxWalkSpeed, maxWalkSpeed);
+                rb.velocity = velocity;
+            }
+        }       
     }
 
     
 
     void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.tag == "Base Trigger")
-        {           
-            playerAtBase = true;
-        }
+        //if(other.gameObject.tag == "Base Trigger")
+        //{           
+        //    playerAtBase = true;
+        //}
 
         if (other.gameObject.tag == "Gold")
         {
@@ -129,11 +148,11 @@ public class playerController : MonoBehaviour {
             Destroy(other.gameObject);
         }
     }
-    void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.tag == "Base Trigger")
-        {            
-            playerAtBase = false;
-        }
-    }
+    //void OnTriggerExit(Collider other)
+    //{
+    //    if (other.gameObject.tag == "Base Trigger")
+    //    {            
+    //        playerAtBase = false;
+    //    }
+    //}
 }

@@ -3,17 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class PlayerSpawner : MonoBehaviour {
+public class PlayerSpawner : MonoBehaviour
+{
     private GameController gameController;
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start()
+    {
         gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
     }
 
     // Update is called once per frame
-    void Update () {
-		
-	}
+    void Update()
+    {
+
+    }
     void OnTriggerExit(Collider other)
     {
         if (other.tag == "Entrance")
@@ -42,7 +45,7 @@ public class PlayerSpawner : MonoBehaviour {
     public void Dive()
     {
         gameObject.GetComponent<NavMeshAgent>().enabled = true;
-        gameObject.GetComponent<NavMeshAgent>().destination = new Vector3(transform.position.x, transform.position.y, transform.position.z-10);
+        gameObject.GetComponent<NavMeshAgent>().destination = new Vector3(transform.position.x, transform.position.y, transform.position.z - 10);
         GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraController>().player = gameObject;
         gameObject.layer = 0;
     }

@@ -18,8 +18,8 @@ public class EnemyController : MonoBehaviour {
     private float huntingTimer;
     private Vector3 target;
     private bool hunting;
-    private Quaternion lookRotation;
-    private Vector3 direction;
+   // private Quaternion lookRotation;
+    //private Vector3 direction;
     private RaycastHit hit;
     private Transform[] waypoints;
     private int destPoint = 0;
@@ -96,8 +96,8 @@ public class EnemyController : MonoBehaviour {
             //target = target * Mathf.Clamp(((Vector3.Distance(player.transform.position , transform.position))/10),0,1);
             //target = player.GetComponent<PlayerController>().enemyTarget* Mathf.InverseLerp(0,1,Vector3.Distance(player.transform.position,transform.position));
             agent.destination = target;
-            direction = (target - transform.position).normalized;
-            lookRotation = Quaternion.LookRotation(direction);
+            //direction = (target - transform.position).normalized;
+            //lookRotation = Quaternion.LookRotation(direction);
             //transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * rotationSpeed); // makes the seal significantly more agile & sticky
         }
         if (!hunting & agent.remainingDistance< 0.5f)

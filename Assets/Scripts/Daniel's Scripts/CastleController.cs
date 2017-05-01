@@ -8,9 +8,10 @@ public class CastleController : MonoBehaviour {
 
     Camera m_Camera;
 
-    [Tooltip("Starting Health of the Player Turret")]
-    public int health = 100;
-    int currentHealth;
+    //[Tooltip("Starting Health of the Player Turret")]
+    //public int health = 100;    
+    //int currentHealth;
+
     [Tooltip("The Object that will rotate")]
     public GameObject playerTurret;
     [Tooltip("The Object that will rotate")]
@@ -28,40 +29,39 @@ public class CastleController : MonoBehaviour {
     public Image healthBarFill;
 
     private bool triggered = false;
+    private Health myHealth;
 
     // Use this for initialization
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
-        currentHealth = health;
+        myHealth = gameObject.GetComponent<Health>();
+        //currentHealth = health;
         m_Camera = Camera.main;
     }
 
     // Update is called once per frame
     void Update()
-    {
-        //if(Input.GetKeyDown(KeyCode.E) && player.gameObject.activeSelf == false)
-        //{
-        //    player.gameObject.SetActive(true);
-        //    player.transform.position = playerArea.position;
-        //}
-
-        if ((triggered && Input.GetKeyDown(KeyCode.E) ) && player.activeSelf == true)
+    {     
+        if ((triggered && Input.GetKeyDown(KeyCode.E) ) && playerController.playerActive == true)
         {
-            player.SetActive(false);
+            playerController.playerActive = false;
+            playerController.collider.enabled = false;
+            playerController.mesh.enabled = false; 
             m_Camera.gameObject.GetComponent<Follow>().followObject = gameObject;
             gameObject.GetComponent<AudioListener>().enabled = true;
         }
-        else if (Input.GetKeyDown(KeyCode.E) && player.activeSelf == false)
+        else if (Input.GetKeyDown(KeyCode.E) && playerController.playerActive == false)
         {
             player.transform.position = playerArea.position;
-            player.SetActive(true);
+            playerController.playerActive = true;
+            playerController.collider.enabled = true;
+            playerController.mesh.enabled = true;            
             m_Camera.gameObject.GetComponent<Follow>().followObject = player;
             gameObject.GetComponent<AudioListener>().enabled = false;
         }
 
-
-        if (player.activeSelf == false)
+        if (playerController.playerActive == false)
         {
             Aim();
             Fire();
@@ -122,8 +122,8 @@ public class CastleController : MonoBehaviour {
 
     void HealthUpdate()
     {
-        healthBarFill.fillAmount = currentHealth / health;
-        if (currentHealth <= 0)
+        healthBarFill.fillAmount = myHealth.currentHealth / myHealth.startHealth;
+        if (myHealth.currentHealth <= 0)
         {
             //GameObject.FindGameObjectWithTag("Canvas").GetComponent<UIManager>().GameOver();
         }

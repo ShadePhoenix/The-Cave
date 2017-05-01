@@ -8,9 +8,10 @@ using UnityEngine.UI;
 
 public class TurretAI : MonoBehaviour
 {
-    [Tooltip("Starting Health of the Player Turret")]
-    public int health = 100;
-    float currentHealth;
+    //[Tooltip("Starting Health of the Player Turret")]
+    //public int health = 100;
+    //float currentHealth;
+
     [Tooltip("The Object that will rotate")]
     public GameObject turretArm;
     [Tooltip("The Object that the bullets will fire from *Best to parent to Turret Head*")]
@@ -35,8 +36,8 @@ public class TurretAI : MonoBehaviour
     [Tooltip("Time between shots in seconds")]
     public float fireWait = 1;
 
-    public GameObject healthBar;
-    public Image healthBarFill;
+    //public GameObject healthBar;
+    //public Image healthBarFill;
 
     public GameObject target;
 
@@ -46,10 +47,13 @@ public class TurretAI : MonoBehaviour
     public AudioClip[] sounds;
     private AudioSource audioPlayer;
 
+    //private Health myHealth;
+
     // Use this for initialization
     void Start()
     {
-        currentHealth = health;
+        //myHealth = gameObject.GetComponent<Health>();
+        //currentHealth = health;
         audioPlayer = gameObject.GetComponent<AudioSource>();
     }
 
@@ -60,7 +64,7 @@ public class TurretAI : MonoBehaviour
         RangeMonitor();
         Aim();
         Fire();
-        HealthUpdate();
+        //HealthUpdate();
         
     }
 
@@ -120,14 +124,14 @@ public class TurretAI : MonoBehaviour
         fire = true;
     }
 
-    void HealthUpdate()
-    {
-        healthBar.transform.position = transform.position + new Vector3(0, 2, -2.5f);
-        healthBar.transform.rotation = Quaternion.Euler(new Vector3(90, 0, 0));
-        healthBarFill.fillAmount = currentHealth / health;
-        if (currentHealth <= 0)
-        {
-            Destroy(gameObject);
-        }
-    }    
+    //void HealthUpdate()
+    //{
+    //    healthBar.transform.position = transform.position + new Vector3(0, 2, -2.5f);
+    //    healthBar.transform.rotation = Quaternion.Euler(new Vector3(90, 0, 0));
+    //    healthBarFill.fillAmount = myHealth.currentHealth / myHealth.startHealth;
+    //    if (myHealth.currentHealth <= 0)
+    //    {
+    //        Destroy(gameObject);
+    //    }
+    //}    
 }

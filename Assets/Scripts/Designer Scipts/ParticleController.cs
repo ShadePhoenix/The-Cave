@@ -7,11 +7,11 @@ public class ParticleController : MonoBehaviour {
 
     public AudioClip sound;
     private AudioSource audioPlayer;
-    private ParticleSystem ps;
+    //private ParticleSystem ps;
     private float timer;
     // Use this for initialization
     void Start () {
-        ps = gameObject.GetComponent<ParticleSystem>();
+        //ps = gameObject.GetComponent<ParticleSystem>();
         audioPlayer = gameObject.GetComponent<AudioSource>();
         audioPlayer.clip = sound;
         audioPlayer.Play();

@@ -19,11 +19,11 @@ public class SpawnEnemy : MonoBehaviour
     [Tooltip("How slowly enemies spawn (in seconds) at the start of the game.")]
     public float spawnInterval = 3;
 
-    private List<Transform> enemies = new List<Transform>(); // pool of enemies
-    private int enemiesToSpawn = 1000;
-    private bool genEnemies = false;
+    //private List<Transform> enemies = new List<Transform>(); // pool of enemies
+    //private int enemiesToSpawn = 1000;
+    //private bool genEnemies = false;
 
-    private float timeUntilSpawn = 0;
+    //private float timeUntilSpawn = 0;
     private GameObject[] spawners;   
     private bool spawning = false;
     private bool nightTime;
@@ -37,14 +37,14 @@ public class SpawnEnemy : MonoBehaviour
 
     void Update()
     {
-        //if ( nightTime != DayNight.isNight)
-        //{
-        //    if (DayNight.isNight)
-        //    {
-        //        StartCoroutine("Spawn");
-        //    }
-        //}
-        //nightTime = DayNight.isNight;        
+        if (nightTime != DayNight.isNight)
+        {
+            if (DayNight.isNight)
+            {
+                StartCoroutine("Spawn");
+            }
+        }
+        nightTime = DayNight.isNight;
     } 
 
     private IEnumerator Spawn()
