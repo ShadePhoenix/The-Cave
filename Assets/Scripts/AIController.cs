@@ -197,9 +197,7 @@ public class AIController : MonoBehaviour
             myHealth.currentHealth -= bulletScript.damageDealt;
             audioPlayer.clip = (sounds[Random.Range(0, sounds.Length)]);
             audioPlayer.Play();
-
         }
-        
     }
 
     void HealthUpdate()

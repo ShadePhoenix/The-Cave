@@ -30,9 +30,13 @@ public class BuildNode : MonoBehaviour {
             healthBar.transform.position = transform.position + new Vector3(0, 2, -2.5f);
             healthBar.transform.rotation = Quaternion.Euler(new Vector3(90, 0, 0));
             healthBarFill.fillAmount = myHealth.currentHealth / myHealth.startHealth;
-            if (myHealth.currentHealth <= 0)
+            if (myHealth.currentHealth <= 0 && gameObject.transform.childCount > 0)
+            {                
+                Destroy(gameObject.transform.GetChild(0));                                             
+            }
+            if(gameObject.transform.childCount <= 0)
             {
-                //Destroy(gameObject);
+                myHealth.currentHealth = 0;
             }
         }
        
