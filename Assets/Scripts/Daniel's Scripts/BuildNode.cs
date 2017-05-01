@@ -16,10 +16,13 @@ public class BuildNode : MonoBehaviour {
     private PlayerOrTarget type;
 
     // Use this for initialization
-    void Start ()
+    void Start()
     {
-        myHealth = gameObject.GetComponent<Health>();
         type = gameObject.GetComponent<PlayerOrTarget>();
+        if (type.targetType != PlayerOrTarget.TargetType.Non_Target)
+        {
+            myHealth = gameObject.GetComponent<Health>();
+        }
     }
 	
 	// Update is called once per frame
