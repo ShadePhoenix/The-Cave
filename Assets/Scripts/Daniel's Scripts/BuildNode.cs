@@ -12,35 +12,35 @@ public class BuildNode : MonoBehaviour {
     public GameObject healthBar;
     public Image healthBarFill;
 
-    public Health myHealth;
+    private Health myHealth;
     private PlayerOrTarget type;
 
     // Use this for initialization
-    void Start ()
+    void Start()
     {
-        myHealth = gameObject.GetComponent<Health>();
-        myHealth.currentHealth = 0;
         type = gameObject.GetComponent<PlayerOrTarget>();
+        if (type.targetType != PlayerOrTarget.TargetType.Non_Target)
+        {
+            myHealth = gameObject.GetComponent<Health>();
+        }
     }
 	
 	// Update is called once per frame
 	void Update ()
     {
-        if(type.targetType != PlayerOrTarget.TargetType.Non_Target && turret != null && healthBar != null)
+        if(type.targetType != PlayerOrTarget.TargetType.Non_Target)
         {
             healthBar.transform.position = transform.position + new Vector3(0, 2, -2.5f);
             healthBar.transform.rotation = Quaternion.Euler(new Vector3(90, 0, 0));
             //print(myHealth.currentHealth);
             healthBarFill.fillAmount = myHealth.currentHealth / myHealth.startHealth;
-            if (myHealth.currentHealth <= 0 && gameObject.transform.childCount > 0)
+            if (myHealth.currentHealth <= 0 && turret != null)
             {                
-                Destroy(gameObject.transform.GetChild(0).gameObject);                                             
-            }           
-
-            if (gameObject.transform.childCount <= 0)
+                Destroy(turret);                                             
+            }
+            if(turret == null)
             {
                 myHealth.currentHealth = 0;
-                print(myHealth.currentHealth);
             }
         }
        
