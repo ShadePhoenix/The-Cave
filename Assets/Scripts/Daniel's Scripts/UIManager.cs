@@ -76,12 +76,25 @@ public class UIManager : MonoBehaviour
     //Grabs the turret prefab assigned to the button and sets it to a local variable so it can be placed, and turns on build mode
     public void BuildButton(GameObject turretPrefab)
     {
-        if (conMat >= turretPrefab.GetComponent<TurretAI>().conMatCost && turretPrefab != null && currentBuildNode != null)
+        if (turretPrefab.GetComponent<TurretAI>() != null && conMat >= turretPrefab.GetComponent<TurretAI>().conMatCost && turretPrefab != null && currentBuildNode != null)
         {
-            GameObject builtTurret = Instantiate(turretPrefab, currentBuildNode.transform.position, Quaternion.identity);
+            GameObject builtTurret = Instantiate(turretPrefab, currentBuildNode.transform.position, Quaternion.identity, currentBuildNode.transform);
+            currentBuildNode.GetComponent<BuildNode>().healthBar = builtTurret.GetComponent<TurretAI>().healthBar;
+            currentBuildNode.GetComponent<BuildNode>().healthBarFill = builtTurret.GetComponent<TurretAI>().healthBarFill;
             currentBuildNode.GetComponent<BuildNode>().turret = builtTurret;
             currentBuildNode.GetComponent<BuildNode>().allowBuild = false;
             conMat -= turretPrefab.GetComponent<TurretAI>().conMatCost;
+            currentBuildNode = null;
+            buildCanvas.SetActive(false);
+        }
+        else if(turretPrefab.GetComponent<SlowTower>() != null && conMat >= turretPrefab.GetComponent<SlowTower>().conMatCost && turretPrefab != null && currentBuildNode != null)
+        {
+            GameObject builtTurret = Instantiate(turretPrefab, currentBuildNode.transform.position, Quaternion.identity, currentBuildNode.transform);
+            currentBuildNode.GetComponent<BuildNode>().healthBar = builtTurret.GetComponent<SlowTower>().healthBar;
+            currentBuildNode.GetComponent<BuildNode>().healthBarFill = builtTurret.GetComponent<SlowTower>().healthBarFill;
+            currentBuildNode.GetComponent<BuildNode>().turret = builtTurret;
+            currentBuildNode.GetComponent<BuildNode>().allowBuild = false;
+            conMat -= turretPrefab.GetComponent<SlowTower>().conMatCost;
             currentBuildNode = null;
             buildCanvas.SetActive(false);
         }
