@@ -77,20 +77,19 @@ public class AIController : MonoBehaviour
     void Start () 
 	{        
 		m_agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
-        hero = GameObject.FindGameObjectWithTag("Player");
-        //plController = hero.GetComponent<playerController>(); 
+        hero = GameObject.FindGameObjectWithTag("Player");        
         anim = GetComponent<Animator>();
         myHealth = GetComponent<Health>();
-        lastPos = transform.position;
-        //marker = transform.FindChild("Marker");
+        lastPos = transform.position;        
         target = hero;
+        targetHealth = target.GetComponent<Health>();
         audioPlayer = gameObject.GetComponent<AudioSource>();
         PopulateStructureLists();
-    }		
-	void Update () 
-	{
-        //marker.position = m_agent.destination;
 
+        StartCoroutine(DayDamage());
+    }		
+	void Update ()
+    {       
         HealthUpdate();
         SetTarget();
         Attack();
@@ -121,18 +120,42 @@ public class AIController : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {        
-        if (other.gameObject.tag == "Bullet")
+        if (other.gameObject.tag == "BallistaBullet")
         {
-            bulletScript = other.gameObject.GetComponent<BulletControl>();
+            //bulletScript = other.gameObject.GetComponent<BulletControl>();
+            Destroy(other.gameObject);            
+            myHealth.currentHealth -= Main.s_balistaDamage;
+            audioPlayer.clip = (sounds[Random.Range(0, sounds.Length)]);
+            audioPlayer.Play();
+        }
+        if (other.gameObject.tag == "CannonBullet")
+        {
+            //bulletScript = other.gameObject.GetComponent<BulletControl>();
             Destroy(other.gameObject);
-            myHealth.currentHealth -= bulletScript.damageDealt;
+            myHealth.currentHealth -= Main.s_cannonDamage;
+            audioPlayer.clip = (sounds[Random.Range(0, sounds.Length)]);
+            audioPlayer.Play();
+        }
+        if (other.gameObject.tag == "SniperBullet")
+        {
+            //bulletScript = other.gameObject.GetComponent<BulletControl>();
+            Destroy(other.gameObject);
+            myHealth.currentHealth -= Main.s_sniperDamage;
+            audioPlayer.clip = (sounds[Random.Range(0, sounds.Length)]);
+            audioPlayer.Play();
+        }
+        if (other.gameObject.tag == "PlayerBullet")
+        {
+            //bulletScript = other.gameObject.GetComponent<BulletControl>();
+            Destroy(other.gameObject);
+            myHealth.currentHealth -= Main.s_playerBulletDamage;
             audioPlayer.clip = (sounds[Random.Range(0, sounds.Length)]);
             audioPlayer.Play();
         }
     }
 
     void HealthUpdate()
-    {
+    {        
         healthBar.transform.position = transform.position + new Vector3(0, 1, 1);
         healthBar.transform.rotation = Quaternion.Euler(new Vector3(90, 0, 0));
         healthBarFill.fillAmount = myHealth.currentHealth / myHealth.startHealth;
@@ -247,12 +270,12 @@ public class AIController : MonoBehaviour
                 animationTimeLeft = 1;
                 targetHealth = target.GetComponent<Health>();
                 targetHealth.currentHealth -= damageDealt;
-            }
+            }            
+        }
 
-            if (targetHealth.currentHealth <= 0)
-            {               
-                targetStructureSet = false;
-            }
+        if (targetHealth.currentHealth <= 0)
+        {
+            targetStructureSet = false;
         }
     }
 
@@ -270,5 +293,17 @@ public class AIController : MonoBehaviour
             anim.SetFloat("Blend", animationSpeed);
         }
         lastPos = transform.position;
+    }
+
+    IEnumerator DayDamage()
+    {
+        while(true)
+        {
+            if(!DayNight.isNight)
+            {
+                myHealth.currentHealth--;
+            }            
+            yield return new WaitForSeconds(1);
+        }
     }
 }
