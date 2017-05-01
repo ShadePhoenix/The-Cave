@@ -100,6 +100,10 @@ public class AIController : MonoBehaviour
         }
         else
         {
+            if(targetStructureSet == false)
+            {
+                PopulateStructureLists();
+            }
             //if(targetStructureSet == false)
             while(targetStructureSet == false)
             {      
@@ -225,28 +229,9 @@ public class AIController : MonoBehaviour
 
     void PopulateStructureLists()
     {
-        // hold all of the structures and their target scripts in temporary arrays        
-        PlayerOrTarget[] tempStructTypes = GameObject.FindObjectsOfType<PlayerOrTarget>(); // get all objects with a certain script        
-        GameObject[] tempStructures = new GameObject[tempStructTypes.Length];
-        for (int i = 0; i < tempStructTypes.Length; i++)
-        {
-            tempStructures[i] = tempStructTypes[i].gameObject; // make an array of the game objects attached to the scripts
-        }
-
-        // now only populate the Lists we are going to use with targetable structures
-        for (int i = 0; i < tempStructures.Length; i++)
-        {
-            if (tempStructTypes[i].targetType == PlayerOrTarget.TargetType.Battlement || tempStructTypes[i].targetType == PlayerOrTarget.TargetType.Castle)
-            {
-                structures.Add(tempStructures[i]);
-                strucTypes.Add(tempStructTypes[i]);
-            }
-        }
-
-        // hold all of the structures and their target scripts in temporary arrays        
+        //// hold all of the structures and their target scripts in temporary arrays        
         //PlayerOrTarget[] tempStructTypes = GameObject.FindObjectsOfType<PlayerOrTarget>(); // get all objects with a certain script        
         //GameObject[] tempStructures = new GameObject[tempStructTypes.Length];
-        //Health structuretHealth;
         //for (int i = 0; i < tempStructTypes.Length; i++)
         //{
         //    tempStructures[i] = tempStructTypes[i].gameObject; // make an array of the game objects attached to the scripts
@@ -255,15 +240,40 @@ public class AIController : MonoBehaviour
         //// now only populate the Lists we are going to use with targetable structures
         //for (int i = 0; i < tempStructures.Length; i++)
         //{
-        //    structuretHealth = tempStructures[i].GetComponent<Health>();
         //    if (tempStructTypes[i].targetType == PlayerOrTarget.TargetType.Battlement || tempStructTypes[i].targetType == PlayerOrTarget.TargetType.Castle)
         //    {
-        //        if(structuretHealth.currentHealth > 0)
-        //        {
-        //            structures.Add(tempStructures[i]);
-        //            strucTypes.Add(tempStructTypes[i]);
-        //        }                
+        //        structures.Add(tempStructures[i]);
+        //        strucTypes.Add(tempStructTypes[i]);
         //    }
         //}
+
+        if(structures.Count > 0)
+        {
+            structures.Clear();
+            strucTypes.Clear();
+        }
+
+        // hold all of the structures and their target scripts in temporary arrays
+        PlayerOrTarget[] tempStructTypes = GameObject.FindObjectsOfType<PlayerOrTarget>(); // get all objects with a certain script        
+        GameObject[] tempStructures = new GameObject[tempStructTypes.Length];
+        Health structuretHealth;
+        for (int i = 0; i < tempStructTypes.Length; i++)
+        {
+            tempStructures[i] = tempStructTypes[i].gameObject; // make an array of the game objects attached to the scripts
+        }
+
+        // now only populate the Lists we are going to use with targetable structures
+        for (int i = 0; i < tempStructures.Length; i++)
+        {
+            structuretHealth = tempStructures[i].GetComponent<Health>();
+            if (tempStructTypes[i].targetType == PlayerOrTarget.TargetType.Battlement || tempStructTypes[i].targetType == PlayerOrTarget.TargetType.Castle)
+            {
+                if (structuretHealth.currentHealth > 0)
+                {
+                    structures.Add(tempStructures[i]);
+                    strucTypes.Add(tempStructTypes[i]);
+                }
+            }
+        }
     }
 }
