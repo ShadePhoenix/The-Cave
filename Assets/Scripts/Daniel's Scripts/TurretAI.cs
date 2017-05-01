@@ -36,8 +36,8 @@ public class TurretAI : MonoBehaviour
     [Tooltip("Time between shots in seconds")]
     public float fireWait = 1;
 
-    //public GameObject healthBar;
-    //public Image healthBarFill;
+    public GameObject healthBar;
+    public Image healthBarFill;
 
     public GameObject target;
 
