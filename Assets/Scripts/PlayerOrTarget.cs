@@ -8,6 +8,7 @@ public class PlayerOrTarget : MonoBehaviour {
     {
         Player,
         Battlement,
+        Turret,
         Castle,
         Non_Target
     };
