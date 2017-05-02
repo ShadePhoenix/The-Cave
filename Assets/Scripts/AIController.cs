@@ -92,7 +92,13 @@ public class AIController : MonoBehaviour
     {       
         HealthUpdate();
 
-        if (targetHealth.currentHealth <= 0 || (structureTargeted == false && playerController.playerActive == false))
+        if(playerController.playerActive == true)
+        {
+            structureTargeted = false;
+            SetTarget();
+        }
+
+        if ((targetHealth.currentHealth <= 0 || (structureTargeted == false && playerController.playerActive == false)))
         {
             structureTargeted = false;
             SetTarget();
@@ -100,7 +106,7 @@ public class AIController : MonoBehaviour
         else
         {
             Attack();
-        }       
+        }        
         
         Animate();        
     }
@@ -128,43 +134,30 @@ public class AIController : MonoBehaviour
     }
 
     void OnTriggerEnter(Collider other)
-    {
-        //if (other.gameObject.tag == "Bullet")
-        //{
-        //    bulletScript = other.gameObject.GetComponent<BulletControl>();
-        //    Destroy(other.gameObject);
-        //    myHealth.currentHealth -= bulletScript.damageDealt;
-        //    audioPlayer.clip = (sounds[Random.Range(0, sounds.Length)]);
-        //    audioPlayer.Play();
-        //}
-
+    {     
         if (other.gameObject.tag == "BallistaBullet")
-        {
-            //bulletScript = other.gameObject.GetComponent<BulletControl>();
+        {            
             Destroy(other.gameObject);
             myHealth.currentHealth -= Main.s_balistaDamage;
             audioPlayer.clip = (sounds[Random.Range(0, sounds.Length)]);
             audioPlayer.Play();
         }
         if (other.gameObject.tag == "CannonBullet")
-        {
-            //bulletScript = other.gameObject.GetComponent<BulletControl>();
+        {            
             Destroy(other.gameObject);
             myHealth.currentHealth -= Main.s_cannonDamage;
             audioPlayer.clip = (sounds[Random.Range(0, sounds.Length)]);
             audioPlayer.Play();
         }
         if (other.gameObject.tag == "SniperBullet")
-        {
-            //bulletScript = other.gameObject.GetComponent<BulletControl>();
+        {           
             Destroy(other.gameObject);
             myHealth.currentHealth -= Main.s_sniperDamage;
             audioPlayer.clip = (sounds[Random.Range(0, sounds.Length)]);
             audioPlayer.Play();
         }
         if (other.gameObject.tag == "PlayerBullet")
-        {
-            //bulletScript = other.gameObject.GetComponent<BulletControl>();
+        {            
             Destroy(other.gameObject);
             myHealth.currentHealth -= Main.s_playerBulletDamage;
             audioPlayer.clip = (sounds[Random.Range(0, sounds.Length)]);
@@ -225,49 +218,44 @@ public class AIController : MonoBehaviour
         if (playerController.playerActive == true)
         {
             // make it so that it doesn't do this more than once
-            if(playerTargeted == false)
+            if (playerTargeted == false)
             {
+                //print("I should be attacking the hero");
                 playerTargeted = true;
-                target = hero;
-                targType = target.GetComponent<PlayerOrTarget>();
+                target = aiTargets.GetPlayer();
+                targType = aiTargets.GetPlayerType();
+                targetHealth = aiTargets.GetPlayerHealth();
                 structureTargeted = false;
                 m_agent.SetDestination(hero.transform.position);
-            }            
+            }
+            else
+            {
+                m_agent.SetDestination(hero.transform.position);
+            }       
         }
         else
-        {
-            //if (targetStructureSet == false)
-            //{
-            //    PopulateStructureLists();
-            //}
-
+        {           
             playerTargeted = false;
 
             while (structureTargeted == false)
-            {
-                // targetStructureSet = true;
-                //int rStruct = Random.Range(0, structures.Count);
+            {       
                 target = aiTargets.GetTarget();
                 targType = aiTargets.GetType(target);
                 targetHealth = aiTargets.GetHealth(target);
+                
+                Vector3 targetPos = target.transform.position;
+                NavMeshHit myNavHit;
+                if (targType.targetType == PlayerOrTarget.TargetType.Battlement && NavMesh.SamplePosition(targetPos, out myNavHit, 10, -1))
+                {
+                    targetPos = myNavHit.position;
+                }
+                else if (targType.targetType == PlayerOrTarget.TargetType.Castle && NavMesh.SamplePosition(targetPos, out myNavHit, 20, -1))
+                {
+                    targetPos = myNavHit.position;
+                }
 
-                //if (targetHealth.currentHealth > 0)
-                //{
-                    Vector3 targetPos = target.transform.position;
-                    NavMeshHit myNavHit;
-                    if (targType.targetType == PlayerOrTarget.TargetType.Battlement && NavMesh.SamplePosition(targetPos, out myNavHit, 10, -1))
-                    {
-                        targetPos = myNavHit.position;
-                    }
-                    else if (targType.targetType == PlayerOrTarget.TargetType.Castle && NavMesh.SamplePosition(targetPos, out myNavHit, 20, -1))
-                    {
-                        targetPos = myNavHit.position;
-                    }
-
-                    m_agent.SetDestination(targetPos);
-                    structureTargeted = true;
-                    //break;
-                //}
+                m_agent.SetDestination(targetPos);
+                structureTargeted = true;                   
             }
         }
     }
@@ -277,24 +265,23 @@ public class AIController : MonoBehaviour
         // if the attack animation is playing, see if 1 second has passed and then do a distance check on the objects to be attacked
         if (anim.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
         {
+            //print("The attack animation is playing now.");
             animationTimeLeft -= Time.deltaTime;
             float dist = Vector3.Distance(transform.position, target.transform.position);
-            if ((animationTimeLeft <= 0 && targType.targetType == PlayerOrTarget.TargetType.Player) && (dist <= 1 && dist >= 0))
+            if ((animationTimeLeft <= 0 && targType.targetType == PlayerOrTarget.TargetType.Player) && (dist <= 2 && dist >= -2))
             {
-                animationTimeLeft = 1;
-                targetHealth = target.GetComponent<Health>();
+                //print("The player should be getting hurt now");
+                animationTimeLeft = 1;               
                 targetHealth.currentHealth -= damageDealt;
             }
             else if ((animationTimeLeft <= 0 && targType.targetType == PlayerOrTarget.TargetType.Battlement) && (dist <= 7 && dist >= 0))
             {
-                animationTimeLeft = 1;
-                targetHealth = target.GetComponent<Health>();
+                animationTimeLeft = 1;                
                 targetHealth.currentHealth -= damageDealt;
             }
             else if ((animationTimeLeft <= 0 && targType.targetType == PlayerOrTarget.TargetType.Castle) && (dist <= 20 && dist >= 0))
             {
-                animationTimeLeft = 1;
-                targetHealth = target.GetComponent<Health>();
+                animationTimeLeft = 1;                
                 targetHealth.currentHealth -= damageDealt;
             }            
         }
