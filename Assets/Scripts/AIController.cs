@@ -119,11 +119,20 @@ public class AIController : MonoBehaviour
     }
 
     void OnTriggerEnter(Collider other)
-    {        
+    {
+        //if (other.gameObject.tag == "Bullet")
+        //{
+        //    bulletScript = other.gameObject.GetComponent<BulletControl>();
+        //    Destroy(other.gameObject);
+        //    myHealth.currentHealth -= bulletScript.damageDealt;
+        //    audioPlayer.clip = (sounds[Random.Range(0, sounds.Length)]);
+        //    audioPlayer.Play();
+        //}
+
         if (other.gameObject.tag == "BallistaBullet")
         {
             //bulletScript = other.gameObject.GetComponent<BulletControl>();
-            Destroy(other.gameObject);            
+            Destroy(other.gameObject);
             myHealth.currentHealth -= Main.s_balistaDamage;
             audioPlayer.clip = (sounds[Random.Range(0, sounds.Length)]);
             audioPlayer.Play();
