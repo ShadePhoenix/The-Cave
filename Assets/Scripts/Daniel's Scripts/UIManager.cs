@@ -11,6 +11,7 @@ public class UIManager : MonoBehaviour
 {
     public Camera m_Camera;
 
+    public Text goldTB;
     public Text conMatTB;
     static public int conMat;
     public int startingConMat;
@@ -128,5 +129,6 @@ public class UIManager : MonoBehaviour
     {
         conMatTB.text = conMat.ToString();
         energyTB.text = energy.ToString();
+        goldTB.text = gold.ToString();
     }
 }
