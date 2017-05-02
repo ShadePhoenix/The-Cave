@@ -169,6 +169,7 @@ public class AIController : MonoBehaviour
         healthBarFill.fillAmount = myHealth.currentHealth / myHealth.startHealth;
         if (myHealth.currentHealth <= 0)
         {
+            print("An enemy died");
             //spawns particle effect, and makes sure that the particle effect is its own object
             GameObject particles = Instantiate(deathEffect, transform.position, transform.rotation);
             particles.transform.parent = null;
@@ -261,19 +262,19 @@ public class AIController : MonoBehaviour
         {
             animationTimeLeft -= Time.deltaTime;
             float dist = Vector3.Distance(transform.position, target.transform.position);
-            if ((animationTimeLeft <= 0 && targType.targetType == PlayerOrTarget.TargetType.Player) && (dist <= 1 && dist >= -1))
+            if ((animationTimeLeft <= 0 && targType.targetType == PlayerOrTarget.TargetType.Player) && (dist <= 1 && dist >= 0))
             {
                 animationTimeLeft = 1;
                 targetHealth = target.GetComponent<Health>();
                 targetHealth.currentHealth -= damageDealt;
             }
-            else if ((animationTimeLeft <= 0 && targType.targetType == PlayerOrTarget.TargetType.Battlement) && (dist <= 5 && dist >= 4.5))
+            else if ((animationTimeLeft <= 0 && targType.targetType == PlayerOrTarget.TargetType.Battlement) && (dist <= 7 && dist >= 0))
             {
                 animationTimeLeft = 1;
                 targetHealth = target.GetComponent<Health>();
                 targetHealth.currentHealth -= damageDealt;
             }
-            else if ((animationTimeLeft <= 0 && targType.targetType == PlayerOrTarget.TargetType.Castle) && (dist <= 16 && dist >= 0))
+            else if ((animationTimeLeft <= 0 && targType.targetType == PlayerOrTarget.TargetType.Castle) && (dist <= 20 && dist >= 0))
             {
                 animationTimeLeft = 1;
                 targetHealth = target.GetComponent<Health>();
