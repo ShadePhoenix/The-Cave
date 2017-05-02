@@ -59,19 +59,19 @@ public class playerController : MonoBehaviour {
             horizontal = Input.GetAxis("Horizontal");
             vertical = Input.GetAxis("Vertical");
 
-            if ((Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A)))
+            if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A) && rb.velocity.x < 0)
             {
                 transform.localEulerAngles = new Vector3(0, 0, 0);
             }
-            else if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
+            else if(Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D)/* && rb.velocity.x > 0*/)
             {
                 transform.localEulerAngles = new Vector3(0, -180, 0);
             }
-            else if(Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
+            else if(Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W) && rb.velocity.y > 0)
             {
                 transform.localEulerAngles = new Vector3(0, 90, 0);
             }
-            else if(Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S))
+            else if(Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S) /*&& rb.velocity.y < 0*/)
             {
                 transform.localEulerAngles = new Vector3(0, -90, 0);
             }
