@@ -20,11 +20,6 @@ public class AITargets : MonoBehaviour {
         playerType = player.GetComponent<PlayerOrTarget>();
         Init();
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
     public void Init()
     {
@@ -32,27 +27,15 @@ public class AITargets : MonoBehaviour {
         strucTypes.Clear();
         targHealth.Clear();
 
-        // Add the players castle to the list
-        PlayerOrTarget[] tempStructTypes = GameObject.FindObjectsOfType<PlayerOrTarget>(); // get all objects with a certain script        
-        GameObject[] tempStructures = new GameObject[tempStructTypes.Length];
-        Health[] tempHealth = new Health[tempStructTypes.Length];
-        for (int i = 0; i < tempStructTypes.Length; i++)
-        {
-            tempStructures[i] = tempStructTypes[i].gameObject; // make an array of the game objects attached to the scripts
-            tempHealth[i] = tempStructures[i].gameObject.GetComponent<Health>();
-        }
+        GameObject castle = FindObjectOfType<CastleController>().gameObject;
+        PlayerOrTarget castleType = castle.GetComponent<PlayerOrTarget>();
+        Health castleHealth = castle.GetComponent<Health>();
 
-        for (int i = 0; i < tempStructures.Length; i++)
-        {            
-            if (tempStructTypes[i].targetType == PlayerOrTarget.TargetType.Castle)
-            {                
-                structures.Add(tempStructures[i]);
-                strucTypes.Add(tempStructTypes[i]);
-                targHealth.Add(tempHealth[i]);
-            }
-        }
+        structures.Add(castle);
+        strucTypes.Add(castleType);
+        targHealth.Add(castleHealth);
 
-        PrintTargets();
+        //PrintTargets();
     }
 
     public void AddTarget(GameObject obj)
@@ -64,7 +47,7 @@ public class AITargets : MonoBehaviour {
         strucTypes.Add(tmpTarg);
         targHealth.Add(tmpHealth);
 
-        PrintTargets();
+        //PrintTargets();
     }
 
     public void RemoveTarget(GameObject target)
@@ -85,7 +68,7 @@ public class AITargets : MonoBehaviour {
             }
         }
 
-        PrintTargets();
+        //PrintTargets();
     }
 
     // returns a random structure to target
@@ -108,7 +91,6 @@ public class AITargets : MonoBehaviour {
                 return strucTypes[i];
             }            
         }
-
         return null;
     }    
 
@@ -125,7 +107,6 @@ public class AITargets : MonoBehaviour {
                 return targHealth[i];
             }
         }
-
         return null;
     }
 
@@ -158,36 +139,4 @@ public class AITargets : MonoBehaviour {
             }
         }        
     }
-
-    //void PopulateStructureLists()
-    //{
-    //    if (structures.Count > 0)
-    //    {
-    //        structures.Clear();
-    //        strucTypes.Clear();
-    //    }
-
-    //    // hold all of the structures and their target scripts in temporary arrays
-    //    PlayerOrTarget[] tempStructTypes = GameObject.FindObjectsOfType<PlayerOrTarget>(); // get all objects with a certain script        
-    //    GameObject[] tempStructures = new GameObject[tempStructTypes.Length];
-    //    Health structuretHealth;
-    //    for (int i = 0; i < tempStructTypes.Length; i++)
-    //    {
-    //        tempStructures[i] = tempStructTypes[i].gameObject; // make an array of the game objects attached to the scripts
-    //    }
-
-    //    // now only populate the Lists we are going to use with targetable structures
-    //    for (int i = 0; i < tempStructures.Length; i++)
-    //    {
-    //        structuretHealth = tempStructures[i].GetComponent<Health>();
-    //        if (tempStructTypes[i].targetType == PlayerOrTarget.TargetType.Battlement || tempStructTypes[i].targetType == PlayerOrTarget.TargetType.Castle)
-    //        {
-    //            if (structuretHealth.currentHealth > 0)
-    //            {
-    //                structures.Add(tempStructures[i]);
-    //                strucTypes.Add(tempStructTypes[i]);
-    //            }
-    //        }
-    //    }
-    //}
 }

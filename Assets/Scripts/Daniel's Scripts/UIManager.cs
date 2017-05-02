@@ -14,10 +14,12 @@ public class UIManager : MonoBehaviour
     public Text conMatTB;
     static public int conMat;
     public int startingConMat;
+    static public int s_startingScrap;
 
     public Text energyTB;
     static public int energy;
     public int startingEnergy;
+    static public int s_startEnergy;
 
     static public int gold = 0;
     [Tooltip("How much gold is worth.")]
@@ -37,7 +39,7 @@ public class UIManager : MonoBehaviour
     // Use this for initialization
     void Start ()
     {
-        
+        s_startEnergy = startingEnergy;
         Time.timeScale = 1;
         buildCanvas.SetActive(false);
         gameUI.SetActive(true);
