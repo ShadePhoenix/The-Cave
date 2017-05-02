@@ -7,8 +7,10 @@ public class DayNight : MonoBehaviour {
     public float dayLength;
     public static float nightNumber;
     public static bool isNight = false;
-    private float dayRotate = 0;
-    private float nightTimer = 0;
+    [HideInInspector]
+    public float dayRotate = 0;
+    [HideInInspector]
+    public float nightTimer = 0;
     [Tooltip("The Total Arc the sun follows during the day")]
     public float dayAngle = 240;
 
