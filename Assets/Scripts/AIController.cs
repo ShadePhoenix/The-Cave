@@ -43,13 +43,12 @@ public class AIController : MonoBehaviour
     public GameObject gold;
 
     private Animator anim;
-    private GameObject hero;
-    //private playerController plController; 
+    private GameObject hero;   
     private GameObject target;
     private PlayerOrTarget targType; // what kind of target is it
     private NavMeshAgent m_agent;
    
-    private Collider[] structuresInRange;
+    //private Collider[] structuresInRange;
     //private float currentTargetDis = Mathf.Infinity;
 
     private float animationSpeed = 0f;
