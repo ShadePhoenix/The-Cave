@@ -95,7 +95,7 @@ public class CastleController : MonoBehaviour {
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         
-        if (Physics.Raycast(ray, out hit, terrainMask))
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity, terrainMask))
         {
             playerTurret.transform.forward = hit.point - transform.position;
             Vector3 angles = playerTurret.transform.eulerAngles;
@@ -111,7 +111,8 @@ public class CastleController : MonoBehaviour {
     {
         if (fire && Input.GetButton("Fire1") && !EventSystem.current.IsPointerOverGameObject())
         {
-            GameObject bullet = Instantiate(projectile, projectileSpawn.position, Quaternion.Euler(projectileSpawn.transform.eulerAngles));
+            GameObject bullet = Instantiate(projectile, projectileSpawn.position, Quaternion.identity);
+            bullet.transform.LookAt(hit.point);
             bullet.GetComponent<Rigidbody>().AddForce(bullet.transform.forward * projectileSpeed, ForceMode.Impulse);
             StartCoroutine(FireWait(fireWait));
             fire = false;
