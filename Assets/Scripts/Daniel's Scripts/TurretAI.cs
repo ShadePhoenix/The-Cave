@@ -72,9 +72,6 @@ public class TurretAI : MonoBehaviour
     //Calculates which enemy in range has traveled the furthest and targets them
     void RangeMonitor()
     {
-        // maybe check here to make sure the turret already doesn't have a target. Reset this when the target is killed
-        // make sure it's getting the closest enemy that's not targeted
-
         enemiesInRange = Physics.OverlapSphere(transform.position, fireRange, mask);
         if (enemiesInRange.Length > 0)
         {
