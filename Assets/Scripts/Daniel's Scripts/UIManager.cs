@@ -29,6 +29,9 @@ public class UIManager : MonoBehaviour
 
     private Health nodeHealth;
 
+    public GameObject gameController;
+    private AITargets aiTargets;
+
     // Use this for initialization
     void Start ()
     {
@@ -40,6 +43,7 @@ public class UIManager : MonoBehaviour
         m_Camera = Camera.main;
         UpdateStats();
         goldVal = goldValue;
+        aiTargets = gameController.GetComponent<AITargets>();
     }
 
     // Update is called once per frame
@@ -86,6 +90,7 @@ public class UIManager : MonoBehaviour
             conMat -= turretPrefab.GetComponent<TurretAI>().conMatCost;
             currentBuildNode = null;
             buildCanvas.SetActive(false);
+
         }
         else if(turretPrefab.GetComponent<SlowTower>() != null && conMat >= turretPrefab.GetComponent<SlowTower>().conMatCost && turretPrefab != null && currentBuildNode != null)
         {

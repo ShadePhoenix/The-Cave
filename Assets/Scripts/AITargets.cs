@@ -7,14 +7,62 @@ public class AITargets : MonoBehaviour {
     private List<GameObject> structures = new List<GameObject>();
     private List<PlayerOrTarget> strucTypes = new List<PlayerOrTarget>(); // the types of the structures, whether targetable or not
                                                                           
-    void Start () {
-		
+    void Start ()
+    {
+        Init();
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		
 	}
+
+    void Init()
+    {
+        // Add the players castle to the list
+
+        PlayerOrTarget[] tempStructTypes = GameObject.FindObjectsOfType<PlayerOrTarget>(); // get all objects with a certain script        
+        GameObject[] tempStructures = new GameObject[tempStructTypes.Length];
+        for (int i = 0; i < tempStructTypes.Length; i++)
+        {
+            tempStructures[i] = tempStructTypes[i].gameObject; // make an array of the game objects attached to the scripts
+        }
+
+        for (int i = 0; i < tempStructures.Length; i++)
+        {            
+            if (tempStructTypes[i].targetType == PlayerOrTarget.TargetType.Castle)
+            {                
+                structures.Add(tempStructures[i]);
+                strucTypes.Add(tempStructTypes[i]);
+            }
+        }
+
+        PrintTargets();
+    }
+
+    void AddTarget(GameObject obj)
+    {
+        PlayerOrTarget tmpTarg = obj.GetComponent<PlayerOrTarget>();
+
+        structures.Add(obj);
+        strucTypes.Add(tmpTarg);
+
+        PrintTargets();
+    }
+
+    void PrintTargets()
+    {
+        if (structures.Count > 0)
+        {
+            print("Printing the list of structures the AI can target.");
+
+            for (int i = 0; i < structures.Count; i++)
+            {
+                print(strucTypes[i].targetType);
+            }
+        }
+        
+    }
 
     void PopulateStructureLists()
     {
