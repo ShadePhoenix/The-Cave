@@ -46,6 +46,8 @@ public class TurretAI : MonoBehaviour
     public Collider[] enemiesInRange;
     public AudioClip[] sounds;
     private AudioSource audioPlayer;
+    private bool fire = true;
+    private float closestDist;
 
     //private Health myHealth;
 
@@ -64,13 +66,15 @@ public class TurretAI : MonoBehaviour
         RangeMonitor();
         Aim();
         Fire();
-        //HealthUpdate();
-        
+        //HealthUpdate();        
     }
-    float closestDist;
+        
     //Calculates which enemy in range has traveled the furthest and targets them
     void RangeMonitor()
     {
+        // maybe check here to make sure the turret already doesn't have a target. Reset this when the target is killed
+        // make sure it's getting the closest enemy that's not targeted
+
         enemiesInRange = Physics.OverlapSphere(transform.position, fireRange, mask);
         if (enemiesInRange.Length > 0)
         {
@@ -104,12 +108,12 @@ public class TurretAI : MonoBehaviour
             transform.localRotation = Quaternion.Euler(turretRot);
             turretArm.transform.LookAt(aimPoint);            
         }
-    }
-
-    bool fire = true;
+    }    
 
     void Fire()
     {
+        // make sure the fire bool is being set and reset correctly
+
         if ((fire && target != null))
         {
             UIManager.energy -= energyFireCost;
