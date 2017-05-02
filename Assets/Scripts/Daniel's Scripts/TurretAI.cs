@@ -76,11 +76,12 @@ public class TurretAI : MonoBehaviour
         {
             foreach (Collider enemy in enemiesInRange)
             {
+                AIController targ = enemy.GetComponent<AIController>();
                 float dist = Vector3.Distance(transform.position, enemy.transform.position);
-                if (dist < closestDist && enemy.GetComponent<AIController>().targeted == false)
+                if (dist < closestDist && targ.targeted == false)
                 {
                     closestDist = dist;
-                    enemy.GetComponent<AIController>().targeted = true;
+                    targ.targeted = true;
                     target = enemy.gameObject;
                 }
             }
