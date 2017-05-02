@@ -52,7 +52,7 @@ public class CastleController : MonoBehaviour {
             playerController.mesh.enabled = false; 
             followScript.followObject = gameObject;
             followScript.followingPlayer = false;
-            gameObject.GetComponent<AudioListener>().enabled = true;
+            //gameObject.GetComponent<AudioListener>().enabled = true;
         }
         else if (Input.GetKeyDown(KeyCode.E) && playerController.playerActive == false)
         {
@@ -62,7 +62,7 @@ public class CastleController : MonoBehaviour {
             playerController.mesh.enabled = true;
             followScript.followObject = player;
             followScript.followingPlayer = true;
-            gameObject.GetComponent<AudioListener>().enabled = false;
+           // gameObject.GetComponent<AudioListener>().enabled = false;
         }
 
         if (playerController.playerActive == false)
