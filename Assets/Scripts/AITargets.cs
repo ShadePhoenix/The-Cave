@@ -26,8 +26,12 @@ public class AITargets : MonoBehaviour {
 		
 	}
 
-    void Init()
+    public void Init()
     {
+        structures.Clear();
+        strucTypes.Clear();
+        targHealth.Clear();
+
         // Add the players castle to the list
         PlayerOrTarget[] tempStructTypes = GameObject.FindObjectsOfType<PlayerOrTarget>(); // get all objects with a certain script        
         GameObject[] tempStructures = new GameObject[tempStructTypes.Length];
