@@ -7,9 +7,17 @@ public class AITargets : MonoBehaviour {
     private List<GameObject> structures = new List<GameObject>();
     private List<PlayerOrTarget> strucTypes = new List<PlayerOrTarget>(); // the types of the structures, whether targetable or not
     private List<Health> targHealth = new List<Health>(); // health of the structures
-                                                                          
+
+    private GameObject player;
+    private PlayerOrTarget playerType;
+    private Health playerHealth;
+    
+                                      
     void Start ()
     {
+        player = FindObjectOfType<playerController>().gameObject;
+        playerHealth = player.GetComponent<Health>();
+        playerType = player.GetComponent<PlayerOrTarget>();
         Init();
 	}
 	
@@ -21,7 +29,6 @@ public class AITargets : MonoBehaviour {
     void Init()
     {
         // Add the players castle to the list
-
         PlayerOrTarget[] tempStructTypes = GameObject.FindObjectsOfType<PlayerOrTarget>(); // get all objects with a certain script        
         GameObject[] tempStructures = new GameObject[tempStructTypes.Length];
         Health[] tempHealth = new Health[tempStructTypes.Length];
@@ -116,6 +123,21 @@ public class AITargets : MonoBehaviour {
         }
 
         return null;
+    }
+
+    public GameObject GetPlayer()
+    {
+        return player;
+    }
+
+    public PlayerOrTarget GetPlayerType()
+    {
+        return playerType;
+    }
+
+    public Health GetPlayerHealth()
+    {
+        return playerHealth;
     }
 
     void PrintTargets()
