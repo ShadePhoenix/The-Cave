@@ -18,6 +18,7 @@ public class playerController : MonoBehaviour {
     [Tooltip("How much of the global energy you use up while running per second.")]
     public int staminaDrain = 1;
     private float staminaDrainTimer = 1;
+    [Tooltip("Attach the Game Over screen.")]
     public GameObject gameOver;
 
     private float horizontal;

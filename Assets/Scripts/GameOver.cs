@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameOver : MonoBehaviour {
 
@@ -13,36 +14,42 @@ public class GameOver : MonoBehaviour {
     private Health playerHealth;
     private CastleController castle;
     private Health castleHealth;
+    public Transform playerArea;
+
+    public Button yourButton;
 
     // Use this for initialization
     void Start ()
     {
+        Button btn = yourButton.GetComponent<Button>();
+        btn.onClick.AddListener(TaskOnClick);
+
         player = FindObjectOfType<playerController>();
         playerHealth = player.GetComponent<Health>();
+        castle = FindObjectOfType<CastleController>();
         castleHealth = castle.GetComponent<Health>();
         nodes = FindObjectsOfType<BuildNode>();
         nodesObj = new GameObject[nodes.Length];
-        nodesHealth = new Health[nodes.Length];
-        castle = FindObjectOfType<CastleController>();
+        nodesHealth = new Health[nodes.Length];        
 
         for (int i = 0; i < nodes.Length; i++)
         {
             nodesObj[i] = nodes[i].gameObject;
-            nodesHealth[i] = nodesObj[i].GetComponent<Health>();
+            nodesHealth[i] = nodesObj[i].gameObject.GetComponent<Health>();   
         }
 
         gc = GameObject.FindObjectOfType<Main>().gameObject;
         aiTargets = gc.GetComponent<AITargets>();
     }
-	
-	// Update is called once per frame
-	void Update ()
+
+    void TaskOnClick()
     {
-		
-	}
+        RestartGame();
+        gameObject.SetActive(false);
+    }
 
     public void RestartGame()
-    {
+    {        
         AIController[] enemies = FindObjectsOfType<AIController>();
         GameObject[] enemiesObj = new GameObject[enemies.Length];
         for(int i = 0; i < enemies.Length; i++)
@@ -67,7 +74,10 @@ public class GameOver : MonoBehaviour {
 
         playerHealth.currentHealth = playerHealth.startHealth;
         castleHealth.currentHealth = castleHealth.startHealth;
+        player.transform.position = playerArea.transform.position;
 
         aiTargets.Init();
+
+        
     }
 }

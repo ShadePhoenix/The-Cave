@@ -8,10 +8,6 @@ public class CastleController : MonoBehaviour {
 
     Camera m_Camera;
 
-    //[Tooltip("Starting Health of the Player Turret")]
-    //public int health = 100;    
-    //int currentHealth;
-
     [Tooltip("The Object that will rotate")]
     public GameObject playerTurret;
     [Tooltip("The Object that will rotate")]
@@ -31,6 +27,8 @@ public class CastleController : MonoBehaviour {
     private bool triggered = false;
     private Health myHealth;
     private Follow followScript;
+    [Tooltip("Attach the Game Over screen.")]
+    public GameObject gameOver;
 
     // Use this for initialization
     void Start()
@@ -40,6 +38,7 @@ public class CastleController : MonoBehaviour {
         //currentHealth = health;
         m_Camera = Camera.main;
         followScript = m_Camera.gameObject.GetComponent<Follow>();
+        //gameOver = FindObjectOfType<GameOver>().gameObject;
     }
 
     // Update is called once per frame
@@ -130,6 +129,7 @@ public class CastleController : MonoBehaviour {
         healthBarFill.fillAmount = myHealth.currentHealth / myHealth.startHealth;
         if (myHealth.currentHealth <= 0)
         {
+            gameOver.SetActive(true);
             //GameObject.FindGameObjectWithTag("Canvas").GetComponent<UIManager>().GameOver();
         }
     }
