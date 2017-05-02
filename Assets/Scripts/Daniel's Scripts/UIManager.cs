@@ -29,12 +29,15 @@ public class UIManager : MonoBehaviour
 
     private Health nodeHealth;
 
-    public GameObject gameController;
+    private GameObject gc;
     private AITargets aiTargets;
+
+    private GameObject currentBuildNode;
 
     // Use this for initialization
     void Start ()
     {
+        
         Time.timeScale = 1;
         buildCanvas.SetActive(false);
         gameUI.SetActive(true);
@@ -43,7 +46,9 @@ public class UIManager : MonoBehaviour
         m_Camera = Camera.main;
         UpdateStats();
         goldVal = goldValue;
-        aiTargets = gameController.GetComponent<AITargets>();
+
+        gc = GameObject.FindObjectOfType<Main>().gameObject;
+        aiTargets = gc.GetComponent<AITargets>();
     }
 
     // Update is called once per frame
@@ -51,9 +56,7 @@ public class UIManager : MonoBehaviour
     {
         UpdateStats();
         BuildNodeClick();
-    }
-
-    GameObject currentBuildNode;
+    }   
 
     void BuildNodeClick()
     {
@@ -82,26 +85,32 @@ public class UIManager : MonoBehaviour
     {
         if (turretPrefab.GetComponent<TurretAI>() != null && conMat >= turretPrefab.GetComponent<TurretAI>().conMatCost && turretPrefab != null && currentBuildNode != null)
         {
+            // build a turret and set it up
             GameObject builtTurret = Instantiate(turretPrefab, currentBuildNode.transform.position, Quaternion.identity, currentBuildNode.transform);
             currentBuildNode.GetComponent<BuildNode>().turret = builtTurret;
             currentBuildNode.GetComponent<BuildNode>().allowBuild = false;
             nodeHealth = currentBuildNode.GetComponent<Health>();
             nodeHealth.currentHealth = nodeHealth.startHealth;            
             conMat -= turretPrefab.GetComponent<TurretAI>().conMatCost;
-            currentBuildNode = null;
-            buildCanvas.SetActive(false);
+            // Adds the build node as a target for the AI to choose to attack
+            aiTargets.AddTarget(currentBuildNode.gameObject);
 
+            // reset things to be reused
+            currentBuildNode = null;
+            buildCanvas.SetActive(false);   
         }
         else if(turretPrefab.GetComponent<SlowTower>() != null && conMat >= turretPrefab.GetComponent<SlowTower>().conMatCost && turretPrefab != null && currentBuildNode != null)
         {
+            // See above            
             GameObject builtTurret = Instantiate(turretPrefab, currentBuildNode.transform.position, Quaternion.identity, currentBuildNode.transform);
             currentBuildNode.GetComponent<BuildNode>().turret = builtTurret;
             currentBuildNode.GetComponent<BuildNode>().allowBuild = false;
             nodeHealth = currentBuildNode.GetComponent<Health>();
             nodeHealth.currentHealth = nodeHealth.startHealth;
-            conMat -= turretPrefab.GetComponent<SlowTower>().conMatCost;
+            conMat -= turretPrefab.GetComponent<SlowTower>().conMatCost;            
+            aiTargets.AddTarget(currentBuildNode.gameObject);
             currentBuildNode = null;
-            buildCanvas.SetActive(false);
+            buildCanvas.SetActive(false);            
         }
         else
         {

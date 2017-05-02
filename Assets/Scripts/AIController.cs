@@ -68,7 +68,10 @@ public class AIController : MonoBehaviour
 
     private Health targetHealth;
     private Health myHealth;
+    private GameObject gc;
+    private AITargets aiTargets;
 
+    [HideInInspector]
     public bool targeted = false;
 
     Transform marker;

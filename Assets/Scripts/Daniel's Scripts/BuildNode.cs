@@ -15,6 +15,9 @@ public class BuildNode : MonoBehaviour {
     private Health myHealth;
     private PlayerOrTarget type;
 
+    private GameObject gc;
+    private AITargets aiTargets;
+
     // Use this for initialization
     void Start()
     {
@@ -23,6 +26,9 @@ public class BuildNode : MonoBehaviour {
         {
             myHealth = gameObject.GetComponent<Health>();
         }
+
+        gc = GameObject.FindObjectOfType<Main>().gameObject;
+        aiTargets = gc.GetComponent<AITargets>();
     }
 	
 	// Update is called once per frame
@@ -34,7 +40,8 @@ public class BuildNode : MonoBehaviour {
             healthBar.transform.rotation = Quaternion.Euler(new Vector3(90, 0, 0));            
             healthBarFill.fillAmount = myHealth.currentHealth / myHealth.startHealth;
             if (myHealth.currentHealth <= 0 && turret != null && !allowBuild)
-            {                
+            {
+                aiTargets.RemoveTarget(gameObject);
                 Destroy(turret);
                 allowBuild = true;
             }
