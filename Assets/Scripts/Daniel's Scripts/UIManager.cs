@@ -40,6 +40,7 @@ public class UIManager : MonoBehaviour
     void Start ()
     {
         s_startEnergy = startingEnergy;
+        s_startingScrap = startingConMat;
         Time.timeScale = 1;
         buildCanvas.SetActive(false);
         gameUI.SetActive(true);

@@ -78,6 +78,6 @@ public class GameOver : MonoBehaviour {
 
         aiTargets.Init();
 
-        
+        Time.timeScale = 1;        
     }
 }
