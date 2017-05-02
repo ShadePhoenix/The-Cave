@@ -67,29 +67,26 @@ public class TurretAI : MonoBehaviour
         //HealthUpdate();
         
     }
-
+    float closestDist;
     //Calculates which enemy in range has traveled the furthest and targets them
     void RangeMonitor()
     {
         enemiesInRange = Physics.OverlapSphere(transform.position, fireRange, mask);
-        if (enemiesInRange.Length > 0 && target == null)
+        if (enemiesInRange.Length > 0)
         {
-            int rand = Random.Range(0, enemiesInRange.Length);
-            if (!enemiesInRange[rand].GetComponent<AIController>().targeted)
+            foreach (Collider enemy in enemiesInRange)
             {
-                enemiesInRange[rand].GetComponent<AIController>().targeted = true;
-                target = enemiesInRange[rand].gameObject;
+                float dist = Vector3.Distance(transform.position, enemy.transform.position);
+                if (dist < closestDist && enemy.GetComponent<AIController>().targeted == false)
+                {
+                    closestDist = dist;
+                    enemy.GetComponent<AIController>().targeted = true;
+                    target = enemy.gameObject;
+                }
             }
         }
-        else if(target != null && Vector3.Distance(transform.position, target.transform.position) > fireRange)
-        {
-            target.GetComponent<AIController>().targeted = false;
-            target = null;
-        }
         else
-        {
-            target = null;
-        }
+            closestDist = Mathf.Infinity;
     }
 
     //Rotates the turret head to face the target

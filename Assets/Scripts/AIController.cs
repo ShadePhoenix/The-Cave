@@ -70,7 +70,7 @@ public class AIController : MonoBehaviour
     private Health targetHealth;
     private Health myHealth;
 
-    public bool targeted;
+    public bool targeted = false;
 
     Transform marker;
 
