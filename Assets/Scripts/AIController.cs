@@ -42,39 +42,33 @@ public class AIController : MonoBehaviour
     [Tooltip("The Gold prefab to spawn when enemy is killed.")]
     public GameObject gold;
 
+    [HideInInspector]
+    public bool targeted = false;
     private Animator anim;
     private GameObject hero;   
     private GameObject target;
     private PlayerOrTarget targType; // what kind of target is it
-    private NavMeshAgent m_agent;
-   
-    //private Collider[] structuresInRange;
-    //private float currentTargetDis = Mathf.Infinity;
-
-    private float animationSpeed = 0f;
-
+    private NavMeshAgent m_agent;     
     private List<GameObject> structures = new List<GameObject>();
-    private List<PlayerOrTarget> strucTypes = new List<PlayerOrTarget>(); // the types of the structures, whether targetable or not
-    
-    private bool targetStructureSet = false;
-    //private bool playerTargetSet = false;
-    //private bool attacking = false;
+    private List<PlayerOrTarget> strucTypes = new List<PlayerOrTarget>(); // the types of the structures, whether targetable or not    
+    private bool structureTargeted = false;
+    private bool playerTargeted = false;
 
+    [Tooltip("How long til the end of the attack animation and damage should be done.")]
     public float animationTimeLeft = 1;
+    private float animationSpeed = 0f;
     private Vector3 lastPos;
 
+    [Tooltip("Image for the health bar.")]
     public Image healthBarFill;
     public GameObject healthBar;
 
     private Health targetHealth;
     private Health myHealth;
     private GameObject gc;
-    private AITargets aiTargets;
+    private AITargets aiTargets;    
 
-    [HideInInspector]
-    public bool targeted = false;
-
-    Transform marker;
+    private Transform marker;
 
     void Start () 
 	{        
@@ -86,15 +80,28 @@ public class AIController : MonoBehaviour
         target = hero;
         targetHealth = target.GetComponent<Health>();
         audioPlayer = gameObject.GetComponent<AudioSource>();
+
         PopulateStructureLists();
+
+        gc = GameObject.FindObjectOfType<Main>().gameObject;
+        aiTargets = gc.GetComponent<AITargets>();
 
         StartCoroutine(DayDamage());
     }		
 	void Update ()
     {       
         HealthUpdate();
-        SetTarget();
-        Attack();
+
+        if (targetHealth.currentHealth <= 0 || (structureTargeted == false && playerController.playerActive == false))
+        {
+            structureTargeted = false;
+            SetTarget();
+        }
+        else
+        {
+            Attack();
+        }       
+        
         Animate();        
     }
 
@@ -217,29 +224,36 @@ public class AIController : MonoBehaviour
     {
         if (playerController.playerActive == true)
         {
-            target = hero;
-            targType = target.GetComponent<PlayerOrTarget>();
-            targetStructureSet = false;
-            m_agent.SetDestination(hero.transform.position);
+            // make it so that it doesn't do this more than once
+            if(playerTargeted == false)
+            {
+                playerTargeted = true;
+                target = hero;
+                targType = target.GetComponent<PlayerOrTarget>();
+                structureTargeted = false;
+                m_agent.SetDestination(hero.transform.position);
+            }            
         }
         else
         {
-            if (targetStructureSet == false)
-            {
-                PopulateStructureLists();
-            }
-                        
-            while (targetStructureSet == false)
+            //if (targetStructureSet == false)
+            //{
+            //    PopulateStructureLists();
+            //}
+
+            playerTargeted = false;
+
+            while (structureTargeted == false)
             {
                 // targetStructureSet = true;
-                int rStruct = Random.Range(0, structures.Count);
-                target = structures[rStruct];
-                targType = target.GetComponent<PlayerOrTarget>();
-                targetHealth = target.GetComponent<Health>();
+                //int rStruct = Random.Range(0, structures.Count);
+                target = aiTargets.GetTarget();
+                targType = aiTargets.GetType(target);
+                targetHealth = aiTargets.GetHealth(target);
 
-                if (targetHealth.currentHealth > 0)
-                {
-                    Vector3 targetPos = structures[rStruct].transform.position;
+                //if (targetHealth.currentHealth > 0)
+                //{
+                    Vector3 targetPos = target.transform.position;
                     NavMeshHit myNavHit;
                     if (targType.targetType == PlayerOrTarget.TargetType.Battlement && NavMesh.SamplePosition(targetPos, out myNavHit, 10, -1))
                     {
@@ -251,9 +265,9 @@ public class AIController : MonoBehaviour
                     }
 
                     m_agent.SetDestination(targetPos);
-                    targetStructureSet = true;
-                    break;
-                }
+                    structureTargeted = true;
+                    //break;
+                //}
             }
         }
     }
@@ -283,11 +297,6 @@ public class AIController : MonoBehaviour
                 targetHealth = target.GetComponent<Health>();
                 targetHealth.currentHealth -= damageDealt;
             }            
-        }
-
-        if (targetHealth.currentHealth <= 0)
-        {
-            targetStructureSet = false;
         }
     }
 

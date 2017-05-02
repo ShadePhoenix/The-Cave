@@ -6,6 +6,7 @@ public class AITargets : MonoBehaviour {
 
     private List<GameObject> structures = new List<GameObject>();
     private List<PlayerOrTarget> strucTypes = new List<PlayerOrTarget>(); // the types of the structures, whether targetable or not
+    private List<Health> targHealth = new List<Health>(); // health of the structures
                                                                           
     void Start ()
     {
@@ -23,9 +24,11 @@ public class AITargets : MonoBehaviour {
 
         PlayerOrTarget[] tempStructTypes = GameObject.FindObjectsOfType<PlayerOrTarget>(); // get all objects with a certain script        
         GameObject[] tempStructures = new GameObject[tempStructTypes.Length];
+        Health[] tempHealth = new Health[tempStructTypes.Length];
         for (int i = 0; i < tempStructTypes.Length; i++)
         {
             tempStructures[i] = tempStructTypes[i].gameObject; // make an array of the game objects attached to the scripts
+            tempHealth[i] = tempStructures[i].gameObject.GetComponent<Health>();
         }
 
         for (int i = 0; i < tempStructures.Length; i++)
@@ -34,6 +37,7 @@ public class AITargets : MonoBehaviour {
             {                
                 structures.Add(tempStructures[i]);
                 strucTypes.Add(tempStructTypes[i]);
+                targHealth.Add(tempHealth[i]);
             }
         }
 
@@ -43,9 +47,32 @@ public class AITargets : MonoBehaviour {
     public void AddTarget(GameObject obj)
     {
         PlayerOrTarget tmpTarg = obj.GetComponent<PlayerOrTarget>();
+        Health tmpHealth = obj.GetComponent<Health>();
 
         structures.Add(obj);
         strucTypes.Add(tmpTarg);
+        targHealth.Add(tmpHealth);
+
+        PrintTargets();
+    }
+
+    public void RemoveTarget(GameObject target)
+    {
+        if (structures.Count > 0)
+        {
+            GameObject searchObj;
+            for (int i = 0; i < structures.Count; i++)
+            {
+                // set the temporary object to the current object in the list
+                searchObj = structures[i];
+                if (searchObj == target) // if they match, remove the object and it's scripts from all lists
+                {
+                    structures.RemoveAt(i);
+                    strucTypes.RemoveAt(i);
+                    targHealth.RemoveAt(i);
+                }
+            }
+        }
 
         PrintTargets();
     }
@@ -57,6 +84,7 @@ public class AITargets : MonoBehaviour {
         return structures[rStruct]; 
     }
 
+    // returns the type of the object
     public PlayerOrTarget GetType(GameObject target)
     {
         GameObject search;
@@ -71,26 +99,23 @@ public class AITargets : MonoBehaviour {
         }
 
         return null;
-    }
+    }    
 
-    public void RemoveTarget(GameObject target)
-    {       
-        if (structures.Count > 0)
+    // returns the health of the object
+    public Health GetHealth(GameObject target)
+    {
+        GameObject search;
+
+        for (int i = 0; i < structures.Count; i++)
         {
-            GameObject searchObj;
-            for (int i = 0; i < structures.Count; i++)
+            search = structures[i];
+            if (search == target)
             {
-                // set the temporary object to the current object in the list
-                searchObj = structures[i];
-                if(searchObj == target) // if they match, remove the object and it's target type script from both lists
-                {
-                    structures.RemoveAt(i);
-                    strucTypes.RemoveAt(i);
-                }
+                return targHealth[i];
             }
         }
 
-        PrintTargets();
+        return null;
     }
 
     void PrintTargets()
