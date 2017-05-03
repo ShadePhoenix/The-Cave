@@ -59,8 +59,11 @@ public class GameOver : MonoBehaviour {
         }
 
         for (int i = 0; i < nodes.Length; i++)
-        {                        
-            nodesHealth[i].currentHealth = 0;
+        {
+            if (nodes[i].healthBar != null)
+                nodesHealth[i].currentHealth = 0;
+            else
+                nodes[i].ResetBuildNode();
         }
 
         UIManager.gold = 0;

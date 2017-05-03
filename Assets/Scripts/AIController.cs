@@ -172,7 +172,7 @@ public class AIController : MonoBehaviour
         healthBarFill.fillAmount = myHealth.currentHealth / myHealth.startHealth;
         if (myHealth.currentHealth <= 0)
         {
-            print("An enemy died");
+            //print("An enemy died");
             //spawns particle effect, and makes sure that the particle effect is its own object
             GameObject particles = Instantiate(deathEffect, transform.position, transform.rotation);
             particles.transform.parent = null;

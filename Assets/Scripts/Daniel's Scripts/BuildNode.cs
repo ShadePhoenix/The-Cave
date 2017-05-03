@@ -42,8 +42,7 @@ public class BuildNode : MonoBehaviour {
             if (myHealth.currentHealth <= 0 && turret != null && !allowBuild)
             {
                 aiTargets.RemoveTarget(gameObject);
-                Destroy(turret);
-                allowBuild = true;
+                ResetBuildNode();
             }
             if(turret == null && allowBuild)
             {
@@ -51,5 +50,11 @@ public class BuildNode : MonoBehaviour {
             }
         }
        
+    }
+
+    public void ResetBuildNode()
+    {
+        Destroy(turret);
+        allowBuild = true;
     }
 }
