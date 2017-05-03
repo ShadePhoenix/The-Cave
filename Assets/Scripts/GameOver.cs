@@ -69,6 +69,12 @@ public class GameOver : MonoBehaviour {
             else
                 nodes[i].ResetBuildNode();
         }
+        GameObject[] coins = GameObject.FindGameObjectsWithTag("Gold");
+        for (int i = 0; i < coins.Length; i++)
+        {
+            //enemiesObj[i] = enemies[i].gameObject;
+            Destroy(coins[i]);
+        }
 
         UIManager.gold = 0;
         UIManager.energy = UIManager.s_startEnergy;

@@ -19,22 +19,16 @@ public class ResourceUI : MonoBehaviour {
     // Use this for initialization
     void Start ()
     {
-        //if (!PlayerPrefs.HasKey("highScore"))
-        //    InitializeHS();
-        //else
-        //    highScoreText.text = PlayerPrefs.GetInt("highScore").ToString();
-
+        energyText = energy.GetComponent<Text>();
+        constructionText = constructionMaterials.GetComponent<Text>();
+        goldText = gold.GetComponent<Text>();
         if (PlayerPrefs.HasKey("highScore")  == false)
         {
             print("There is no high score");
             InitializeHS();
         }
+        highScoreText.text = "Highscore: " + PlayerPrefs.GetInt("highScore", 0);
 
-        highScoreText.text = "Highscore: " + PlayerPrefs.GetInt("highScore", 0);        
-
-        energyText = energy.GetComponent<Text>();
-        constructionText = constructionMaterials.GetComponent<Text>();
-        goldText = gold.GetComponent<Text>();        
     }
 	
 	// Update is called once per frame
