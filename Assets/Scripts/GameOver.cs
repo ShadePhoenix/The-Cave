@@ -15,6 +15,8 @@ public class GameOver : MonoBehaviour {
     private CastleController castle;
     private Health castleHealth;
     public Transform playerArea;
+    private GameObject energyPool;
+    private GameObject conMine;
 
     public Button yourButton;
 
@@ -30,7 +32,9 @@ public class GameOver : MonoBehaviour {
         castleHealth = castle.GetComponent<Health>();
         nodes = FindObjectsOfType<BuildNode>();
         nodesObj = new GameObject[nodes.Length];
-        nodesHealth = new Health[nodes.Length];        
+        nodesHealth = new Health[nodes.Length];
+        energyPool = GameObject.Find("EnergyPool");
+        conMine = GameObject.Find("Mine");
 
         for (int i = 0; i < nodes.Length; i++)
         {
@@ -69,6 +73,8 @@ public class GameOver : MonoBehaviour {
         UIManager.gold = 0;
         UIManager.energy = UIManager.s_startEnergy;
         UIManager.conMat = UIManager.s_startingScrap;
+        conMine.GetComponent<ResourceNode>().currentResources = 0;
+        energyPool.GetComponent<ResourceNode>().currentResources = 0;
 
         DayNight timeDay = FindObjectOfType<DayNight>();
         timeDay.dayRotate = 0;
