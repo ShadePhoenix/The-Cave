@@ -63,7 +63,7 @@ public class SpawnEnemy : MonoBehaviour
    
     private IEnumerator SpawnNow(int i)
     {        
-            int enemiesToSpawn = Random.Range(minEnemiesToSpawn, maxEnemiesToSpawn + (int)DayNight.nightNumber);
+            int enemiesToSpawn = Random.Range(minEnemiesToSpawn + ((int)DayNight.nightNumber / 2), maxEnemiesToSpawn + ((int)DayNight.nightNumber) + 2);
             while (spawning == true)
             {
                 while (enemiesToSpawn > 0)
