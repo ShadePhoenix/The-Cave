@@ -47,7 +47,7 @@ public class TurretAI : MonoBehaviour
     public AudioClip[] sounds;
     private AudioSource audioPlayer;
     private bool fire = true;
-    private float closestDist;
+    //private float closestDist;
 
     //private Health myHealth;
 
@@ -72,6 +72,7 @@ public class TurretAI : MonoBehaviour
     //Calculates which enemy in range has traveled the furthest and targets them
     void RangeMonitor()
     {
+        float closestDist = Mathf.Infinity;
         enemiesInRange = Physics.OverlapSphere(transform.position, fireRange, mask);
         if (enemiesInRange.Length > 0)
         {
@@ -87,8 +88,6 @@ public class TurretAI : MonoBehaviour
                 }
             }
         }
-        else
-            closestDist = Mathf.Infinity;
     }
 
     //Rotates the turret head to face the target
@@ -111,7 +110,7 @@ public class TurretAI : MonoBehaviour
     {
         // make sure the fire bool is being set and reset correctly
 
-        if ((fire && target != null))
+        if (fire && target != null && UIManager.energy >= energyFireCost)
         {
             UIManager.energy -= energyFireCost;
             GameObject lProjectile = Instantiate(projectile, projectileSpawn.position, Quaternion.Euler(projectileSpawn.transform.eulerAngles));
