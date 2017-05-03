@@ -219,14 +219,21 @@ public class AIController : MonoBehaviour
         {
             // make it so that it doesn't do this more than once
             if (playerTargeted == false)
-            {
-                //print("I should be attacking the hero");
-                playerTargeted = true;
+            {               
                 target = aiTargets.GetPlayer();
                 targType = aiTargets.GetPlayerType();
                 targetHealth = aiTargets.GetPlayerHealth();
-                structureTargeted = false;
-                m_agent.SetDestination(hero.transform.position);
+
+                Vector3 targetPos = target.transform.position;
+                NavMeshHit myNavHit;
+                if (targType.targetType == PlayerOrTarget.TargetType.Player && NavMesh.SamplePosition(targetPos, out myNavHit, 1, -1))
+                {
+                    playerTargeted = true;
+                    structureTargeted = false;
+
+                    targetPos = myNavHit.position;                    
+                    m_agent.SetDestination(targetPos);
+                }                
             }
             else
             {
