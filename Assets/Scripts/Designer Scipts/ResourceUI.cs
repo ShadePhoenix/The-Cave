@@ -34,15 +34,17 @@ public class ResourceUI : MonoBehaviour {
 
         energyText = energy.GetComponent<Text>();
         constructionText = constructionMaterials.GetComponent<Text>();
-        goldText = gold.GetComponent<Text>();
-        UpdateHS();
+        goldText = gold.GetComponent<Text>();        
     }
 	
 	// Update is called once per frame
-	void Update () {
+	void Update ()
+    {
         energyText.text = "" + UIManager.energy;
         constructionText.text = "" + UIManager.conMat;
         goldText.text = "" + UIManager.gold;
+
+        UpdateHS();
     }
 
     void InitializeHS()
