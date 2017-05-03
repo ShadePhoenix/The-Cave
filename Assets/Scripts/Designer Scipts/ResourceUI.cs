@@ -13,14 +13,25 @@ public class ResourceUI : MonoBehaviour {
 
     public Text highScoreText;
 
+    private int score;
+    private int oldHS;
 
     // Use this for initialization
     void Start ()
     {
-        if (!PlayerPrefs.HasKey("highScore"))
+        //if (!PlayerPrefs.HasKey("highScore"))
+        //    InitializeHS();
+        //else
+        //    highScoreText.text = PlayerPrefs.GetInt("highScore").ToString();
+
+        if (PlayerPrefs.HasKey("highScore")  == false)
+        {
+            print("There is no high score");
             InitializeHS();
-        else
-            highScoreText.text = PlayerPrefs.GetInt("highScore").ToString();
+        }
+
+        highScoreText.text = "Highscore: " + PlayerPrefs.GetInt("highScore", 0);        
+
         energyText = energy.GetComponent<Text>();
         constructionText = constructionMaterials.GetComponent<Text>();
         goldText = gold.GetComponent<Text>();
@@ -42,10 +53,13 @@ public class ResourceUI : MonoBehaviour {
 
     void UpdateHS()
     {
-        if (UIManager.gold > PlayerPrefs.GetInt("highScore"))
+        oldHS = PlayerPrefs.GetInt("highScore", 0);
+
+        if (UIManager.gold > oldHS)
         {
-            PlayerPrefs.SetInt("highScore", UIManager.gold);
-            PlayerPrefs.Save();
+            PlayerPrefs.SetInt("highScore", UIManager.gold);            
+            highScoreText.text = "Highscore: " + PlayerPrefs.GetInt("highScore", 0);
         }
+        PlayerPrefs.Save();
     }
 }
