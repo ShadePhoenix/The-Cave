@@ -76,6 +76,11 @@ public class playerController : MonoBehaviour {
                 transform.localEulerAngles = new Vector3(0, -90, 0);
             }
 
+            if (Input.GetKey(KeyCode.Space) )
+            {
+                anim.SetTrigger("Attack");
+            }
+
             if (lastPos != transform.position)
             {
                 speed = Mathf.Clamp01(speed + Time.deltaTime);
