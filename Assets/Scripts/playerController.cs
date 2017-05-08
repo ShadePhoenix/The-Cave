@@ -26,6 +26,7 @@ public class playerController : MonoBehaviour {
     private float speed = 0f;
     private Animator anim;
     private Vector3 lastPos;
+    private float animationTimeLeft = 0.8f;
 
     private Rigidbody rb;    
     static public bool playerAtBase = false;
@@ -76,9 +77,24 @@ public class playerController : MonoBehaviour {
                 transform.localEulerAngles = new Vector3(0, -90, 0);
             }
 
-            if (Input.GetKey(KeyCode.Space) )
+            if (Input.GetKeyDown(KeyCode.Space))
             {
+                gameObject.transform.GetChild(0).gameObject.SetActive(true);
+                anim.SetBool("Hammer", true);
                 anim.SetTrigger("Attack");
+                animationTimeLeft = 0.7f;
+            }
+
+            if(anim.GetBool("Hammer") == true)
+            {
+                animationTimeLeft -= Time.deltaTime;
+                if(animationTimeLeft <= 0)
+                {
+                    print("Deactivate box");
+                    anim.SetBool("Hammer", false);
+                    gameObject.transform.GetChild(0).gameObject.SetActive(false);
+                    animationTimeLeft = 1;
+                }
             }
 
             if (lastPos != transform.position)

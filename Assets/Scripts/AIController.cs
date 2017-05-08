@@ -81,7 +81,7 @@ public class AIController : MonoBehaviour
         targetHealth = target.GetComponent<Health>();
         audioPlayer = gameObject.GetComponent<AudioSource>();
 
-        PopulateStructureLists();
+        //PopulateStructureLists();
 
         gc = GameObject.FindObjectOfType<Main>().gameObject;
         aiTargets = gc.GetComponent<AITargets>();
@@ -111,10 +111,11 @@ public class AIController : MonoBehaviour
         Animate();        
     }
 
-    void OnCollisionStay(Collision other)
+    void OnCollisionEnter(Collision other)
     {
-        if(other.gameObject.tag == "Player" )
+        if(other.gameObject.tag == "Player" && anim.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
         {
+           print("Attacking hero");
            anim.SetTrigger("Attack");           
         }
     }        
@@ -181,37 +182,37 @@ public class AIController : MonoBehaviour
         }      
     }
 
-    void PopulateStructureLists()
-    {
-        if(structures.Count > 0)
-        {
-            structures.Clear();
-            strucTypes.Clear();
-        }
+    //void PopulateStructureLists()
+    //{
+    //    if(structures.Count > 0)
+    //    {
+    //        structures.Clear();
+    //        strucTypes.Clear();
+    //    }
 
-        // hold all of the structures and their target scripts in temporary arrays
-        PlayerOrTarget[] tempStructTypes = GameObject.FindObjectsOfType<PlayerOrTarget>(); // get all objects with a certain script        
-        GameObject[] tempStructures = new GameObject[tempStructTypes.Length];
-        Health structuretHealth;
-        for (int i = 0; i < tempStructTypes.Length; i++)
-        {
-            tempStructures[i] = tempStructTypes[i].gameObject; // make an array of the game objects attached to the scripts
-        }
+    //    // hold all of the structures and their target scripts in temporary arrays
+    //    PlayerOrTarget[] tempStructTypes = GameObject.FindObjectsOfType<PlayerOrTarget>(); // get all objects with a certain script        
+    //    GameObject[] tempStructures = new GameObject[tempStructTypes.Length];
+    //    Health structuretHealth;
+    //    for (int i = 0; i < tempStructTypes.Length; i++)
+    //    {
+    //        tempStructures[i] = tempStructTypes[i].gameObject; // make an array of the game objects attached to the scripts
+    //    }
 
-        // now only populate the Lists we are going to use with targetable structures
-        for (int i = 0; i < tempStructures.Length; i++)
-        {
-            structuretHealth = tempStructures[i].GetComponent<Health>();
-            if (tempStructTypes[i].targetType == PlayerOrTarget.TargetType.Battlement || tempStructTypes[i].targetType == PlayerOrTarget.TargetType.Castle)
-            {
-                if (structuretHealth.currentHealth > 0)
-                {
-                    structures.Add(tempStructures[i]);
-                    strucTypes.Add(tempStructTypes[i]);
-                }
-            }
-        }
-    }
+    //    // now only populate the Lists we are going to use with targetable structures
+    //    for (int i = 0; i < tempStructures.Length; i++)
+    //    {
+    //        structuretHealth = tempStructures[i].GetComponent<Health>();
+    //        if (tempStructTypes[i].targetType == PlayerOrTarget.TargetType.Battlement || tempStructTypes[i].targetType == PlayerOrTarget.TargetType.Castle)
+    //        {
+    //            if (structuretHealth.currentHealth > 0)
+    //            {
+    //                structures.Add(tempStructures[i]);
+    //                strucTypes.Add(tempStructTypes[i]);
+    //            }
+    //        }
+    //    }
+    //}
 
     public void SetTarget()
     {
