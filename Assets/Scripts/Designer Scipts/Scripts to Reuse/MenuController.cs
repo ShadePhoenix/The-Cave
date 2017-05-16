@@ -35,7 +35,7 @@ public class MenuController : MonoBehaviour {
     public void SceneChange(string sceneName)
     {
         Time.timeScale = 1;
-        SceneManager.LoadScene("GameLevel Stu");
+        SceneManager.LoadScene("GameLevelAttack");
     }
 
     public void CloseProgram()

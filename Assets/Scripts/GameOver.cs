@@ -55,7 +55,7 @@ public class GameOver : MonoBehaviour {
 
     public void RestartGame()
     {
-        SceneManager.LoadScene("GameLevel Stu");
+        SceneManager.LoadScene("GameLevelAttack");
         //AIController[] enemies = FindObjectsOfType<AIController>();
         //GameObject[] enemiesObj = new GameObject[enemies.Length];
         //for(int i = 0; i < enemies.Length; i++)

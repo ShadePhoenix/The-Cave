@@ -10,6 +10,12 @@ public class ParticleController : MonoBehaviour {
     //private ParticleSystem ps;
     private float timer;
     // Use this for initialization
+
+    private void Awake()
+    {
+        //gameObject.particleSystem.
+    }
+
     void Start () {
         //ps = gameObject.GetComponent<ParticleSystem>();
         audioPlayer = gameObject.GetComponent<AudioSource>();
