@@ -48,9 +48,7 @@ public class AIController : MonoBehaviour
     private GameObject hero;   
     private GameObject target;
     private PlayerOrTarget targType; // what kind of target is it
-    private NavMeshAgent m_agent;     
-    private List<GameObject> structures = new List<GameObject>();
-    private List<PlayerOrTarget> strucTypes = new List<PlayerOrTarget>(); // the types of the structures, whether targetable or not    
+    private NavMeshAgent m_agent;         
     private bool structureTargeted = false;
     private bool playerTargeted = false;
 
@@ -80,8 +78,6 @@ public class AIController : MonoBehaviour
         target = hero;
         targetHealth = target.GetComponent<Health>();
         audioPlayer = gameObject.GetComponent<AudioSource>();
-
-        //PopulateStructureLists();
 
         gc = GameObject.FindObjectOfType<Main>().gameObject;
         aiTargets = gc.GetComponent<AITargets>();
@@ -182,58 +178,28 @@ public class AIController : MonoBehaviour
         }      
     }
 
-    //void PopulateStructureLists()
-    //{
-    //    if(structures.Count > 0)
-    //    {
-    //        structures.Clear();
-    //        strucTypes.Clear();
-    //    }
-
-    //    // hold all of the structures and their target scripts in temporary arrays
-    //    PlayerOrTarget[] tempStructTypes = GameObject.FindObjectsOfType<PlayerOrTarget>(); // get all objects with a certain script        
-    //    GameObject[] tempStructures = new GameObject[tempStructTypes.Length];
-    //    Health structuretHealth;
-    //    for (int i = 0; i < tempStructTypes.Length; i++)
-    //    {
-    //        tempStructures[i] = tempStructTypes[i].gameObject; // make an array of the game objects attached to the scripts
-    //    }
-
-    //    // now only populate the Lists we are going to use with targetable structures
-    //    for (int i = 0; i < tempStructures.Length; i++)
-    //    {
-    //        structuretHealth = tempStructures[i].GetComponent<Health>();
-    //        if (tempStructTypes[i].targetType == PlayerOrTarget.TargetType.Battlement || tempStructTypes[i].targetType == PlayerOrTarget.TargetType.Castle)
-    //        {
-    //            if (structuretHealth.currentHealth > 0)
-    //            {
-    //                structures.Add(tempStructures[i]);
-    //                strucTypes.Add(tempStructTypes[i]);
-    //            }
-    //        }
-    //    }
-    //}
-
     public void SetTarget()
     {
         if (playerController.playerActive == true)
-        {
-            // make it so that it doesn't do this more than once
+        {            
             if (playerTargeted == false)
             {               
                 target = aiTargets.GetPlayer();
                 targType = aiTargets.GetPlayerType();
                 targetHealth = aiTargets.GetPlayerHealth();
 
+                // Get the targets position and check if the position is valid. Navmesh hit is required when objects may appare on unwalkable surfaces, or the target may be an object
+                // baked into the mesh with unwalkable area around it. This will then check to see if it can come up to the edge of the unwalkable area
                 Vector3 targetPos = target.transform.position;
                 NavMeshHit myNavHit;
                 if (targType.targetType == PlayerOrTarget.TargetType.Player && NavMesh.SamplePosition(targetPos, out myNavHit, 1, -1))
                 {
+                    // swap between the player or the structures being targeted
                     playerTargeted = true;
                     structureTargeted = false;
 
                     targetPos = myNavHit.position;                    
-                    m_agent.SetDestination(targetPos);
+                    m_agent.SetDestination(targetPos); // set the enemies (thi objects) destination
                 }                
             }
             else
@@ -277,6 +243,7 @@ public class AIController : MonoBehaviour
     public void Attack()
     {
         // if the attack animation is playing, see if 1 second has passed and then do a distance check on the objects to be attacked
+        // If the attack animation is playing, countdown from a timer, and when the timer is 0, do a distance check with the target to see if it can be damaged        
         if (anim.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
         {
             //print("The attack animation is playing now.");
