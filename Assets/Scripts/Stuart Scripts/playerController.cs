@@ -21,6 +21,7 @@ public class playerController : MonoBehaviour {
     [Tooltip("Attach the Game Over screen.")]
     public GameObject gameOver;
 
+    private List<GameObject> targetList = new List<GameObject>();
     private float horizontal;
     private float vertical;
     private float speed = 0f;
@@ -57,57 +58,9 @@ public class playerController : MonoBehaviour {
                 Time.timeScale = 0;
             }
 
-            horizontal = Input.GetAxis("Horizontal");
-            vertical = Input.GetAxis("Vertical");
-
-            if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A) /*&& rb.velocity.x < 0*/)
-            {
-                transform.localEulerAngles = new Vector3(0, 0, 0);
-            }
-            else if(Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D)/* && rb.velocity.x > 0*/)
-            {
-                transform.localEulerAngles = new Vector3(0, -180, 0);
-            }
-            else if(Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W) /*&& rb.velocity.y > 0*/)
-            {
-                transform.localEulerAngles = new Vector3(0, 90, 0);
-            }
-            else if(Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S) /*&& rb.velocity.y < 0*/)
-            {
-                transform.localEulerAngles = new Vector3(0, -90, 0);
-            }
-
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                gameObject.transform.GetChild(0).gameObject.SetActive(true);
-                anim.SetBool("Hammer", true);
-                anim.SetTrigger("Attack");
-                animationTimeLeft = 0.7f;
-            }
-
-            if(anim.GetBool("Hammer") == true)
-            {
-                animationTimeLeft -= Time.deltaTime;
-                if(animationTimeLeft <= 0)
-                {
-                    print("Deactivate box");
-                    anim.SetBool("Hammer", false);
-                    gameObject.transform.GetChild(0).gameObject.SetActive(false);
-                    animationTimeLeft = 1;
-                }
-            }
-
-            if (lastPos != transform.position)
-            {
-                speed = Mathf.Clamp01(speed + Time.deltaTime);
-                anim.SetFloat("Blend", speed);
-            }
-            else
-            {
-                speed = Mathf.Clamp01(speed - Time.deltaTime);
-                anim.SetFloat("Blend", speed);
-            }
-            lastPos = transform.position;
+            RotatePlayer();
+            Attack();
+            Animate();           
         }        
         else
         {
@@ -119,37 +72,7 @@ public class playerController : MonoBehaviour {
     {
         if(playerActive)
         {
-            horizontal = Input.GetAxis("Horizontal");
-            vertical = Input.GetAxis("Vertical");
-            //Vector3 moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-            //moveDirection.y = 0;
-            if (Input.GetKey(KeyCode.LeftShift) && UIManager.energy > 0)
-            {
-                staminaDrainTimer -= Time.deltaTime;
-                if (staminaDrainTimer <= 0)
-                {
-                    UIManager.energy -= staminaDrain;
-                    staminaDrainTimer = 1;
-                }
-                //rb.velocity += (moveDirection * runAcceleration);
-                Vector3 velocity = rb.velocity;
-                velocity.x += horizontal * runAcceleration;
-                velocity.z += vertical * runAcceleration;
-                velocity.x = Mathf.Clamp(velocity.x, -maxRunSpeed, maxRunSpeed);
-                velocity.z = Mathf.Clamp(velocity.z, -maxRunSpeed, maxRunSpeed);
-
-                rb.velocity = velocity;
-            }
-            else
-            {
-                //rb.velocity += (moveDirection * walkAcceleration);
-                Vector3 velocity = rb.velocity;
-                velocity.x += horizontal * runAcceleration;
-                velocity.z += vertical * runAcceleration;
-                velocity.x = Mathf.Clamp(velocity.x, -maxWalkSpeed, maxWalkSpeed);
-                velocity.z = Mathf.Clamp(velocity.z, -maxWalkSpeed, maxWalkSpeed);
-                rb.velocity = velocity;
-            }
+            Move();
         }       
     }
 
@@ -160,5 +83,139 @@ public class playerController : MonoBehaviour {
             UIManager.gold += UIManager.goldVal;            
             Destroy(other.gameObject);
         }
-    }    
+
+        if (other.gameObject.tag == "CrystalNode")
+        {
+            print("Hitting Crystal");
+            Damage(other.gameObject);
+        }
+
+        if (other.gameObject.tag == "OreNode")
+        {
+            print("Hitting Ore");
+            Damage(other.gameObject);
+        }
+
+        if (other.gameObject.tag == "Enemy")
+        {
+            print("Hitting Ore");
+            Damage(other.gameObject);
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+              
+    }
+
+    void RotatePlayer()
+    {
+        // get horizontal and vertical direction from -1 to 1 of keyboard or game pad
+        horizontal = Input.GetAxis("Horizontal");
+        vertical = Input.GetAxis("Vertical");
+
+        if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A) || horizontal < 0 /*&& rb.velocity.x < 0*/)
+        {
+            transform.localEulerAngles = new Vector3(0, 0, 0);
+        }
+        else if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D) || horizontal > 0 /* && rb.velocity.x > 0*/)
+        {
+            transform.localEulerAngles = new Vector3(0, -180, 0);
+        }
+        else if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W) || vertical > 0 /*&& rb.velocity.y > 0*/)
+        {
+            transform.localEulerAngles = new Vector3(0, 90, 0);
+        }
+        else if (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S) || vertical < 0 /*&& rb.velocity.y < 0*/)
+        {
+            transform.localEulerAngles = new Vector3(0, -90, 0);
+        }
+    }
+
+    void Move()
+    {
+        horizontal = Input.GetAxis("Horizontal");
+        vertical = Input.GetAxis("Vertical");
+        //Vector3 moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+        //moveDirection.y = 0;
+        if (Input.GetKey(KeyCode.LeftShift) && UIManager.energy > 0)
+        {
+            staminaDrainTimer -= Time.deltaTime;
+            if (staminaDrainTimer <= 0)
+            {
+                UIManager.energy -= staminaDrain;
+                staminaDrainTimer = 1;
+            }
+            //rb.velocity += (moveDirection * runAcceleration);
+            Vector3 velocity = rb.velocity;
+            velocity.x += horizontal * runAcceleration;
+            velocity.z += vertical * runAcceleration;
+            velocity.x = Mathf.Clamp(velocity.x, -maxRunSpeed, maxRunSpeed);
+            velocity.z = Mathf.Clamp(velocity.z, -maxRunSpeed, maxRunSpeed);
+
+            rb.velocity = velocity;
+        }
+        else
+        {
+            //rb.velocity += (moveDirection * walkAcceleration);
+            Vector3 velocity = rb.velocity;
+            velocity.x += horizontal * runAcceleration;
+            velocity.z += vertical * runAcceleration;
+            velocity.x = Mathf.Clamp(velocity.x, -maxWalkSpeed, maxWalkSpeed);
+            velocity.z = Mathf.Clamp(velocity.z, -maxWalkSpeed, maxWalkSpeed);
+            rb.velocity = velocity;
+        }
+    }
+
+    void Attack()
+    {
+        //print("Animation Timer Left: " + animationTimeLeft);
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            gameObject.transform.GetChild(0).gameObject.SetActive(true);
+            anim.SetBool("Hammer", true);
+            anim.SetTrigger("Attack");
+            animationTimeLeft = 0.7f;
+        }
+
+        if (anim.GetBool("Hammer") == true)
+        {
+            animationTimeLeft -= Time.deltaTime;
+            if (animationTimeLeft <= 0)
+            {
+                anim.SetBool("Hammer", false);
+                gameObject.transform.GetChild(0).gameObject.SetActive(false);
+                animationTimeLeft = 0;                
+            }
+        }
+
+              
+    }
+
+    void Damage(GameObject target)
+    {        
+        print("Damaging " + target.tag);
+
+        Health health = target.GetComponent<Health>();
+        health.currentHealth -= 1;
+        print("Target health: " + health.currentHealth);
+
+    }
+
+    void Animate()
+    {
+        if (lastPos != transform.position)
+        {
+            speed = Mathf.Clamp01(speed + Time.deltaTime);
+            anim.SetFloat("Blend", speed);
+        }
+        else
+        {
+            speed = Mathf.Clamp01(speed - Time.deltaTime);
+            anim.SetFloat("Blend", speed);
+        }
+        lastPos = transform.position;
+    }
 }
+
+
