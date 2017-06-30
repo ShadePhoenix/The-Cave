@@ -13,6 +13,10 @@ public class AIController : MonoBehaviour
     //public int startHealth = 10;
     //private float currentHealth;
 
+    [Tooltip("Image for the health bar.")]
+    public Image healthBarFill;
+    public GameObject healthBar;
+
     [Tooltip("How much damage you take from normal turret bullets.")]
     public int normalTurretDamageTaken = 1;
     [Tooltip("How much damage you take from the big player turret bullets.")]
@@ -52,24 +56,29 @@ public class AIController : MonoBehaviour
     private bool structureTargeted = false;
     private bool playerTargeted = false;
 
-    [Tooltip("How long til the end of the attack animation and damage should be done.")]
+   
     public float animationTimeLeft = 1;
     private float animationSpeed = 0f;
     private Vector3 lastPos;
 
-    [Tooltip("Image for the health bar.")]
-    public Image healthBarFill;
-    public GameObject healthBar;
+    
 
     private Health targetHealth;
     private Health myHealth;
     private GameObject gc;
-    private AITargets aiTargets;    
+    private AITargets aiTargets;
 
-    private Transform marker;
+    [Tooltip("How long enemies are knocked back for.")]
+    public float knockBackTotalTime = 1;
+    private float knockBackLeft; 
+
+    //private Transform marker;
+    private Rigidbody body;
 
     void Start () 
-	{        
+	{
+        knockBackLeft = knockBackTotalTime;
+
 		m_agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
         hero = GameObject.FindGameObjectWithTag("Player");        
         anim = GetComponent<Animator>();
@@ -83,6 +92,8 @@ public class AIController : MonoBehaviour
         aiTargets = gc.GetComponent<AITargets>();
 
         StartCoroutine(DayDamage());
+
+        body = GetComponent<Rigidbody>();
     }		
 	void Update ()
     {       
@@ -105,15 +116,30 @@ public class AIController : MonoBehaviour
         }        
         
         Animate();        
+        if(body.isKinematic == false)
+        {
+            knockBackLeft -= Time.deltaTime;
+
+            if(knockBackLeft <= 0)
+            {
+                knockBackLeft = knockBackTotalTime;
+                body.isKinematic = true;
+            }
+        }
     }
 
     void OnCollisionEnter(Collision other)
     {
+        Rigidbody otherBody = other.gameObject.GetComponent<Rigidbody>();
         if(other.gameObject.tag == "Player" && anim.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
-        {
-           print("Attacking hero");
+        {          
            anim.SetTrigger("Attack");           
         }
+        //if (other.gameObject.tag == "Enemy" && otherBody.isKinematic == true)
+        //{            
+        //    body.isKinematic = false;
+        //    body.AddForce(other.rigidbody.velocity / 2, ForceMode.Impulse);            
+        //}
     }        
 
     void OnTriggerStay(Collider other)
@@ -173,7 +199,7 @@ public class AIController : MonoBehaviour
             //spawns particle effect, and makes sure that the particle effect is its own object
             GameObject particles = Instantiate(deathEffect, transform.position, transform.rotation);
             particles.transform.parent = null;
-            Instantiate(gold, gameObject.transform.position, Quaternion.identity);
+            //Instantiate(gold, gameObject.transform.position, Quaternion.identity);
             Destroy(gameObject);
         }      
     }

@@ -4,11 +4,15 @@ using UnityEngine;
 
 public class Resource : MonoBehaviour {
 
+    public Material resourceReady;
+    public Material resourceEmpty;
     public int resourceValue;
-    private Health health;
-    private bool destroyed = false;
     public float respawnTime = 60;
+
+    private Health health;
+    private bool mined = false;    
     private float timeToRespawn;
+    private Light light;
 
     public enum ResourceType
     {
@@ -19,17 +23,19 @@ public class Resource : MonoBehaviour {
     public ResourceType type = ResourceType.Cyrstal;
 
 	// Use this for initialization
-	void Start () {
+	void Start ()
+    {
         health = GetComponent<Health>();
         timeToRespawn = respawnTime;
-
+        light = GetComponent<Light>();
     }
 	
 	// Update is called once per frame
-	void Update () {
+	void Update ()
+    {
         CheckHealth();
 
-        if(destroyed)
+        if(mined)
         {
             CheckRespawn();
         }
@@ -38,13 +44,29 @@ public class Resource : MonoBehaviour {
     void CheckHealth()
     {
         //print("Checking health");
-        if (health.currentHealth <= 0)
+        if (health.currentHealth <= 0 /*&& !mined*/)
         {
-            this.gameObject.SetActive(false);
-            destroyed = true;
+            if(!mined && type == ResourceType.Ore)
+            {
+                UIManager.conMat += resourceValue;
+                light.enabled = false;
+            }
+                
+            else if (!mined && type == ResourceType.Cyrstal)
+            {
+                UIManager.energy += resourceValue;
+                light.enabled = false;
+            }                
+
+            GetComponent<MeshRenderer>().material = resourceEmpty;
+            mined = true;
+           
         }            
-        else
-            this.gameObject.SetActive(true);
+        else /*if (health.currentHealth > 0 && mined)*/
+        {
+            GetComponent<MeshRenderer>().material = resourceReady;
+            mined = false;            
+        }            
     }
 
     void CheckRespawn()
@@ -53,13 +75,10 @@ public class Resource : MonoBehaviour {
 
         if(timeToRespawn <= 0)
         {
-            destroyed = false;
+            mined = false;
             health.currentHealth = health.startHealth;
+            timeToRespawn = respawnTime;
+            light.enabled = true;
         }
-    }
-
-    void Destroyed()
-    {        
-
     }
 }

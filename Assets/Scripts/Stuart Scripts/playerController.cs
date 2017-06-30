@@ -85,20 +85,23 @@ public class playerController : MonoBehaviour {
         }
 
         if (other.gameObject.tag == "CrystalNode")
-        {
-            print("Hitting Crystal");
+        {            
             Damage(other.gameObject);
         }
 
         if (other.gameObject.tag == "OreNode")
-        {
-            print("Hitting Ore");
+        {            
             Damage(other.gameObject);
         }
 
         if (other.gameObject.tag == "Enemy")
         {
-            print("Hitting Ore");
+            //Rigidbody body = other.gameObject.GetComponent<Rigidbody>();
+            //body.isKinematic = false;
+            //body.AddForce(-transform.right * 10, ForceMode.Impulse);
+
+
+
             Damage(other.gameObject);
         }
     }
@@ -168,8 +171,7 @@ public class playerController : MonoBehaviour {
     }
 
     void Attack()
-    {
-        //print("Animation Timer Left: " + animationTimeLeft);
+    {        
         if (Input.GetKeyDown(KeyCode.Space))
         {
             gameObject.transform.GetChild(0).gameObject.SetActive(true);
@@ -187,19 +189,13 @@ public class playerController : MonoBehaviour {
                 gameObject.transform.GetChild(0).gameObject.SetActive(false);
                 animationTimeLeft = 0;                
             }
-        }
-
-              
+        }              
     }
 
     void Damage(GameObject target)
-    {        
-        print("Damaging " + target.tag);
-
+    {               
         Health health = target.GetComponent<Health>();
-        health.currentHealth -= 1;
-        print("Target health: " + health.currentHealth);
-
+        health.currentHealth -= 1;       
     }
 
     void Animate()
